@@ -1,4 +1,4 @@
-# MIDAS — Manipulation and Integration of Data for Analysis and Synthesis
+# MIDAS
 
 > **Academic project** developed as part of a PIVIC (Voluntary Scientific Initiation Program) at the **Universidade Federal de Lavras (UFLA)**, Brazil.
 
