@@ -333,7 +333,7 @@ class MergeService:
             gc.collect()
 
             return True, (
-                f"Mesclagem concluída! {len(merged)} instâncias, "
+                f"Junção concluída! {len(merged)} instâncias, "
                 f"{len(merged.columns)} atributos"
             )
         except Exception as e:

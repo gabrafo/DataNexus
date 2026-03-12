@@ -52,12 +52,12 @@
         <translation>Seleccione bases para ver acciones disponibles</translation>
     </message>
     <message>
-        <source>✓ BASE 1</source>
-        <translation>✓ BASE 1</translation>
+        <source>✓ Dataset 1</source>
+        <translation>✓ Dataset 1</translation>
     </message>
     <message>
-        <source>📁 BASE 1</source>
-        <translation>📁 BASE 1</translation>
+        <source>📁 Dataset 1</source>
+        <translation>📁 Dataset 1</translation>
     </message>
     <message>
         <source>%1 rows • %2 columns</source>
@@ -80,12 +80,12 @@
         <translation>Cargar base</translation>
     </message>
     <message>
-        <source>✓ BASE 2</source>
-        <translation>✓ BASE 2</translation>
+        <source>✓ Dataset 2</source>
+        <translation>✓ Dataset 2</translation>
     </message>
     <message>
-        <source>📂 BASE 2</source>
-        <translation>📂 BASE 2</translation>
+        <source>📂 Dataset 2</source>
+        <translation>📂 Dataset 2</translation>
     </message>
     <message>
         <source>✕ Remove</source>
@@ -100,8 +100,8 @@
         <translation>+ Cargar segunda base</translation>
     </message>
     <message>
-        <source>Load Base 1 first</source>
-        <translation>Cargue la Base 1 primero</translation>
+        <source>Load Dataset 1 first</source>
+        <translation>Cargue el Dataset 1 primero</translation>
     </message>
     <message>
         <source>Select one or two databases above</source>
@@ -150,6 +150,10 @@
     <message>
         <source>Clear selection</source>
         <translation>Limpiar selección</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Idioma</translation>
     </message>
 </context>
 <context>
@@ -242,12 +246,12 @@ Do you want to export the result?</source>
         <translation>Fusionar</translation>
     </message>
     <message>
-        <source>Base 1:</source>
-        <translation>Base 1:</translation>
+        <source>Dataset 1:</source>
+        <translation>Dataset 1:</translation>
     </message>
     <message>
-        <source>Base 2:</source>
-        <translation>Base 2:</translation>
+        <source>Dataset 2:</source>
+        <translation>Dataset 2:</translation>
     </message>
     <message>
         <source>Column mapping</source>
@@ -258,16 +262,16 @@ Do you want to export the result?</source>
         <translation>Mapee columnas que representan los mismos datos en ambas bases (ej: &apos;cliente_id&apos; ↔ &apos;id&apos;).</translation>
     </message>
     <message>
-        <source>BASE 1 column</source>
-        <translation>Columna de BASE 1</translation>
+        <source>Dataset 1 column</source>
+        <translation>Columna del Dataset 1</translation>
     </message>
     <message>
         <source>↔ Map</source>
         <translation>↔ Mapear</translation>
     </message>
     <message>
-        <source>BASE 2 column</source>
-        <translation>Columna de BASE 2</translation>
+        <source>Dataset 2 column</source>
+        <translation>Columna del Dataset 2</translation>
     </message>
     <message>
         <source>Defined mappings</source>
@@ -290,16 +294,16 @@ Do you want to export the result?</source>
         <translation>Cómo combinar:</translation>
     </message>
     <message>
-        <source>Only data that exists in both</source>
-        <translation>Solo datos que existen en ambas</translation>
+        <source>Only matching rows (both must match)</source>
+        <translation>Solo filas coincidentes (ambas deben coincidir)</translation>
     </message>
     <message>
-        <source>All from first + matching</source>
-        <translation>Todos de la primera + correspondientes</translation>
+        <source>All rows from Dataset 1 + matches from Dataset 2</source>
+        <translation>Todas las filas del Dataset 1 + coincidencias del Dataset 2</translation>
     </message>
     <message>
-        <source>All from second + matching</source>
-        <translation>Todos de la segunda + correspondientes</translation>
+        <source>All rows from Dataset 2 + matches from Dataset 1</source>
+        <translation>Todas las filas del Dataset 2 + coincidencias del Dataset 1</translation>
     </message>
     <message>
         <source>All data from both</source>
@@ -314,12 +318,12 @@ Do you want to export the result?</source>
         <translation>💡 Mantiene solo filas donde el valor de la columna de conexión existe en AMBAS bases.</translation>
     </message>
     <message>
-        <source>💡 Keeps all rows from Base 1. Unmatched fields are left empty.</source>
-        <translation>💡 Mantiene todas las filas de Base 1. Campos sin correspondencia quedan vacíos.</translation>
+        <source>💡 Keeps all rows from Dataset 1. If a row has no match in Dataset 2, those fields are left empty.</source>
+        <translation>💡 Mantiene todas las filas del Dataset 1. Si una fila no tiene coincidencia en el Dataset 2, los campos quedan vacíos.</translation>
     </message>
     <message>
-        <source>💡 Keeps all rows from Base 2. Unmatched fields are left empty.</source>
-        <translation>💡 Mantiene todas las filas de Base 2. Campos sin correspondencia quedan vacíos.</translation>
+        <source>💡 Keeps all rows from Dataset 2. If a row has no match in Dataset 1, those fields are left empty.</source>
+        <translation>💡 Mantiene todas las filas del Dataset 2. Si una fila no tiene coincidencia en el Dataset 1, los campos quedan vacíos.</translation>
     </message>
     <message>
         <source>💡 Combines ALL rows from both (no join column needed).</source>
@@ -366,9 +370,9 @@ Do you want to export the result?</source>
 • String: free text without a specific format
 • Date: date/time values</source>
         <translation>• Nominal: valores categóricos predefinidos
-• Numérico: valores numéricos continuos o discretos
-• Textual: texto libre sin formato específico
-• Fecha: valores de fecha/hora</translation>
+• Numeric: valores numéricos continuos o discretos
+• String: texto libre sin formato específico
+• Date: valores de fecha/hora</translation>
     </message>
     <message>
         <source>Column </source>
@@ -445,6 +449,10 @@ Do you also want to export the database to a file on disk?</source>
         <translation>No es posible convertir la columna &apos;%1&apos; al tipo &apos;%2&apos;.
 
 %3</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Ninguno</translation>
     </message>
 </context>
 <context>

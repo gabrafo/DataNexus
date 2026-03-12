@@ -349,15 +349,20 @@ class CSVController(BaseDataController):
     
     @Slot(str, result=list)
     def getAttributeExamples(self, attribute_name: str) -> List[str]:
-        """Return first few values of the column for preview."""
+        """Return up to 5 random non-empty values from the column for preview."""
+        import random
         if self.df is None or attribute_name not in self.df.columns:
             return []
         
+        non_empty = [str(v) for v in self.df[attribute_name] if not pd.isna(v) and str(v).strip() != ""]
+        if not non_empty:
+            return []
+        
+        rng = random.Random(hash(attribute_name))
+        sampled = rng.sample(non_empty, min(5, len(non_empty)))
+        
         examples: List[str] = []
-        series = self.df[attribute_name].head(5)
-        for value in series:
-            text = "" if pd.isna(value) else str(value)
-            # Truncate long strings to avoid breaking UI layout
+        for text in sampled:
             if len(text) > 30:
                 text = text[:27] + "..."
             examples.append(text)

@@ -9,15 +9,15 @@ QtObject {
 
     // --- Type scale (pointSize) ---
     readonly property QtObject fontSize: QtObject {
-        readonly property int display: 48   // Splash / hero
-        readonly property int h1:      28   // Page-level prominent text
-        readonly property int h2:      18   // Section heading
-        readonly property int h3:      14   // Sub-section heading
-        readonly property int subtitle:12   // Card title
-        readonly property int body:    11   // Default body text
-        readonly property int label:   10   // Form labels, buttons
-        readonly property int caption:  9   // Secondary info
-        readonly property int small:    8   // Fine print
+        readonly property int display: 50   // Splash / hero
+        readonly property int h1:      30   // Page-level prominent text
+        readonly property int h2:      20   // Section heading
+        readonly property int h3:      16   // Sub-section heading
+        readonly property int subtitle:13   // Card title
+        readonly property int body:    12   // Default body text
+        readonly property int label:   11   // Form labels, buttons
+        readonly property int caption: 10   // Secondary info
+        readonly property int small:    9   // Fine print
     }
 
     // --- Spacing ---

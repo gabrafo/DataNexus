@@ -40,9 +40,9 @@ Page {
     property string baseName: {
         if (stateManager) {
             if (targetBase === "secondary") {
-                return stateManager.secondaryFileName || "Base 2"
+                return stateManager.secondaryFileName || "Dataset 2"
             } else {
-                return stateManager.primaryFileName || "Base 1"
+                return stateManager.primaryFileName || "Dataset 1"
             }
         }
         return "Sem nome"
@@ -128,7 +128,7 @@ Page {
                 
                 Text {
                     text: dataPage.baseName
-                    font.pointSize: 16
+                    font.pointSize: 17
                     font.weight: Font.Medium
                     color: Material.foreground
                     width: parent.width
@@ -247,7 +247,7 @@ Page {
                                         anchors.centerIn: parent
                                         text: qsTr("Row")
                                         color: "#000000"
-                                        font.pointSize: 9
+                                        font.pointSize: 10
                                         font.weight: Font.Bold
                                         horizontalAlignment: Text.AlignHCenter
                                     }
@@ -280,7 +280,7 @@ Page {
                                                     return (headerCell.index + 1) + ": " + dataPage.activeController.headerForColumn(headerCell.index)
                                                 }
                                                 color: "#000000"
-                                                font.pointSize: 9
+                                                font.pointSize: 10
                                                 font.weight: Font.Bold
                                                 elide: Text.ElideRight
                                                 horizontalAlignment: Text.AlignHCenter
@@ -384,7 +384,7 @@ Page {
                                                         return String(start + rowIndexCell.index + 1)
                                                     }
                                                     color: Material.foreground
-                                                    font.pointSize: 9
+                                                    font.pointSize: 10
                                                     font.weight: Font.DemiBold
                                                     horizontalAlignment: Text.AlignHCenter
                                                 }
@@ -417,7 +417,7 @@ Page {
                                             anchors.centerIn: parent
                                             text: cell.display || ""
                                             color: Material.foreground
-                                            font.pointSize: 9
+                                            font.pointSize: 10
                                             elide: Text.ElideRight
                                             width: parent.width - 4
                                             horizontalAlignment: Text.AlignHCenter
@@ -445,7 +445,7 @@ Page {
                 
                 Text {
                     text: qsTr("Database info")
-                    font.pointSize: 16
+                    font.pointSize: 17
                     font.weight: Font.Medium
                     color: Material.foreground
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -462,13 +462,13 @@ Page {
                         Text {
                             text: qsTr("Total instances:")
                             color: Material.foreground
-                            font.pointSize: 11
+                            font.pointSize: 12
                         }
                         
                         Text {
                             text: dataPage.totalInstances
                             color: Material.accent
-                            font.pointSize: 11
+                            font.pointSize: 12
                             font.weight: Font.Medium
                         }
                     }
@@ -480,13 +480,13 @@ Page {
                         Text {
                             text: qsTr("Total attributes:")
                             color: Material.foreground
-                            font.pointSize: 11
+                            font.pointSize: 12
                         }
                         
                         Text {
                             text: dataPage.totalAttributes
                             color: Material.accent
-                            font.pointSize: 11
+                            font.pointSize: 12
                             font.weight: Font.Medium
                         }
                     }
@@ -499,7 +499,7 @@ Page {
                     
                     Text {
                         text: qsTr("Pagination")
-                        font.pointSize: 12
+                        font.pointSize: 13
                         font.weight: Font.Medium
                         color: Material.foreground
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -511,7 +511,7 @@ Page {
                             .arg(dataPage.activeController ? dataPage.activeController.currentPage + 1 : 0)
                             .arg(dataPage.activeController ? dataPage.activeController.totalPages : 0)
                         color: Material.foreground
-                        font.pointSize: 10
+                        font.pointSize: 11
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap
                     }
@@ -539,7 +539,7 @@ Page {
                         text: qsTr("(%1 rows per page)")
                             .arg(dataPage.activeController ? dataPage.activeController.pageSize : 0)
                         color: Material.foreground
-                        font.pointSize: 9
+                        font.pointSize: 10
                         opacity: 0.7
                         horizontalAlignment: Text.AlignHCenter
                     }

@@ -283,7 +283,8 @@ class ARFFController(BaseDataController):
     
     @Slot(str, result=list)
     def getAttributeExamples(self, attribute_name: str) -> List[str]:
-        """Returns the first 5 sample values for a given attribute."""
+        """Returns up to 5 random non-empty sample values for a given attribute."""
+        import random
         if not self._data or not self._attributes:
             return []
         
@@ -296,14 +297,26 @@ class ARFFController(BaseDataController):
         if attr_index is None:
             return []
         
-        examples = []
-        for i, row in enumerate(self._data[:5]):
+        non_empty = []
+        for row in self._data:
             if attr_index < len(row):
                 value = row[attr_index]
-                text = "" if value is None else str(value)
-                if len(text) > 30:
-                    text = text[:27] + "..."
-                examples.append(text)
+                if value is not None:
+                    text = str(value).strip()
+                    if text:
+                        non_empty.append(text)
+        
+        if not non_empty:
+            return []
+        
+        rng = random.Random(hash(attribute_name))
+        sampled = rng.sample(non_empty, min(5, len(non_empty)))
+        
+        examples = []
+        for text in sampled:
+            if len(text) > 30:
+                text = text[:27] + "..."
+            examples.append(text)
         
         return examples
     

@@ -133,7 +133,7 @@ Page {
             
             Text {
                 text: qsTr("CONFIGURE MERGE")
-                font.pointSize: 18
+                font.pointSize: 19
                 font.weight: Font.Bold
                 font.letterSpacing: 2
                 color: Material.accent
@@ -161,7 +161,7 @@ Page {
                             id: stepText
                             anchors.centerIn: parent
                             text: (parent.index + 1) + ". " + parent.modelData
-                            font.pointSize: 10
+                            font.pointSize: 11
                             font.weight: Font.Medium
                             color: (parent.index + 1) <= mergePage.currentStep ? "#000000" : Material.foreground
                         }
@@ -188,14 +188,14 @@ Page {
                     spacing: 2
                     
                     Text {
-                        text: qsTr("Base 1:")
-                        font.pointSize: 9
+                        text: qsTr("Dataset 1:")
+                        font.pointSize: 10
                         color: Material.foreground
                         opacity: 0.6
                     }
                     Text {
                         text: mergePage.stateManager ? mergePage.stateManager.primaryFileName : ""
-                        font.pointSize: 11
+                        font.pointSize: 12
                         font.weight: Font.Medium
                         color: Material.accent
                         elide: Text.ElideMiddle
@@ -205,7 +205,7 @@ Page {
                 
                 Text {
                     text: "+"
-                    font.pointSize: 20
+                    font.pointSize: 21
                     color: Material.foreground
                     opacity: 0.5
                 }
@@ -215,14 +215,14 @@ Page {
                     spacing: 2
                     
                     Text {
-                        text: qsTr("Base 2:")
-                        font.pointSize: 9
+                        text: qsTr("Dataset 2:")
+                        font.pointSize: 10
                         color: Material.foreground
                         opacity: 0.6
                     }
                     Text {
                         text: mergePage.stateManager ? mergePage.stateManager.secondaryFileName : ""
-                        font.pointSize: 11
+                        font.pointSize: 12
                         font.weight: Font.Medium
                         color: Material.accent
                         elide: Text.ElideMiddle
@@ -259,7 +259,7 @@ Page {
                             
                             Text {
                                 text: "🔀"
-                                font.pointSize: 20
+                                font.pointSize: 21
                             }
                             
                             ColumnLayout {
@@ -268,7 +268,7 @@ Page {
                                 
                                 Text {
                                     text: qsTr("Column mapping")
-                                    font.pointSize: 12
+                                    font.pointSize: 13
                                     font.weight: Font.Bold
                                     color: Material.foreground
                                 }
@@ -276,7 +276,7 @@ Page {
                                 Text {
                                     Layout.fillWidth: true
                                     text: qsTr("Map columns representing the same data in both databases (e.g., 'client_id' ↔ 'id').")
-                                    font.pointSize: 10
+                                    font.pointSize: 11
                                     color: Material.foreground
                                     opacity: 0.7
                                     wrapMode: Text.WordWrap
@@ -305,8 +305,8 @@ Page {
                                 spacing: 12
                                 
                                 Text {
-                                    text: qsTr("BASE 1 column")
-                                    font.pointSize: 11
+                                    text: qsTr("Dataset 1 column")
+                                    font.pointSize: 12
                                     font.weight: Font.Medium
                                     color: Material.accent
                                 }
@@ -353,7 +353,7 @@ Page {
                                 Layout.alignment: Qt.AlignHCenter
                                 Layout.preferredWidth: 130
                                 text: "⚠ " + mergePage.mappingWarning
-                                font.pointSize: 9
+                                font.pointSize: 10
                                 font.weight: Font.Medium
                                 color: Material.color(Material.DeepOrange)
                                 horizontalAlignment: Text.AlignHCenter
@@ -375,8 +375,8 @@ Page {
                                 spacing: 12
                                 
                                 Text {
-                                    text: qsTr("BASE 2 column")
-                                    font.pointSize: 11
+                                    text: qsTr("Dataset 2 column")
+                                    font.pointSize: 12
                                     font.weight: Font.Medium
                                     color: Material.foreground
                                 }
@@ -412,7 +412,7 @@ Page {
                                 
                                 Text {
                                     text: qsTr("Defined mappings")
-                                    font.pointSize: 11
+                                    font.pointSize: 12
                                     font.weight: Font.Medium
                                     color: Material.foreground
                                 }
@@ -430,7 +430,7 @@ Page {
                                     Text {
                                         anchors.centerIn: parent
                                         text: mappingsRepeater.count
-                                        font.pointSize: 10
+                                        font.pointSize: 11
                                         font.weight: Font.Bold
                                         color: "#000000"
                                     }
@@ -441,7 +441,7 @@ Page {
                             Text {
                                 visible: !mappingsRepeater.model || mappingsRepeater.model.length === 0
                                 text: qsTr("No mappings defined. Without mappings, only 'All data from both' will be available.")
-                                font.pointSize: 10
+                                font.pointSize: 11
                                 color: Material.foreground
                                 opacity: 0.6
                                 Layout.fillWidth: true
@@ -486,14 +486,14 @@ Page {
                                                 
                                                 Text {
                                                     text: modelData.primary
-                                                    font.pointSize: 10
+                                                    font.pointSize: 11
                                                     font.weight: Font.Medium
                                                     color: Material.accent
                                                 }
                                                 
                                                 Text {
                                                     text: "="
-                                                    font.pointSize: 11
+                                                    font.pointSize: 12
                                                     font.weight: Font.Bold
                                                     color: Material.foreground
                                                     opacity: 0.7
@@ -501,7 +501,7 @@ Page {
                                                 
                                                 Text {
                                                     text: modelData.secondary
-                                                    font.pointSize: 10
+                                                    font.pointSize: 11
                                                     font.weight: Font.Medium
                                                     color: Material.foreground
                                                 }
@@ -515,7 +515,7 @@ Page {
                                                     Text {
                                                         anchors.centerIn: parent
                                                         text: "✕"
-                                                        font.pointSize: 9
+                                                        font.pointSize: 10
                                                         color: Material.foreground
                                                         opacity: 0.6
                                                     }
@@ -546,7 +546,7 @@ Page {
                         
                         Button {
                             text: qsTr("Next ▶")
-                            font.pointSize: 12
+                            font.pointSize: 13
                             Material.background: Material.accent
                             Material.foreground: "#000000"
                             Layout.preferredHeight: 44
@@ -578,7 +578,7 @@ Page {
                             
                             Text {
                                 text: qsTr("Merge configuration")
-                                font.pointSize: 14
+                                font.pointSize: 15
                                 font.weight: Font.Bold
                                 color: Material.foreground
                             }
@@ -594,7 +594,7 @@ Page {
                                     
                                     Text {
                                         text: qsTr("How to combine:")
-                                        font.pointSize: 11
+                                        font.pointSize: 12
                                         color: Material.foreground
                                     }
                                     
@@ -606,9 +606,9 @@ Page {
                                         property bool hasMappings: mappingsRepeater.count > 0
                                         
                                         model: hasMappings ? [
-                                            qsTr("Only data that exists in both"),
-                                            qsTr("All from first + matching"),
-                                            qsTr("All from second + matching"),
+                                            qsTr("Only matching rows (both must match)"),
+                                            qsTr("All rows from Dataset 1 + matches from Dataset 2"),
+                                            qsTr("All rows from Dataset 2 + matches from Dataset 1"),
                                             qsTr("All data from both")
                                         ] : [
                                             qsTr("All data from both")
@@ -628,7 +628,7 @@ Page {
                                     
                                     Text {
                                         text: qsTr("Join column:")
-                                        font.pointSize: 11
+                                        font.pointSize: 12
                                         color: Material.foreground
                                     }
                                     
@@ -656,13 +656,13 @@ Page {
                             text: {
                                 switch (joinTypeCombo.effectiveJoinType) {
                                     case 0: return qsTr("💡 Keeps only rows where the join column value exists in BOTH databases.")
-                                    case 1: return qsTr("💡 Keeps all rows from Base 1. Unmatched fields are left empty.")
-                                    case 2: return qsTr("💡 Keeps all rows from Base 2. Unmatched fields are left empty.")
+                                    case 1: return qsTr("💡 Keeps all rows from Dataset 1. If a row has no match in Dataset 2, those fields are left empty.")
+                                    case 2: return qsTr("💡 Keeps all rows from Dataset 2. If a row has no match in Dataset 1, those fields are left empty.")
                                     case 3: return qsTr("💡 Combines ALL rows from both (no join column needed).")
                                     default: return ""
                                 }
                             }
-                            font.pointSize: 10
+                            font.pointSize: 11
                             color: Material.foreground
                             opacity: 0.8
                             wrapMode: Text.WordWrap
@@ -687,7 +687,7 @@ Page {
                                 
                                 Text {
                                     text: qsTr("Result preview")
-                                    font.pointSize: 12
+                                    font.pointSize: 13
                                     font.weight: Font.Medium
                                     color: Material.foreground
                                 }
@@ -736,7 +736,7 @@ Page {
                                         Text {
                                             visible: (mergePage.previewData && mergePage.previewData.error) ? true : false
                                             text: (mergePage.previewData && mergePage.previewData.error) ? mergePage.previewData.error : qsTr("Click 'Refresh' to see a preview")
-                                            font.pointSize: 11
+                                            font.pointSize: 12
                                             color: Material.foreground
                                             opacity: 0.6
                                             anchors.horizontalCenter: parent.horizontalCenter
@@ -760,7 +760,7 @@ Page {
                                                     Text {
                                                         anchors.centerIn: parent
                                                         text: parent.modelData
-                                                        font.pointSize: 9
+                                                        font.pointSize: 10
                                                         font.weight: Font.Bold
                                                         color: "#000000"
                                                         elide: Text.ElideRight
@@ -796,7 +796,7 @@ Page {
                                                         Text {
                                                             anchors.centerIn: parent
                                                             text: parent.modelData
-                                                            font.pointSize: 9
+                                                            font.pointSize: 10
                                                             color: Material.foreground
                                                             elide: Text.ElideRight
                                                             width: parent.width - 8
@@ -811,7 +811,7 @@ Page {
                                             text: qsTr("Showing %1 of ~%2 rows (estimated)")
                                                 .arg(mergePage.previewData ? mergePage.previewData.previewRows : 0)
                                                 .arg(mergePage.previewData ? mergePage.previewData.totalRows : 0)
-                                            font.pointSize: 9
+                                            font.pointSize: 10
                                             color: Material.foreground
                                             opacity: 0.7
                                             padding: 8
@@ -838,7 +838,7 @@ Page {
                             text: qsTr("🔗 Execute")
                             // Enabled if: cross join OR (has mapping AND key column selected)
                             enabled: joinTypeCombo.effectiveJoinType === 3 || keyColumnCombo.currentText !== ""
-                            font.pointSize: 12
+                            font.pointSize: 13
                             font.weight: Font.Bold
                             Material.background: Material.accent
                             Material.foreground: "#000000"

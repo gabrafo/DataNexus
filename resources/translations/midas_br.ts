@@ -52,12 +52,12 @@
         <translation>Selecione bases para ver ações disponíveis</translation>
     </message>
     <message>
-        <source>✓ BASE 1</source>
-        <translation>✓ BASE 1</translation>
+        <source>✓ Dataset 1</source>
+        <translation>✓ Dataset 1</translation>
     </message>
     <message>
-        <source>📁 BASE 1</source>
-        <translation>📁 BASE 1</translation>
+        <source>📁 Dataset 1</source>
+        <translation>📁 Dataset 1</translation>
     </message>
     <message>
         <source>%1 rows • %2 columns</source>
@@ -80,12 +80,12 @@
         <translation>Carregar base</translation>
     </message>
     <message>
-        <source>✓ BASE 2</source>
-        <translation>✓ BASE 2</translation>
+        <source>✓ Dataset 2</source>
+        <translation>✓ Dataset 2</translation>
     </message>
     <message>
-        <source>📂 BASE 2</source>
-        <translation>📂 BASE 2</translation>
+        <source>📂 Dataset 2</source>
+        <translation>📂 Dataset 2</translation>
     </message>
     <message>
         <source>✕ Remove</source>
@@ -100,8 +100,8 @@
         <translation>+ Carregar segunda base</translation>
     </message>
     <message>
-        <source>Load Base 1 first</source>
-        <translation>Carregue a Base 1 primeiro</translation>
+        <source>Load Dataset 1 first</source>
+        <translation>Carregue o Dataset 1 primeiro</translation>
     </message>
     <message>
         <source>Select one or two databases above</source>
@@ -109,7 +109,7 @@
     </message>
     <message>
         <source>1 base = View/Typify/Export  •  2 bases = Merge</source>
-        <translation>1 base = Visualizar/Tipificar/Exportar  •  2 bases = Mesclar</translation>
+        <translation>1 base = Visualizar/Tipificar/Exportar  •  2 bases = Junção</translation>
     </message>
     <message>
         <source>View</source>
@@ -137,7 +137,7 @@
     </message>
     <message>
         <source>Merge Databases</source>
-        <translation>Mesclar Bases</translation>
+        <translation>Junção de Bases</translation>
     </message>
     <message>
         <source>Combine the two selected databases</source>
@@ -150,6 +150,10 @@
     <message>
         <source>Clear selection</source>
         <translation>Limpar seleção</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Idioma</translation>
     </message>
 </context>
 <context>
@@ -183,7 +187,7 @@
     </message>
     <message>
         <source>✅ Merge completed!</source>
-        <translation>✅ Mesclagem concluída!</translation>
+        <translation>✅ Junção concluída!</translation>
     </message>
     <message>
         <source>Export</source>
@@ -199,7 +203,7 @@
 %1 rows • %2 columns
 
 Do you want to export the result?</source>
-        <translation>As bases foram mescladas com sucesso!
+        <translation>As bases foram unidas com sucesso!
 
 %1 linhas • %2 colunas
 
@@ -207,11 +211,11 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Export merged database</source>
-        <translation>Exportar base mesclada</translation>
+        <translation>Exportar base unida</translation>
     </message>
     <message>
         <source>Cancel merge?</source>
-        <translation>Cancelar mesclagem?</translation>
+        <translation>Cancelar junção?</translation>
     </message>
     <message>
         <source>Return to the main menu? Loaded databases will be kept.</source>
@@ -231,7 +235,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>CONFIGURE MERGE</source>
-        <translation>CONFIGURAR MESCLAGEM</translation>
+        <translation>CONFIGURAR JUNÇÃO</translation>
     </message>
     <message>
         <source>Map</source>
@@ -239,15 +243,15 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Merge</source>
-        <translation>Mesclar</translation>
+        <translation>Junção</translation>
     </message>
     <message>
-        <source>Base 1:</source>
-        <translation>Base 1:</translation>
+        <source>Dataset 1:</source>
+        <translation>Dataset 1:</translation>
     </message>
     <message>
-        <source>Base 2:</source>
-        <translation>Base 2:</translation>
+        <source>Dataset 2:</source>
+        <translation>Dataset 2:</translation>
     </message>
     <message>
         <source>Column mapping</source>
@@ -258,16 +262,16 @@ Deseja exportar o resultado?</translation>
         <translation>Mapeie colunas que representam os mesmos dados em ambas as bases (ex: &apos;cliente_id&apos; ↔ &apos;id&apos;).</translation>
     </message>
     <message>
-        <source>BASE 1 column</source>
-        <translation>Coluna da BASE 1</translation>
+        <source>Dataset 1 column</source>
+        <translation>Coluna do Dataset 1</translation>
     </message>
     <message>
         <source>↔ Map</source>
         <translation>↔ Mapear</translation>
     </message>
     <message>
-        <source>BASE 2 column</source>
-        <translation>Coluna da BASE 2</translation>
+        <source>Dataset 2 column</source>
+        <translation>Coluna do Dataset 2</translation>
     </message>
     <message>
         <source>Defined mappings</source>
@@ -283,23 +287,23 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Merge configuration</source>
-        <translation>Configuração da mesclagem</translation>
+        <translation>Configuração da junção</translation>
     </message>
     <message>
         <source>How to combine:</source>
         <translation>Como combinar:</translation>
     </message>
     <message>
-        <source>Only data that exists in both</source>
-        <translation>Somente dados que existem nas duas</translation>
+        <source>Only matching rows (both must match)</source>
+        <translation>Apenas linhas correspondentes (ambas devem coincidir)</translation>
     </message>
     <message>
-        <source>All from first + matching</source>
-        <translation>Todos da primeira + correspondentes</translation>
+        <source>All rows from Dataset 1 + matches from Dataset 2</source>
+        <translation>Todas as linhas do Dataset 1 + correspondências do Dataset 2</translation>
     </message>
     <message>
-        <source>All from second + matching</source>
-        <translation>Todos da segunda + correspondentes</translation>
+        <source>All rows from Dataset 2 + matches from Dataset 1</source>
+        <translation>Todas as linhas do Dataset 2 + correspondências do Dataset 1</translation>
     </message>
     <message>
         <source>All data from both</source>
@@ -314,12 +318,12 @@ Deseja exportar o resultado?</translation>
         <translation>💡 Mantém apenas linhas onde o valor da coluna de conexão existe em AMBAS as bases.</translation>
     </message>
     <message>
-        <source>💡 Keeps all rows from Base 1. Unmatched fields are left empty.</source>
-        <translation>💡 Mantém todas as linhas da Base 1. Campos sem correspondência ficam vazios.</translation>
+        <source>💡 Keeps all rows from Dataset 1. If a row has no match in Dataset 2, those fields are left empty.</source>
+        <translation>💡 Mantém todas as linhas do Dataset 1. Se uma linha não tiver correspondência no Dataset 2, os campos ficam vazios.</translation>
     </message>
     <message>
-        <source>💡 Keeps all rows from Base 2. Unmatched fields are left empty.</source>
-        <translation>💡 Mantém todas as linhas da Base 2. Campos sem correspondência ficam vazios.</translation>
+        <source>💡 Keeps all rows from Dataset 2. If a row has no match in Dataset 1, those fields are left empty.</source>
+        <translation>💡 Mantém todas as linhas do Dataset 2. Se uma linha não tiver correspondência no Dataset 1, os campos ficam vazios.</translation>
     </message>
     <message>
         <source>💡 Combines ALL rows from both (no join column needed).</source>
@@ -366,9 +370,9 @@ Deseja exportar o resultado?</translation>
 • String: free text without a specific format
 • Date: date/time values</source>
         <translation>• Nominal: valores categóricos predefinidos
-• Numérico: valores numéricos contínuos ou discretos
-• Textual: texto livre sem formato específico
-• Data: valores de data/hora</translation>
+• Numeric: valores numéricos contínuos ou discretos
+• String: texto livre sem formato específico
+• Date: valores de data/hora</translation>
     </message>
     <message>
         <source>Column </source>
@@ -445,6 +449,10 @@ Deseja exportar a base para um arquivo no disco também?</translation>
         <translation>Não é possível converter a coluna &apos;%1&apos; para o tipo &apos;%2&apos;.
 
 %3</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Nenhum</translation>
     </message>
 </context>
 <context>

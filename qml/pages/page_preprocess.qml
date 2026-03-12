@@ -44,7 +44,7 @@ Page {
             return
 
         var primary = typePage.selectedColumnForVisualization
-        var stackBy = (typeof stackBySelector !== 'undefined' && stackBySelector && stackBySelector.visible && stackBySelector.currentText)
+        var stackBy = (typeof stackBySelector !== 'undefined' && stackBySelector && stackBySelector.visible && stackBySelector.currentText && stackBySelector.currentIndex > 0)
             ? stackBySelector.currentText
             : ""
         var bins = (typeof typePage.histogramBins === 'number') ? Math.max(1, Math.min(25, typePage.histogramBins)) : 10
@@ -169,7 +169,7 @@ Page {
                 
                 Text {
                     text: qsTr("Selecting types")
-                    font.pointSize: 18
+                    font.pointSize: 19
                     font.weight: Font.Medium
                     color: Material.foreground
                     Layout.alignment: Qt.AlignHCenter
@@ -177,7 +177,7 @@ Page {
                 
                 Text {
                     text: qsTr("We suggest a type for each attribute. You can change them, but only now.")
-                    font.pointSize: 9
+                    font.pointSize: 10
                     color: Material.foreground
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
@@ -185,17 +185,8 @@ Page {
                 }
                 
                 Text {
-                    text: qsTr("Available types:")
-                    font.pointSize: 9
-                    font.weight: Font.DemiBold
-                    color: Material.foreground
-                    Layout.fillWidth: true
-                    Layout.topMargin: 8
-                }
-                
-                Text {
                     text: qsTr("• Nominal: predefined categorical values\n• Numeric: continuous or discrete numerical values\n• String: free text without a specific format\n• Date: date/time values")
-                    font.pointSize: 8
+                    font.pointSize: 9
                     color: Material.foreground
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
@@ -247,7 +238,7 @@ Page {
                                     
                                     Text {
                                         text: attributeItem.attrName || (qsTr("Column ") + (attributeItem.index + 1))
-                                        font.pointSize: 12
+                                        font.pointSize: 13
                                         font.weight: Font.DemiBold
                                         color: Material.foreground
                                         Layout.fillWidth: true
@@ -260,7 +251,7 @@ Page {
                                         
                                         Text {
                                             text: qsTr("Type:")
-                                            font.pointSize: 10
+                                            font.pointSize: 11
                                             color: Material.foreground
                                             opacity: 0.8
                                         }
@@ -377,7 +368,7 @@ Page {
                                                         }
                                                         return ""
                                                     }
-                                                    font.pointSize: 8
+                                                    font.pointSize: 9
                                                     color: Material.foreground
                                                     elide: Text.ElideRight
                                                     width: parent.width - 8
@@ -452,7 +443,7 @@ Page {
                 
                 Text {
                     text: qsTr("Visualization")
-                    font.pointSize: 18
+                    font.pointSize: 19
                     font.weight: Font.Medium
                     color: Material.foreground
                     Layout.alignment: Qt.AlignHCenter
@@ -473,7 +464,7 @@ Page {
                         
                         Text {
                             text: qsTr("Select a column")
-                            font.pointSize: 10
+                            font.pointSize: 11
                             font.weight: Font.Medium
                             color: Material.foreground
                             Layout.fillWidth: true
@@ -532,7 +523,7 @@ Page {
                                 var columnType = typePage.activeController.getSuggestedType(typePage.selectedColumnForVisualization)
                                 return columnType === "Nominal" ? qsTr("Count by Class") : qsTr("Statistics")
                             }
-                            font.pointSize: 11
+                            font.pointSize: 12
                             font.weight: Font.Medium
                             color: Material.foreground
                             Layout.fillWidth: true
@@ -569,7 +560,7 @@ Page {
                                         
                                         Text {
                                             text: parent.modelData.class + ":"
-                                            font.pointSize: 8
+                                            font.pointSize: 9
                                             color: Material.foreground
                                             Layout.preferredWidth: 110
                                             elide: Text.ElideRight
@@ -577,7 +568,7 @@ Page {
                                         
                                         Text {
                                             text: String(parent.modelData.count)
-                                            font.pointSize: 8
+                                            font.pointSize: 9
                                             font.weight: Font.Bold
                                             color: Material.accent
                                             Layout.fillWidth: true
@@ -628,7 +619,7 @@ Page {
                                         
                                         Text {
                                             text: parent.modelData.key + ":"
-                                            font.pointSize: 8
+                                            font.pointSize: 9
                                             color: Material.foreground
                                             Layout.preferredWidth: 110
                                             elide: Text.ElideRight
@@ -636,7 +627,7 @@ Page {
                                         
                                         Text {
                                             text: parent.modelData.value
-                                            font.pointSize: 8
+                                            font.pointSize: 9
                                             font.weight: Font.Bold
                                             color: Material.accent
                                             Layout.fillWidth: true
@@ -669,7 +660,7 @@ Page {
                         
                         Text {
                             text: qsTr("Chart")
-                            font.pointSize: 11
+                            font.pointSize: 12
                             font.weight: Font.Medium
                             color: Material.foreground
                             Layout.fillWidth: true
@@ -684,7 +675,7 @@ Page {
                         // Nominal attribute selector for stacked charts
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 60
+                            Layout.preferredHeight: 70
                             color: Material.backgroundColor
                             border.color: Material.frameColor
                             border.width: 1
@@ -703,7 +694,7 @@ Page {
 
                                 Text {
                                     text: qsTr("Stack by (nominal attribute)")
-                                    font.pointSize: 10
+                                    font.pointSize: 11
                                     font.weight: Font.Medium
                                     color: Material.foreground
                                     Layout.fillWidth: true
@@ -715,7 +706,7 @@ Page {
                                     Layout.preferredHeight: 32
                                     model: typePage.activeController ? (function() {
                                         var names = typePage.activeController.getAttributeNames()
-                                        var res = []
+                                        var res = [qsTr("None")]
                                         for (var i = 0; i < names.length; i++) {
                                             try {
                                                 if (typePage.activeController.getSuggestedType(names[i]) === 'Nominal')
@@ -723,13 +714,9 @@ Page {
                                             } catch (e) {}
                                         }
                                         return res
-                                    })() : []
+                                    })() : [qsTr("None")]
 
-                                    Component.onCompleted: {
-                                        if (model && model.length > 0) {
-                                            currentIndex = 0
-                                        }
-                                    }
+                                    currentIndex: 0
 
                                     onCurrentTextChanged: {
                                         typePage.refreshChart()
@@ -776,7 +763,7 @@ Page {
                                         id: tipText
                                         anchors.centerIn: parent
                                         color: Material.foreground
-                                        font.pointSize: 10
+                                        font.pointSize: 11
                                         text: ""
                                     }
                                 }
@@ -915,7 +902,7 @@ Page {
 
                     Text {
                         text: qsTr("Number of bars:")
-                        font.pointSize: 11
+                        font.pointSize: 12
                         color: Material.foreground
                         Layout.alignment: Qt.AlignVCenter
                     }
@@ -1096,7 +1083,7 @@ Page {
                     stackBySelector.model = []
                     stackBySelector.model = (function() {
                         var names = typePage.activeController.getAttributeNames()
-                        var res = []
+                        var res = [qsTr("None")]
                         for (var i = 0; i < names.length; i++) {
                             try {
                                 if (typePage.activeController.getSuggestedType(names[i]) === 'Nominal')
@@ -1105,6 +1092,7 @@ Page {
                         }
                         return res
                     })()
+                    stackBySelector.currentIndex = 0
                 }
             } catch (e) {}
 

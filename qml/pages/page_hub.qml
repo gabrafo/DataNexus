@@ -246,6 +246,13 @@ Page {
                 opacity: 0.5
             }
 
+            Text {
+                text: qsTr("Language")
+                font.pointSize: Theme.fontSize.label
+                color: Material.accent
+                font.weight: Font.Medium
+            }
+
             ComboBox {
                 id: langCombo
                 Layout.preferredWidth: 130
@@ -299,8 +306,8 @@ Page {
                         Layout.fillWidth: true
                         
                         Text {
-                            text: hubPage.primarySelected ? qsTr("✓ BASE 1") : qsTr("📁 BASE 1")
-                            font.pointSize: 11
+                            text: hubPage.primarySelected ? qsTr("✓ Dataset 1") : qsTr("📁 Dataset 1")
+                            font.pointSize: 12
                             font.weight: Font.Bold
                             color: hubPage.primarySelected ? Material.accent : 
                                    (hubPage.hasPrimary ? Material.foreground : Material.foreground)
@@ -318,7 +325,7 @@ Page {
                         
                         Text {
                             text: hubPage.stateManager ? hubPage.stateManager.primaryFileName : ""
-                            font.pointSize: 13
+                            font.pointSize: 14
                             font.weight: Font.Medium
                             color: Material.foreground
                             elide: Text.ElideMiddle
@@ -331,7 +338,7 @@ Page {
                             text: qsTr("%1 rows • %2 columns")
                                 .arg(hubPage.stateManager ? hubPage.stateManager.primaryInstanceCount : 0)
                                 .arg(hubPage.stateManager ? hubPage.stateManager.primaryAttributeCount : 0)
-                            font.pointSize: 10
+                            font.pointSize: 11
                             color: Material.foreground
                             opacity: 0.7
                         }
@@ -339,7 +346,7 @@ Page {
                         Text {
                             visible: !hubPage.primarySelected
                             text: qsTr("Click to select")
-                            font.pointSize: 9
+                            font.pointSize: 10
                             font.italic: true
                             color: Material.foreground
                             opacity: 0.4
@@ -349,7 +356,7 @@ Page {
                             visible: hubPage.primarySelected
                             text: qsTr("Replace")
                             flat: true
-                            font.pointSize: 9
+                            font.pointSize: 10
                             onClicked: startLoadPrimary()
                         }
                     }
@@ -363,7 +370,7 @@ Page {
                         Text {
                             Layout.alignment: Qt.AlignHCenter
                             text: qsTr("No database loaded")
-                            font.pointSize: 11
+                            font.pointSize: 12
                             color: Material.foreground
                             opacity: 0.5
                         }
@@ -386,7 +393,7 @@ Page {
                 Text {
                     Layout.alignment: Qt.AlignHCenter
                     text: "⇄"
-                    font.pointSize: 28
+                    font.pointSize: 29
                     color: hubPage.selectedCount === 2 ? Material.accent : Material.foreground
                     opacity: hubPage.canMerge ? 0.7 : 0.3
                 }
@@ -418,8 +425,8 @@ Page {
                         Layout.fillWidth: true
                         
                         Text {
-                            text: hubPage.secondarySelected ? qsTr("✓ BASE 2") : qsTr("📂 BASE 2")
-                            font.pointSize: 11
+                            text: hubPage.secondarySelected ? qsTr("✓ Dataset 2") : qsTr("📂 Dataset 2")
+                            font.pointSize: 12
                             font.weight: Font.Bold
                             color: hubPage.secondarySelected ? Material.accent : 
                                    (hubPage.hasSecondary ? Material.foreground : Material.foreground)
@@ -439,7 +446,7 @@ Page {
                         
                         Text {
                             text: hubPage.stateManager ? hubPage.stateManager.secondaryFileName : ""
-                            font.pointSize: 13
+                            font.pointSize: 14
                             font.weight: Font.Medium
                             color: Material.foreground
                             elide: Text.ElideMiddle
@@ -452,7 +459,7 @@ Page {
                             text: qsTr("%1 rows • %2 columns")
                                 .arg(hubPage.stateManager ? hubPage.stateManager.secondaryInstanceCount : 0)
                                 .arg(hubPage.stateManager ? hubPage.stateManager.secondaryAttributeCount : 0)
-                            font.pointSize: 10
+                            font.pointSize: 11
                             color: Material.foreground
                             opacity: 0.7
                         }
@@ -460,7 +467,7 @@ Page {
                         Text {
                             visible: !hubPage.secondarySelected
                             text: qsTr("Click to select")
-                            font.pointSize: 9
+                            font.pointSize: 10
                             font.italic: true
                             color: Material.foreground
                             opacity: 0.4
@@ -473,14 +480,14 @@ Page {
                             Button {
                                 text: qsTr("Replace")
                                 flat: true
-                                font.pointSize: 9
+                                font.pointSize: 10
                                 onClicked: startLoadSecondary()
                             }
                             
                             Button {
                                 text: qsTr("✕ Remove")
                                 flat: true
-                                font.pointSize: 9
+                                font.pointSize: 10
                                 Material.foreground: Material.color(Material.DeepOrange)
                                 onClicked: {
                                     if (hubPage.stateManager) {
@@ -502,14 +509,14 @@ Page {
                         Text {
                             Layout.alignment: Qt.AlignHCenter
                             text: "📂"
-                            font.pointSize: 32
+                            font.pointSize: 33
                             opacity: 0.3
                         }
                         
                         Text {
                             Layout.alignment: Qt.AlignHCenter
                             text: qsTr("Empty slot")
-                            font.pointSize: 11
+                            font.pointSize: 12
                             color: Material.foreground
                             opacity: 0.5
                         }
@@ -527,8 +534,8 @@ Page {
                         Text {
                             visible: !hubPage.hasPrimary
                             Layout.alignment: Qt.AlignHCenter
-                            text: qsTr("Load Base 1 first")
-                            font.pointSize: 9
+                            text: qsTr("Load Dataset 1 first")
+                            font.pointSize: 10
                             color: Material.foreground
                             opacity: 0.4
                         }
@@ -559,14 +566,14 @@ Page {
                     Text {
                         Layout.alignment: Qt.AlignHCenter
                         text: "👆"
-                        font.pointSize: 28
+                        font.pointSize: 29
                         opacity: 0.5
                     }
                     
                     Text {
                         Layout.alignment: Qt.AlignHCenter
                         text: qsTr("Select one or two databases above")
-                        font.pointSize: 12
+                        font.pointSize: 13
                         color: Material.foreground
                         opacity: 0.6
                     }
@@ -574,7 +581,7 @@ Page {
                     Text {
                         Layout.alignment: Qt.AlignHCenter
                         text: qsTr("1 base = View/Typify/Export  •  2 bases = Merge")
-                        font.pointSize: 10
+                        font.pointSize: 11
                         color: Material.foreground
                         opacity: 0.4
                     }
@@ -643,7 +650,7 @@ Page {
             Button {
                 text: qsTr("Clear selection")
                 flat: true
-                font.pointSize: 10
+                font.pointSize: 11
                 enabled: hubPage.selectedCount > 0
                 onClicked: hubPage.clearSelection()
             }
