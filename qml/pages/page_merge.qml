@@ -244,51 +244,32 @@ Page {
                     anchors.fill: parent
                     spacing: 16
                     
-                    // Explanation
-                    Rectangle {
+                    // Explanation - simple text without box
+                    ColumnLayout {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 70
-                        color: Qt.rgba(1, 1, 1, 0.03)
-                        border.color: Material.frameColor
-                        radius: 8
+                        spacing: 4
                         
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 16
-                            spacing: 16
-                            
-                            Text {
-                                text: "🔀"
-                                font.pointSize: 21
-                            }
-                            
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 4
-                                
-                                Text {
-                                    text: qsTr("Column mapping")
-                                    font.pointSize: 13
-                                    font.weight: Font.Bold
-                                    color: Material.foreground
-                                }
-                                
-                                Text {
-                                    Layout.fillWidth: true
-                                    text: qsTr("Map columns representing the same data in both databases (e.g., 'client_id' ↔ 'id').")
-                                    font.pointSize: 11
-                                    color: Material.foreground
-                                    opacity: 0.7
-                                    wrapMode: Text.WordWrap
-                                }
-                            }
+                        Text {
+                            text: qsTr("Match columns")
+                            font.pointSize: 12
+                            font.weight: Font.DemiBold
+                            color: Material.foreground
+                        }
+                        
+                        Text {
+                            Layout.fillWidth: true
+                            text: qsTr("Choose columns that represent the same information in both datasets.")
+                            font.pointSize: 11
+                            color: Material.foreground
+                            opacity: 0.6
+                            wrapMode: Text.WordWrap
                         }
                     }
                     
-                    // Mapping area
+                    // Mapping area - fixed height for stable layout
                     RowLayout {
                         Layout.fillWidth: true
-                        Layout.fillHeight: true
+                        Layout.preferredHeight: 100
                         spacing: 16
                         
                         // Primary base column
@@ -316,8 +297,6 @@ Page {
                                     Layout.fillWidth: true
                                     model: mergePage.stateManager ? mergePage.stateManager.getMappablePrimaryColumns() : []
                                 }
-                                
-                                Item { Layout.fillHeight: true }
                             }
                         }
                         
@@ -325,7 +304,7 @@ Page {
                         ColumnLayout {
                             Layout.preferredWidth: 140
                             Layout.alignment: Qt.AlignVCenter
-                            spacing: 12
+                            spacing: 8
                             
                             Button {
                                 id: mapButton
@@ -347,17 +326,23 @@ Page {
                                 }
                             }
                             
-                            // Incompatible types warning
-                            Text {
-                                visible: mergePage.mappingWarning !== ""
+                            // Incompatible types warning - always reserve space
+                            Item {
                                 Layout.alignment: Qt.AlignHCenter
                                 Layout.preferredWidth: 130
-                                text: "⚠ " + mergePage.mappingWarning
-                                font.pointSize: 10
-                                font.weight: Font.Medium
-                                color: Material.color(Material.DeepOrange)
-                                horizontalAlignment: Text.AlignHCenter
-                                wrapMode: Text.WordWrap
+                                Layout.preferredHeight: warningText.visible ? warningText.implicitHeight : 0
+                                
+                                Text {
+                                    id: warningText
+                                    visible: mergePage.mappingWarning !== ""
+                                    anchors.fill: parent
+                                    text: "⚠ " + mergePage.mappingWarning
+                                    font.pointSize: 10
+                                    font.weight: Font.Medium
+                                    color: Material.color(Material.DeepOrange)
+                                    horizontalAlignment: Text.AlignHCenter
+                                    wrapMode: Text.WordWrap
+                                }
                             }
                         }
                         
@@ -378,7 +363,7 @@ Page {
                                     text: qsTr("Dataset 2 column")
                                     font.pointSize: 12
                                     font.weight: Font.Medium
-                                    color: Material.foreground
+                                    color: Material.accent
                                 }
                                 
                                 ComboBox {
@@ -386,17 +371,15 @@ Page {
                                     Layout.fillWidth: true
                                     model: mergePage.stateManager ? mergePage.stateManager.getMappableSecondaryColumns() : []
                                 }
-                                
-                                Item { Layout.fillHeight: true }
                             }
                         }
                     }
                     
-                    // Mappings list
+                    // Defined mappings - fills remaining space
                     Rectangle {
                         Layout.fillWidth: true
-                        Layout.minimumHeight: 120
                         Layout.fillHeight: true
+                        Layout.minimumHeight: 140
                         color: Qt.darker(Material.backgroundColor, 1.1)
                         border.color: Material.frameColor
                         radius: 8
@@ -437,95 +420,101 @@ Page {
                                 }
                             }
                             
-                            // Empty state message
-                            Text {
-                                visible: !mappingsRepeater.model || mappingsRepeater.model.length === 0
-                                text: qsTr("No mappings defined. Without mappings, only 'All data from both' will be available.")
-                                font.pointSize: 11
-                                color: Material.foreground
-                                opacity: 0.6
-                                Layout.fillWidth: true
-                                wrapMode: Text.WordWrap
-                            }
-                            
-                            // Mapping chips with scroll
-                            Flickable {
-                                visible: mappingsRepeater.count > 0
+                            // Content area - always fills remaining height
+                            Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
-                                contentWidth: width
-                                contentHeight: mappingFlow.implicitHeight
-                                clip: true
-                                flickableDirection: Flickable.VerticalFlick
-                                boundsBehavior: Flickable.StopAtBounds
+                                
+                                // Empty state message - centered
+                                Text {
+                                    anchors.centerIn: parent
+                                    visible: !mappingsRepeater.model || mappingsRepeater.model.length === 0
+                                    text: qsTr("No mappings defined.\nWithout mappings, only 'All data from both' will be available.")
+                                    font.pointSize: 11
+                                    color: Material.foreground
+                                    opacity: 0.5
+                                    horizontalAlignment: Text.AlignHCenter
+                                    wrapMode: Text.WordWrap
+                                }
+                                
+                                // Mapping chips with scroll
+                                Flickable {
+                                    anchors.fill: parent
+                                    visible: mappingsRepeater.count > 0
+                                    contentWidth: width
+                                    contentHeight: mappingFlow.implicitHeight
+                                    clip: true
+                                    flickableDirection: Flickable.VerticalFlick
+                                    boundsBehavior: Flickable.StopAtBounds
 
-                                Flow {
-                                    id: mappingFlow
-                                    width: parent.width
-                                    spacing: 8
-                                    
-                                    Repeater {
-                                        id: mappingsRepeater
-                                        model: mergePage.stateManager ? mergePage.stateManager.getColumnMappings() : []
+                                    Flow {
+                                        id: mappingFlow
+                                        width: parent.width
+                                        spacing: 8
                                         
-                                        delegate: Rectangle {
-                                            required property var modelData
-                                            required property int index
+                                        Repeater {
+                                            id: mappingsRepeater
+                                            model: mergePage.stateManager ? mergePage.stateManager.getColumnMappings() : []
                                             
-                                            width: mappingRow.implicitWidth + 24
-                                            height: 36
-                                            color: Qt.rgba(Material.accent.r, Material.accent.g, Material.accent.b, 0.15)
-                                            border.color: Material.accent
-                                            border.width: 1
-                                            radius: 18
-                                            
-                                            RowLayout {
-                                                id: mappingRow
-                                                anchors.centerIn: parent
-                                                spacing: 6
+                                            delegate: Rectangle {
+                                                required property var modelData
+                                                required property int index
                                                 
-                                                Text {
-                                                    text: modelData.primary
-                                                    font.pointSize: 11
-                                                    font.weight: Font.Medium
-                                                    color: Material.accent
-                                                }
+                                                width: mappingRow.implicitWidth + 24
+                                                height: 36
+                                                color: Qt.rgba(Material.accent.r, Material.accent.g, Material.accent.b, 0.15)
+                                                border.color: Material.accent
+                                                border.width: 1
+                                                radius: 18
                                                 
-                                                Text {
-                                                    text: "="
-                                                    font.pointSize: 12
-                                                    font.weight: Font.Bold
-                                                    color: Material.foreground
-                                                    opacity: 0.7
-                                                }
-                                                
-                                                Text {
-                                                    text: modelData.secondary
-                                                    font.pointSize: 11
-                                                    font.weight: Font.Medium
-                                                    color: Material.foreground
-                                                }
-                                                
-                                                Rectangle {
-                                                    width: 18
-                                                    height: 18
-                                                    radius: 9
-                                                    color: "transparent"
+                                                RowLayout {
+                                                    id: mappingRow
+                                                    anchors.centerIn: parent
+                                                    spacing: 6
                                                     
                                                     Text {
-                                                        anchors.centerIn: parent
-                                                        text: "✕"
-                                                        font.pointSize: 10
-                                                        color: Material.foreground
-                                                        opacity: 0.6
+                                                        text: modelData.primary
+                                                        font.pointSize: 11
+                                                        font.weight: Font.Medium
+                                                        color: Material.accent
                                                     }
                                                     
-                                                    MouseArea {
-                                                        anchors.fill: parent
-                                                        cursorShape: Qt.PointingHandCursor
-                                                        onClicked: {
-                                                            if (mergePage.stateManager) {
-                                                                mergePage.stateManager.removeColumnMapping(modelData.secondary)
+                                                    Text {
+                                                        text: "="
+                                                        font.pointSize: 12
+                                                        font.weight: Font.Bold
+                                                        color: Material.foreground
+                                                        opacity: 0.7
+                                                    }
+                                                    
+                                                    Text {
+                                                        text: modelData.secondary
+                                                        font.pointSize: 11
+                                                        font.weight: Font.Medium
+                                                        color: Material.foreground
+                                                    }
+                                                    
+                                                    Rectangle {
+                                                        width: 18
+                                                        height: 18
+                                                        radius: 9
+                                                        color: "transparent"
+                                                        
+                                                        Text {
+                                                            anchors.centerIn: parent
+                                                            text: "✕"
+                                                            font.pointSize: 10
+                                                            color: Material.foreground
+                                                            opacity: 0.6
+                                                        }
+                                                        
+                                                        MouseArea {
+                                                            anchors.fill: parent
+                                                            cursorShape: Qt.PointingHandCursor
+                                                            onClicked: {
+                                                                if (mergePage.stateManager) {
+                                                                    mergePage.stateManager.removeColumnMapping(modelData.secondary)
+                                                                }
                                                             }
                                                         }
                                                     }

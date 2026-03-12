@@ -254,12 +254,12 @@ Deseja exportar o resultado?</translation>
         <translation>Dataset 2:</translation>
     </message>
     <message>
-        <source>Column mapping</source>
-        <translation>Correspondência de colunas</translation>
+        <source>Match columns</source>
+        <translation>Associar colunas</translation>
     </message>
     <message>
-        <source>Map columns representing the same data in both databases (e.g., &apos;client_id&apos; ↔ &apos;id&apos;).</source>
-        <translation>Mapeie colunas que representam os mesmos dados em ambas as bases (ex: &apos;cliente_id&apos; ↔ &apos;id&apos;).</translation>
+        <source>Choose columns that represent the same information in both datasets.</source>
+        <translation>Escolha colunas que representam a mesma informação nas duas bases.</translation>
     </message>
     <message>
         <source>Dataset 1 column</source>
@@ -357,8 +357,8 @@ Deseja exportar o resultado?</translation>
         <translation>Selecionando tipos</translation>
     </message>
     <message>
-        <source>We suggest a type for each attribute. You can change them, but only now.</source>
-        <translation>Sugerimos tipificação para cada atributo. Você pode alterá-los, mas só poderá ser feito agora.</translation>
+        <source>We suggest a type for each attribute. You can change them.</source>
+        <translation>Sugerimos tipificação para cada atributo. Você pode alterá-los.</translation>
     </message>
     <message>
         <source>Available types:</source>

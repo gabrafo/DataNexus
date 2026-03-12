@@ -1,0 +1,26 @@
+% Base de dados de alunos
+
+@relation alunos_desempenho
+
+@attribute nome string
+@attribute idade numeric
+@attribute curso {computacao,administracao,engenharia,design}
+@attribute usa_internet {sim,nao}
+@attribute resultado {aprovado,reprovado}
+
+@data
+"Ana Silva",19,computacao,sim,aprovado
+"Bruno Costa",22,administracao,sim,reprovado
+"Carla Souza",20,engenharia,sim,aprovado
+"Diego Lima",21,design,nao,reprovado
+"Eduarda Rocha",23,computacao,sim,aprovado
+"Felipe Martins",18,administracao,nao,reprovado
+"Gabriela Alves",24,engenharia,sim,aprovado
+"Henrique Barros",20,design,sim,aprovado
+"Isabela Freitas",22,computacao,nao,reprovado
+"Joao Ribeiro",19,engenharia,sim,aprovado
+"Karen Duarte",21,administracao,sim,reprovado
+"Lucas Mendes",23,computacao,sim,aprovado
+"Marina Teixeira",20,design,nao,reprovado
+"Nicolas Faria",18,engenharia,sim,aprovado
+"Olivia Pires",24,administracao,nao,reprovado

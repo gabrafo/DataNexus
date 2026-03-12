@@ -176,7 +176,7 @@ Page {
                 }
                 
                 Text {
-                    text: qsTr("We suggest a type for each attribute. You can change them, but only now.")
+                    text: qsTr("We suggest a type for each attribute. You can change them.")
                     font.pointSize: 10
                     color: Material.foreground
                     Layout.fillWidth: true
