@@ -5,6 +5,7 @@ import logging
 from typing import Dict, List, Any
 
 import pandas as pd
+from PySide6.QtCore import QCoreApplication
 
 from models.dataset_state import DatasetState
 
@@ -29,6 +30,10 @@ class MergeService:
         self._primary = primary
         self._secondary = secondary
         self._mapping = column_mapping
+
+    @staticmethod
+    def _tr(text: str) -> str:
+        return QCoreApplication.translate("MergeService", text)
 
     # --- Type helpers ---
 
@@ -92,10 +97,14 @@ class MergeService:
         pt = self.get_column_type(self._primary, primary_col)
         st = self.get_column_type(self._secondary, secondary_col)
         if not self.are_types_compatible(pt, st):
-            return (
-                f"Incompatible types: '{primary_col}' is {self.type_display_name(pt)}, "
-                f"but '{secondary_col}' is {self.type_display_name(st)}. "
-                f"Mapping not allowed."
+            return self._tr(
+                "Incompatible types: '{primary}' is {primary_type}, "
+                "but '{secondary}' is {secondary_type}. Mapping not allowed."
+            ).format(
+                primary=primary_col,
+                primary_type=self.type_display_name(pt),
+                secondary=secondary_col,
+                secondary_type=self.type_display_name(st),
             )
         return ""
 
@@ -104,13 +113,17 @@ class MergeService:
     def add_mapping(self, secondary_col: str, primary_col: str) -> tuple[bool, str]:
         """Add a column mapping. Returns (success, error_message)."""
         if not secondary_col or not primary_col:
-            return False, "Empty column name"
+            return False, self._tr("Empty column name")
         if self._primary.df is None or self._secondary.df is None:
-            return False, "Bases not loaded"
+            return False, self._tr("Databases not loaded")
         if secondary_col not in self._secondary.df.columns:
-            return False, f"Coluna '{secondary_col}' não existe na Base 2"
+            return False, self._tr("Column '{column}' does not exist in Dataset 2").format(
+                column=secondary_col
+            )
         if primary_col not in self._primary.df.columns:
-            return False, f"Coluna '{primary_col}' não existe na Base 1"
+            return False, self._tr("Column '{column}' does not exist in Dataset 1").format(
+                column=primary_col
+            )
         err = self.check_mapping_compatibility(secondary_col, primary_col)
         if err:
             return False, err
@@ -177,13 +190,23 @@ class MergeService:
     def check_compatibility(self, key_column: str, join_type: str) -> Dict[str, Any]:
         """Check merge compatibility without creating the full result."""
         if not self._primary.is_loaded() or not self._secondary.is_loaded():
-            return {'valid': False, 'error': 'Bases não carregadas'}
+            return {'valid': False, 'error': self._tr('Databases not loaded')}
 
         sec_key = self._resolve_secondary_key(key_column)
         if key_column not in self._primary.df.columns:
-            return {'valid': False, 'error': f'Coluna "{key_column}" não existe na Base 1'}
+            return {
+                'valid': False,
+                'error': self._tr('Column "{column}" does not exist in Dataset 1').format(
+                    column=key_column
+                ),
+            }
         if sec_key not in self._secondary.df.columns:
-            return {'valid': False, 'error': f'Coluna "{sec_key}" não existe na Base 2'}
+            return {
+                'valid': False,
+                'error': self._tr('Column "{column}" does not exist in Dataset 2').format(
+                    column=sec_key
+                ),
+            }
 
         try:
             pk = self._primary.df[key_column]
@@ -219,7 +242,7 @@ class MergeService:
     def preview(self, key_column: str, join_type: str) -> Dict[str, Any]:
         """Generate a merge preview using small data samples."""
         if not self._primary.is_loaded() or not self._secondary.is_loaded():
-            return {'error': 'Bases não carregadas'}
+            return {'error': self._tr('Databases not loaded')}
 
         is_cross = join_type in ('cross', 'CROSS JOIN') or not key_column
 
@@ -238,9 +261,17 @@ class MergeService:
             else:
                 sec_key = self._resolve_secondary_key(key_column)
                 if key_column not in self._primary.df.columns:
-                    return {'error': f'Coluna "{key_column}" não existe na Base 1'}
+                    return {
+                        'error': self._tr('Column "{column}" does not exist in Dataset 1').format(
+                            column=key_column
+                        )
+                    }
                 if sec_key not in self._secondary.df.columns:
-                    return {'error': f'Coluna "{sec_key}" não existe na Base 2'}
+                    return {
+                        'error': self._tr('Column "{column}" does not exist in Dataset 2').format(
+                            column=sec_key
+                        )
+                    }
 
                 how = _JOIN_MAP.get(join_type, 'inner')
                 if sec_key != key_column:
@@ -280,7 +311,7 @@ class MergeService:
             Tuple of (success, message_or_error).
         """
         if not self._primary.is_loaded() or not self._secondary.is_loaded():
-            return False, "Bases não carregadas para merge"
+            return False, self._tr("Databases not loaded for merge")
 
         try:
             is_cross = join_type in ('cross', 'CROSS JOIN') or not key_column
@@ -332,14 +363,13 @@ class MergeService:
             del old_pri, old_sec
             gc.collect()
 
-            return True, (
-                f"Junção concluída! {len(merged)} instâncias, "
-                f"{len(merged.columns)} atributos"
-            )
+            return True, self._tr(
+                "Merge completed! {rows} rows, {columns} columns"
+            ).format(rows=len(merged), columns=len(merged.columns))
         except Exception as e:
             gc.collect()
             logger.error("Merge failed: %s", e)
-            return False, f"Erro ao mesclar: {e}"
+            return False, self._tr("Error while merging: {error}").format(error=e)
 
     def _combine_arff_attributes(self, pri_key: str, sec_key: str) -> List[tuple]:
         """Combine ARFF attributes from both bases, resolving name conflicts."""

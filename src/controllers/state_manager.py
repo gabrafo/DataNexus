@@ -9,7 +9,7 @@ import logging
 from typing import Optional, List, Dict, Any
 
 import pandas as pd
-from PySide6.QtCore import QObject, Signal, Slot, Property
+from PySide6.QtCore import QObject, Signal, Slot, Property, QCoreApplication
 
 from models.dataset_state import DatasetState, infer_types_from_df, build_arff_attributes
 from services.merge_service import MergeService
@@ -43,6 +43,10 @@ class StateManager(QObject):
         self._merge = MergeService(
             self._primary, self._secondary, self._column_mapping,
         )
+
+    @staticmethod
+    def _tr(text: str) -> str:
+        return QCoreApplication.translate("StateManager", text)
 
     def _rebuild_merge_service(self) -> None:
         """Recreate MergeService after primary/secondary reassignment."""
@@ -359,7 +363,7 @@ class StateManager(QObject):
         """
         target = self._primary if which == "primary" else self._secondary
         if not target.is_loaded():
-            self.errorOccurred.emit("No data to save")
+            self.errorOccurred.emit(self._tr("No data to save"))
             return False
         ok, err = SerializationService.save(target, file_path)
         if not ok:
@@ -417,7 +421,7 @@ class StateManager(QObject):
             gc.collect()
         except Exception as e:
             logger.warning("Sync from controller failed: %s", e)
-            self.errorOccurred.emit(f"Sync error: {e}")
+            self.errorOccurred.emit(self._tr("Sync error: {error}").format(error=e))
 
     @Slot('QVariant', str, str)
     def syncPrimaryFromCSV(self, controller, source_file: str, file_type: str) -> None:

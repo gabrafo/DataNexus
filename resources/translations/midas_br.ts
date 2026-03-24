@@ -187,7 +187,7 @@
     </message>
     <message>
         <source>✅ Merge completed!</source>
-        <translation>✅ Junção concluída!</translation>
+        <translation>✅ Mesclagem concluída!</translation>
     </message>
     <message>
         <source>Export</source>
@@ -203,7 +203,7 @@
 %1 rows • %2 columns
 
 Do you want to export the result?</source>
-        <translation>As bases foram unidas com sucesso!
+    <translation>As bases de dados foram mescladas com sucesso!
 
 %1 linhas • %2 colunas
 
@@ -211,11 +211,11 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Export merged database</source>
-        <translation>Exportar base unida</translation>
+        <translation>Exportar base mesclada</translation>
     </message>
     <message>
         <source>Cancel merge?</source>
-        <translation>Cancelar junção?</translation>
+        <translation>Cancelar mesclagem?</translation>
     </message>
     <message>
         <source>Return to the main menu? Loaded databases will be kept.</source>
@@ -235,7 +235,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>CONFIGURE MERGE</source>
-        <translation>CONFIGURAR JUNÇÃO</translation>
+        <translation>CONFIGURAR MESCLAGEM</translation>
     </message>
     <message>
         <source>Map</source>
@@ -243,15 +243,15 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Merge</source>
-        <translation>Junção</translation>
+        <translation>Mesclar</translation>
     </message>
     <message>
         <source>Dataset 1:</source>
-        <translation>Dataset 1:</translation>
+        <translation>Base 1:</translation>
     </message>
     <message>
         <source>Dataset 2:</source>
-        <translation>Dataset 2:</translation>
+        <translation>Base 2:</translation>
     </message>
     <message>
         <source>Match columns</source>
@@ -263,7 +263,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Dataset 1 column</source>
-        <translation>Coluna do Dataset 1</translation>
+        <translation>Coluna da Base 1</translation>
     </message>
     <message>
         <source>↔ Map</source>
@@ -271,15 +271,17 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Dataset 2 column</source>
-        <translation>Coluna do Dataset 2</translation>
+        <translation>Coluna da Base 2</translation>
     </message>
     <message>
         <source>Defined mappings</source>
         <translation>Mapeamentos definidos</translation>
     </message>
     <message>
-        <source>No mappings defined. Without mappings, only &apos;All data from both&apos; will be available.</source>
-        <translation>Nenhum mapeamento definido. Sem mapeamentos, apenas &apos;Todos os dados de ambas&apos; estará disponível.</translation>
+        <source>No mappings defined.
+Without mappings, only &apos;All data from both&apos; will be available.</source>
+        <translation>Nenhum mapeamento definido.
+Sem mapeamentos, apenas &apos;Todos os dados de ambas as bases&apos; ficará disponível.</translation>
     </message>
     <message>
         <source>Next ▶</source>
@@ -287,7 +289,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Merge configuration</source>
-        <translation>Configuração da junção</translation>
+        <translation>Configuração da mesclagem</translation>
     </message>
     <message>
         <source>How to combine:</source>
@@ -299,39 +301,39 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>All rows from Dataset 1 + matches from Dataset 2</source>
-        <translation>Todas as linhas do Dataset 1 + correspondências do Dataset 2</translation>
+        <translation>Todas as linhas da Base 1 + correspondências da Base 2</translation>
     </message>
     <message>
         <source>All rows from Dataset 2 + matches from Dataset 1</source>
-        <translation>Todas as linhas do Dataset 2 + correspondências do Dataset 1</translation>
+        <translation>Todas as linhas da Base 2 + correspondências da Base 1</translation>
     </message>
     <message>
         <source>All data from both</source>
-        <translation>Todos os dados de ambas</translation>
+        <translation>Todos os dados de ambas as bases</translation>
     </message>
     <message>
         <source>Join column:</source>
-        <translation>Coluna de conexão:</translation>
+        <translation>Coluna de junção:</translation>
     </message>
     <message>
         <source>💡 Keeps only rows where the join column value exists in BOTH databases.</source>
-        <translation>💡 Mantém apenas linhas onde o valor da coluna de conexão existe em AMBAS as bases.</translation>
+        <translation>💡 Mantém apenas as linhas em que o valor da coluna de junção existe em AMBAS as bases.</translation>
     </message>
     <message>
         <source>💡 Keeps all rows from Dataset 1. If a row has no match in Dataset 2, those fields are left empty.</source>
-        <translation>💡 Mantém todas as linhas do Dataset 1. Se uma linha não tiver correspondência no Dataset 2, os campos ficam vazios.</translation>
+        <translation>💡 Mantém todas as linhas da Base 1. Se uma linha não tiver correspondência na Base 2, esses campos ficam vazios.</translation>
     </message>
     <message>
         <source>💡 Keeps all rows from Dataset 2. If a row has no match in Dataset 1, those fields are left empty.</source>
-        <translation>💡 Mantém todas as linhas do Dataset 2. Se uma linha não tiver correspondência no Dataset 1, os campos ficam vazios.</translation>
+        <translation>💡 Mantém todas as linhas da Base 2. Se uma linha não tiver correspondência na Base 1, esses campos ficam vazios.</translation>
     </message>
     <message>
         <source>💡 Combines ALL rows from both (no join column needed).</source>
-        <translation>💡 Combina TODAS as linhas de ambas (não precisa de coluna de conexão).</translation>
+        <translation>💡 Combina TODAS as linhas de ambas as bases (sem necessidade de coluna de junção).</translation>
     </message>
     <message>
         <source>Result preview</source>
-        <translation>Preview do resultado</translation>
+        <translation>Prévia do resultado</translation>
     </message>
     <message>
         <source>🔄 Refresh</source>
@@ -343,7 +345,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Showing %1 of ~%2 rows (estimated)</source>
-        <translation>Mostrando %1 de ~%2 linhas (estimado)</translation>
+        <translation>Exibindo %1 de ~%2 linhas (estimativa)</translation>
     </message>
     <message>
         <source>🔗 Execute</source>
@@ -524,6 +526,60 @@ Deseja exportar a base para um arquivo no disco também?</translation>
     <message>
         <source>Save database</source>
         <translation>Salvar base de dados</translation>
+    </message>
+</context>
+<context>
+    <name>MergeService</name>
+    <message>
+        <source>Incompatible types: &apos;{primary}&apos; is {primary_type}, but &apos;{secondary}&apos; is {secondary_type}. Mapping not allowed.</source>
+        <translation>Tipos incompatíveis: &apos;{primary}&apos; é {primary_type}, mas &apos;{secondary}&apos; é {secondary_type}. O mapeamento não é permitido.</translation>
+    </message>
+    <message>
+        <source>Empty column name</source>
+        <translation>Nome de coluna vazio</translation>
+    </message>
+    <message>
+        <source>Databases not loaded</source>
+        <translation>Bases de dados não carregadas</translation>
+    </message>
+    <message>
+        <source>Column &apos;{column}&apos; does not exist in Dataset 2</source>
+        <translation>A coluna &apos;{column}&apos; não existe na Base 2</translation>
+    </message>
+    <message>
+        <source>Column &apos;{column}&apos; does not exist in Dataset 1</source>
+        <translation>A coluna &apos;{column}&apos; não existe na Base 1</translation>
+    </message>
+    <message>
+        <source>Column &quot;{column}&quot; does not exist in Dataset 1</source>
+        <translation>A coluna &quot;{column}&quot; não existe na Base 1</translation>
+    </message>
+    <message>
+        <source>Column &quot;{column}&quot; does not exist in Dataset 2</source>
+        <translation>A coluna &quot;{column}&quot; não existe na Base 2</translation>
+    </message>
+    <message>
+        <source>Databases not loaded for merge</source>
+        <translation>Bases de dados não carregadas para mesclagem</translation>
+    </message>
+    <message>
+        <source>Merge completed! {rows} rows, {columns} columns</source>
+        <translation>Mesclagem concluída! {rows} linhas, {columns} colunas</translation>
+    </message>
+    <message>
+        <source>Error while merging: {error}</source>
+        <translation>Erro ao mesclar: {error}</translation>
+    </message>
+</context>
+<context>
+    <name>StateManager</name>
+    <message>
+        <source>No data to save</source>
+        <translation>Não há dados para salvar</translation>
+    </message>
+    <message>
+        <source>Sync error: {error}</source>
+        <translation>Erro de sincronização: {error}</translation>
     </message>
 </context>
 </TS>
