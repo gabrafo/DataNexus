@@ -410,6 +410,14 @@ Page {
                         Layout.preferredWidth: 140
                         Layout.preferredHeight: 40
                         onClicked: {
+                            // Persist manual type edits from controller to global state.
+                            if (typePage.stateManager && typePage.activeController) {
+                                typePage.stateManager.syncTypesFromController(
+                                    typePage.activeController,
+                                    typePage.isSecondaryBase ? "secondary" : "primary"
+                                )
+                            }
+
                             // Mark as preprocessed in memory
                             if (typePage.stateManager) {
                                 if (typePage.isSecondaryBase) {

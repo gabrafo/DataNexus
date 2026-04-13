@@ -533,16 +533,69 @@ class StateManager(QObject):
         """Return the secondary DataFrame."""
         return self._secondary.df
 
+    @Slot('QVariant', str)
+    def syncTypesFromController(self, controller, which: str = "") -> None:
+        """Sync user-selected types from a controller into a dataset state.
+
+        Args:
+            controller: CSVController or ARFFController instance.
+            which: 'primary' or 'secondary'. If empty, uses loadingTarget.
+        """
+        if controller is None:
+            return
+
+        raw_types = None
+        if hasattr(controller, '_suggested_types') and isinstance(getattr(controller, '_suggested_types'), dict):
+            raw_types = getattr(controller, '_suggested_types')
+        elif hasattr(controller, '_selected_types') and isinstance(getattr(controller, '_selected_types'), dict):
+            raw_types = getattr(controller, '_selected_types')
+
+        if not raw_types:
+            return
+
+        target = None
+        if which == 'primary':
+            target = self._primary
+        elif which == 'secondary':
+            target = self._secondary
+        else:
+            target = self._secondary if self._loading_target == 'secondary' else self._primary
+
+        if target.df is None:
+            return
+
+        valid_columns = {str(c) for c in target.df.columns}
+        selected: Dict[str, str] = {}
+        for col, typ in raw_types.items():
+            col_name = str(col)
+            if col_name in valid_columns and isinstance(typ, str) and typ:
+                selected[col_name] = typ
+
+        if not selected:
+            return
+
+        # CSV controller stores only manual overrides; keep existing inferred types.
+        target.selected_types.update(selected)
+        target.arff_attributes = build_arff_attributes(target)
+
+        if target is self._secondary:
+            self.secondaryBaseChanged.emit()
+        else:
+            self.primaryBaseChanged.emit()
+        self.canMergeChanged.emit()
+
     def update_primary_types(self, selected_types: Dict[str, str]) -> None:
         """Update selected types for the primary dataset."""
-        self._primary.selected_types = selected_types
+        self._primary.selected_types = selected_types.copy()
+        self._primary.arff_attributes = build_arff_attributes(self._primary)
         self._primary.is_preprocessed = True
         self.primaryBaseChanged.emit()
         self.canMergeChanged.emit()
 
     def update_secondary_types(self, selected_types: Dict[str, str]) -> None:
         """Update selected types for the secondary dataset."""
-        self._secondary.selected_types = selected_types
+        self._secondary.selected_types = selected_types.copy()
+        self._secondary.arff_attributes = build_arff_attributes(self._secondary)
         self._secondary.is_preprocessed = True
         self.secondaryBaseChanged.emit()
         self.canMergeChanged.emit()
