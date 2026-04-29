@@ -250,8 +250,19 @@ class MergeService:
 
         try:
             n = 10 if is_cross else 100
-            ps = self._primary.df.head(n).copy()
-            ss = self._secondary.df.head(n).copy()
+            # Use random sampling for better chance of matching keys in the preview
+            if is_cross:
+                ps = self._primary.df.head(n).copy()
+                ss = self._secondary.df.head(n).copy()
+            else:
+                try:
+                    ps = self._primary.df.sample(n=min(n, len(self._primary.df)), random_state=42).copy()
+                except Exception:
+                    ps = self._primary.df.head(n).copy()
+                try:
+                    ss = self._secondary.df.sample(n=min(n, len(self._secondary.df)), random_state=24).copy()
+                except Exception:
+                    ss = self._secondary.df.head(n).copy()
 
             if is_cross:
                 ps['_mk'] = 1
@@ -289,6 +300,34 @@ class MergeService:
                 ["" if pd.isna(v) else str(v) for v in row]
                 for row in prev.values.tolist()
             ]
+
+            # If the sampled merge produced no preview rows, try a fallback:
+            # look for common key values between primary and secondary (within a limited sample)
+            # and build a small preview using those matching keys so the UI can show examples.
+            if len(prev) == 0 and not is_cross:
+                try:
+                    # Determine key columns
+                    pk_series = self._primary.df[key_column].dropna() if key_column in self._primary.df.columns else pd.Series([])
+                    sk_series = self._secondary.df[sec_key].dropna() if sec_key in self._secondary.df.columns else pd.Series([])
+
+                    # Limit unique values to avoid scanning huge datasets
+                    pk_vals = list(pd.Series(pk_series.unique())[:1000])
+                    sk_vals = list(pd.Series(sk_series.unique())[:1000])
+                    common = set(pk_vals) & set(sk_vals)
+                    if common:
+                        sample_keys = list(common)[:10]
+                        # filter original frames for these keys
+                        ps_sub = self._primary.df[self._primary.df[key_column].isin(sample_keys)].copy()
+                        ss_sub = self._secondary.df[self._secondary.df[sec_key].isin(sample_keys)].copy()
+                        if sec_key != key_column:
+                            ss_sub = ss_sub.rename(columns={sec_key: key_column})
+                        merged_sub = pd.merge(ps_sub, ss_sub, on=key_column, how='inner', suffixes=('_base1', '_base2'))
+                        prev = merged_sub.head(10)
+                        cols = list(prev.columns)
+                        data = [["" if pd.isna(v) else str(v) for v in row] for row in prev.values.tolist()]
+                except Exception:
+                    # best-effort fallback: ignore and return empty preview
+                    pass
 
             compat = self.check_compatibility(key_column, join_type)
             total_est = compat.get('estimatedRows', len(merged))

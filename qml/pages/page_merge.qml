@@ -373,6 +373,10 @@ Page {
                                                 primaryColumnCombo.currentText
                                             )
 
+                                            console.log("QML: addColumnMapping returned", ok)
+                                            if (typeof mergePage.stateManager.getColumnMappings === "function")
+                                                console.log("QML: mappings now", JSON.stringify(mergePage.stateManager.getColumnMappings()))
+
                                             if (!ok) {
                                                 // errorOccurred will show the message from backend
                                                 return
@@ -700,6 +704,7 @@ Page {
                                             keyColumn,
                                             joinTypes[jt]
                                         )
+                                        console.log("QML: previewData:", JSON.stringify(mergePage.previewData))
                                     }
                                 }
                             }
