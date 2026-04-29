@@ -192,7 +192,7 @@ class StateManager(QObject):
 
     @Slot(str, str, result=bool)
     def addColumnMapping(self, secondary_col: str, primary_col: str) -> bool:
-        """Add a column mapping after type-compatibility check."""
+        """Set the single column mapping after type check (replaces any previous pair)."""
         ok, err = self._merge.add_mapping(secondary_col, primary_col)
         if not ok:
             self.errorOccurred.emit(err)
@@ -217,9 +217,9 @@ class StateManager(QObject):
         """Return current column mappings."""
         return self._merge.get_mappings()
 
-    @Slot(result=bool)
+    @Property(bool, notify=columnMappingChanged)
     def hasMappings(self) -> bool:
-        """Return True if any column mappings exist."""
+        """Return True if any column mappings exist (QML bindings refresh on change)."""
         return self._merge.has_mappings()
 
     @Slot(result=list)

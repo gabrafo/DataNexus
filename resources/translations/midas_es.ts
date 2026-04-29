@@ -254,6 +254,22 @@ Do you want to export the result?</source>
         <translation>Base 2:</translation>
     </message>
     <message>
+        <source>How to join the bases</source>
+        <translation>Cómo unir las bases</translation>
+    </message>
+    <message>
+        <source>All row combinations (no shared column)</source>
+        <translation>Todas las combinaciones de filas (sin columna común)</translation>
+    </message>
+    <message>
+        <source>Same key in both bases (one column pair)</source>
+        <translation>Misma clave en ambas bases (un par de columnas)</translation>
+    </message>
+    <message>
+        <source>Pick one column in each base. Types must be compatible.</source>
+        <translation>Elija una columna en cada base. Los tipos deben ser compatibles.</translation>
+    </message>
+    <message>
         <source>Match columns</source>
         <translation>Asociar columnas</translation>
     </message>
@@ -268,6 +284,18 @@ Do you want to export the result?</source>
     <message>
         <source>↔ Map</source>
         <translation>↔ Mapear</translation>
+    </message>
+    <message>
+        <source>Apply</source>
+        <translation>Aplicar</translation>
+    </message>
+    <message>
+        <source>Join key: %1 ↔ %2</source>
+        <translation>Clave de unión: %1 ↔ %2</translation>
+    </message>
+    <message>
+        <source>Remove pair</source>
+        <translation>Quitar par</translation>
     </message>
     <message>
         <source>Dataset 2 column</source>
@@ -298,6 +326,22 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
     <message>
         <source>Only matching rows (both must match)</source>
         <translation>Solo filas coincidentes (ambas deben coincidir)</translation>
+    </message>
+    <message>
+        <source>Inner — matching rows only</source>
+        <translation>Interna — solo filas que coinciden</translation>
+    </message>
+    <message>
+        <source>Left — keep all from dataset 1</source>
+        <translation>Izquierda — conservar todo de la base 1</translation>
+    </message>
+    <message>
+        <source>Right — keep all from dataset 2</source>
+        <translation>Derecha — conservar todo de la base 2</translation>
+    </message>
+    <message>
+        <source>Cross — all combinations</source>
+        <translation>Cruzada — todas las combinaciones</translation>
     </message>
     <message>
         <source>All rows from Dataset 1 + matches from Dataset 2</source>
@@ -348,8 +392,40 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
         <translation>Mostrando %1 de ~%2 filas (estimación)</translation>
     </message>
     <message>
-        <source>🔗 Execute</source>
-        <translation>🔗 Ejecutar</translation>
+        <source>Execute</source>
+        <translation>Ejecutar</translation>
+    </message>
+    <message>
+        <source>Join key (column pair)</source>
+        <translation>Clave de unión (par de columnas)</translation>
+    </message>
+    <message>
+        <source>Required for inner, left, or right join. Not needed for a Cartesian product.</source>
+        <translation>Necesaria para unión interna, izquierda o derecha. No hace falta para producto cartesiano.</translation>
+    </message>
+    <message>
+        <source>Join type</source>
+        <translation>Tipo de unión</translation>
+    </message>
+    <message>
+        <source>Define a column pair above to enable inner, left, or right join.</source>
+        <translation>Defina un par de columnas arriba para habilitar la unión interna, izquierda o derecha.</translation>
+    </message>
+    <message>
+        <source>Inner join</source>
+        <translation>Unión interna</translation>
+    </message>
+    <message>
+        <source>Left join</source>
+        <translation>Unión izquierda</translation>
+    </message>
+    <message>
+        <source>Right join</source>
+        <translation>Unión derecha</translation>
+    </message>
+    <message>
+        <source>Cartesian product</source>
+        <translation>Producto cartesiano</translation>
     </message>
 </context>
 <context>

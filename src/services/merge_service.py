@@ -111,7 +111,7 @@ class MergeService:
     # --- Mapping management ---
 
     def add_mapping(self, secondary_col: str, primary_col: str) -> tuple[bool, str]:
-        """Add a column mapping. Returns (success, error_message)."""
+        """Set the only column mapping (clears any previous). Returns (success, error_message)."""
         if not secondary_col or not primary_col:
             return False, self._tr("Empty column name")
         if self._primary.df is None or self._secondary.df is None:
@@ -127,6 +127,8 @@ class MergeService:
         err = self.check_mapping_compatibility(secondary_col, primary_col)
         if err:
             return False, err
+        # At most one active mapping: replace any previous pair.
+        self._mapping.clear()
         self._mapping[secondary_col] = primary_col
         return True, ""
 
