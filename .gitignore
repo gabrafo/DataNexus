@@ -30,3 +30,7 @@ qmlcache/
 
 # Compiled translations (regenerated from .ts)
 resources/translations/*.qm
+
+# Ignore dataset files
+resources/data/*.csv
+resources/data/*.arff
