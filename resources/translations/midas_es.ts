@@ -53,11 +53,11 @@
     </message>
     <message>
         <source>✓ Dataset 1</source>
-        <translation>✓ Dataset 1</translation>
+        <translation>✓ Base de Datos 1</translation>
     </message>
     <message>
         <source>📁 Dataset 1</source>
-        <translation>📁 Dataset 1</translation>
+        <translation>📁 Base de Datos 1</translation>
     </message>
     <message>
         <source>%1 rows • %2 columns</source>
@@ -81,11 +81,11 @@
     </message>
     <message>
         <source>✓ Dataset 2</source>
-        <translation>✓ Dataset 2</translation>
+        <translation>✓ Base de Datos 2</translation>
     </message>
     <message>
         <source>📂 Dataset 2</source>
-        <translation>📂 Dataset 2</translation>
+        <translation>📂 Base de Datos 2</translation>
     </message>
     <message>
         <source>✕ Remove</source>
@@ -101,7 +101,7 @@
     </message>
     <message>
         <source>Load Dataset 1 first</source>
-        <translation>Cargue el Dataset 1 primero</translation>
+        <translation>Cargue la Base de Datos 1 primero</translation>
     </message>
     <message>
         <source>Select one or two databases above</source>
