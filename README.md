@@ -1,7 +1,5 @@
 # MIDAS
 
-> **Academic project** developed as part of a PIVIC (Voluntary Scientific Initiation Program) at the **Universidade Federal de Lavras (UFLA)**, Brazil.
-
 Desktop application for loading, visualizing, preprocessing, and merging datasets in CSV and ARFF formats. Built with Python, PySide6, and QML.
 
 ## Features
