@@ -854,6 +854,21 @@ Page {
 
                         onClicked: {
                             if (mergePage.stateManager) {
+                                // Ensure any manual type edits in the controllers are persisted
+                                // into the DatasetState before executing the merge.
+                                var priFmt = mergePage.stateManager.primaryFormat
+                                if (priFmt === "csv" && mergePage.csvController) {
+                                    mergePage.stateManager.syncTypesFromController(mergePage.csvController, "primary")
+                                } else if (priFmt === "arff" && mergePage.arffController) {
+                                    mergePage.stateManager.syncTypesFromController(mergePage.arffController, "primary")
+                                }
+                                var secFmt = mergePage.stateManager.secondaryFormat
+                                if (secFmt === "csv" && mergePage.csvController) {
+                                    mergePage.stateManager.syncTypesFromController(mergePage.csvController, "secondary")
+                                } else if (secFmt === "arff" && mergePage.arffController) {
+                                    mergePage.stateManager.syncTypesFromController(mergePage.arffController, "secondary")
+                                }
+
                                 var joinTypes = ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "CROSS JOIN"]
                                 var jt = mergePage.resolvedJoinType
                                 var keyColumn = jt === 3 ? "" : mergePage.mergeKeyPrimary()

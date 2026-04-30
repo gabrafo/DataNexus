@@ -544,11 +544,13 @@ class StateManager(QObject):
         if controller is None:
             return
 
+        # Prefer explicit manual overrides (`_selected_types`) when present;
+        # fall back to `_suggested_types` (used by ARFFController).
         raw_types = None
-        if hasattr(controller, '_suggested_types') and isinstance(getattr(controller, '_suggested_types'), dict):
-            raw_types = getattr(controller, '_suggested_types')
-        elif hasattr(controller, '_selected_types') and isinstance(getattr(controller, '_selected_types'), dict):
+        if hasattr(controller, '_selected_types') and isinstance(getattr(controller, '_selected_types'), dict) and getattr(controller, '_selected_types'):
             raw_types = getattr(controller, '_selected_types')
+        elif hasattr(controller, '_suggested_types') and isinstance(getattr(controller, '_suggested_types'), dict) and getattr(controller, '_suggested_types'):
+            raw_types = getattr(controller, '_suggested_types')
 
         if not raw_types:
             return
@@ -574,8 +576,29 @@ class StateManager(QObject):
         if not selected:
             return
 
-        # CSV controller stores only manual overrides; keep existing inferred types.
-        target.selected_types.update(selected)
+        logger.warning("SyncTypesFromController: which=%s selected=%s", which, list(selected.keys()))
+
+        # Normalize incoming type labels to canonical ones used across the app.
+        def normalize_label(t: str) -> str:
+            if not t:
+                return None
+            s = str(t).strip().lower()
+            if 'num' in s:
+                return 'Numeric'
+            if 'nom' in s:
+                return 'Nominal'
+            if 'date' in s:
+                return 'Date'
+            return 'String'
+
+        normalized: Dict[str, str] = {}
+        for col, typ in selected.items():
+            lab = normalize_label(typ) if isinstance(typ, str) else None
+            if lab:
+                normalized[str(col)] = lab
+
+        # Merge manual selections into the target's selected_types.
+        target.selected_types.update(normalized)
         target.arff_attributes = build_arff_attributes(target)
 
         if target is self._secondary:

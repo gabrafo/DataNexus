@@ -73,7 +73,7 @@ def infer_types_from_df(df: pd.DataFrame) -> tuple[Dict[str, str], List[tuple]]:
             total = len(df[col])
             if nunique <= 10 and total > 0 and nunique / total < 0.1:
                 inferred[col] = 'Nominal'
-                vals = list(df[col].dropna().astype(str).unique())[:50]
+                vals = list(df[col].dropna().astype(str).unique())
                 attrs.append((col, vals if vals else ['_']))
             else:
                 inferred[col] = 'String'
@@ -98,7 +98,7 @@ def build_arff_attributes(state: DatasetState) -> List[tuple]:
         elif sel == 'Date':
             attrs.append((col, 'DATE'))
         elif sel == 'Nominal':
-            uniques = list(state.df[col].dropna().astype(str).unique())[:50]
+            uniques = list(state.df[col].dropna().astype(str).unique())
             attrs.append((col, uniques if uniques else ['_']))
         elif sel:
             attrs.append((col, 'STRING'))

@@ -7,7 +7,7 @@ from typing import Dict, List, Any
 import pandas as pd
 from PySide6.QtCore import QCoreApplication
 
-from models.dataset_state import DatasetState
+from models.dataset_state import DatasetState, build_arff_attributes
 
 logger = logging.getLogger(__name__)
 
@@ -73,6 +73,20 @@ class MergeService:
             return 'STRING'
 
         return 'UNKNOWN'
+
+    @staticmethod
+    def _normalize_label(t: str) -> str:
+        """Normalize various type label variants to canonical app labels."""
+        if not t:
+            return None
+        s = str(t).strip().lower()
+        if 'num' in s:
+            return 'Numeric'
+        if 'nom' in s:
+            return 'Nominal'
+        if 'date' in s:
+            return 'Date'
+        return 'String'
 
     @staticmethod
     def are_types_compatible(t1: str, t2: str) -> bool:
@@ -379,12 +393,66 @@ class MergeService:
                 )
                 attrs = self._combine_arff_attributes(key_column, sec_key)
 
-            combined_types = {**self._primary.selected_types}
-            for col, typ in self._secondary.selected_types.items():
-                actual = col if is_cross else (
-                    key_column if col == self._resolve_secondary_key(key_column) else col
-                )
-                combined_types.setdefault(actual, typ)
+            # Build a combined `selected_types` dict whose keys match the
+            # actual column names present in `merged`. This ensures that
+            # `build_arff_attributes()` (which looks up types by column
+            # name) will find the user-selected types after the merge.
+            logger.debug("MergeService.execute: primary.selected_types=%s", list(self._primary.selected_types.keys()))
+            logger.debug("MergeService.execute: secondary.selected_types=%s", list(self._secondary.selected_types.keys()))
+
+            # Build combined_types by iterating the final ARFF attributes
+            # (`attrs`) which contain the canonical column names after
+            # conflict resolution. For each final attribute, prefer the
+            # user's explicit selection from the original source (primary
+            # wins), otherwise infer from the ARFF attribute definition.
+            primary_attr_names = [n for n, _ in self._primary.arff_attributes]
+            secondary_attr_names = [n for n, _ in self._secondary.arff_attributes]
+
+            combined_types: Dict[str, str] = {}
+
+            for name, atype in attrs:
+                sel = None
+
+                # Detect origin considering pandas' suffixing behaviour
+                if name in primary_attr_names:
+                    # Primary attribute preserved
+                    orig = name
+                    sel = self._primary.selected_types.get(orig)
+                elif name.endswith('_base1') and name[:-6] in primary_attr_names:
+                    orig = name[:-6]
+                    sel = self._primary.selected_types.get(orig)
+                elif name in secondary_attr_names:
+                    orig = name
+                    sel = self._secondary.selected_types.get(orig)
+                elif name.endswith('_base2') and name[:-6] in secondary_attr_names:
+                    orig = name[:-6]
+                    sel = self._secondary.selected_types.get(orig)
+                else:
+                    # Fallback: if this equals the join key, prefer primary then secondary
+                    try:
+                        if key_column and name == key_column:
+                            sel = self._primary.selected_types.get(name) or self._secondary.selected_types.get(self._resolve_secondary_key(key_column))
+                    except Exception:
+                        sel = None
+
+                # Normalize selected label if present
+                if isinstance(sel, str) and sel:
+                    lab = MergeService._normalize_label(sel)
+                    if lab:
+                        combined_types[name] = lab
+                        continue
+
+                # No explicit selection found — infer from ARFF attribute definition.
+                if isinstance(atype, str):
+                    u = atype.upper()
+                    if any(k in u for k in ('NUMERIC', 'REAL', 'INTEGER')):
+                        combined_types[name] = 'Numeric'
+                    elif 'DATE' in u:
+                        combined_types[name] = 'Date'
+                    else:
+                        combined_types[name] = 'String'
+                else:
+                    combined_types[name] = 'String'
 
             old_pri, old_sec = self._primary.df, self._secondary.df
 
@@ -396,6 +464,12 @@ class MergeService:
             self._primary.relation_name = "merged_dataset"
             self._primary.is_preprocessed = True
             self._primary.selected_types = combined_types
+            # Rebuild ARFF attributes to reflect any user overrides immediately
+            try:
+                self._primary.arff_attributes = build_arff_attributes(self._primary)
+            except Exception:
+                # Fall back to the combined attrs list if rebuilding fails
+                self._primary.arff_attributes = attrs
 
             self._secondary.df = None
             self._secondary.clear()
@@ -415,14 +489,28 @@ class MergeService:
     def _combine_arff_attributes(self, pri_key: str, sec_key: str) -> List[tuple]:
         """Combine ARFF attributes from both bases, resolving name conflicts."""
         combined: List[tuple] = []
-        seen: set[str] = set()
+        pri_names = [n for n, _ in self._primary.arff_attributes]
+        sec_names = [n for n, _ in self._secondary.arff_attributes]
+
+        # Primary attrs: if a name exists in secondary as well (and is
+        # not the join key), pandas will suffix both sides; reflect
+        # that by using '<name>_base1' for the primary entry.
         for name, atype in self._primary.arff_attributes:
-            combined.append((name, atype))
-            seen.add(name)
+            if name in sec_names and name not in (pri_key, sec_key):
+                out_name = f"{name}_base1"
+            else:
+                out_name = name
+            combined.append((out_name, atype))
+
+        # Secondary attrs: if a name was present in primary, use
+        # '<name>_base2' to mirror pandas' suffixing behaviour.
         for name, atype in self._secondary.arff_attributes:
             if name in (sec_key, pri_key):
                 continue
-            out_name = f"{name}_base2" if name in seen else name
+            if name in pri_names:
+                out_name = f"{name}_base2"
+            else:
+                out_name = name
             combined.append((out_name, atype))
-            seen.add(name)
+
         return combined
