@@ -48,13 +48,6 @@ IC/
 │       ├── page_merge.qml                   # Merge configuration & preview
 │       └── page_preprocess.qml              # Type selection & chart visualization
 │
-├── docs/                             # PlantUML diagrams
-│   ├── 01_activity_user_flow.puml
-│   ├── 02_activity_merge_flow.puml
-│   ├── 03_state_diagram.puml
-│   ├── 04_component_architecture.puml
-│   └── 05_sequence_merge.puml
-│
 └── resources/
     ├── data/                             # Sample datasets for testing
     └── translations/                     # i18n (Qt Linguist)
@@ -101,7 +94,7 @@ CSV files carry no type information — every value is plain text. When a CSV is
 
 1. **Numeric** — columns whose pandas dtype is numeric.
 2. **Nominal** — low-cardinality string columns (≤ 10 unique values, < 10 % of total rows).
-3. **Date** — columns with a datetime64 dtype.
+3. **Date** — columns already represented in memory with a `datetime64` dtype; in the current CSV loading flow, date-like text values usually remain textual until manually typified.
 4. **Textual** — everything else (free-form strings).
 
 The result is a `selected_types` dictionary and an `arff_attributes` list stored in `DatasetState` — the exact same structures used when loading a native ARFF file. From that point on, every downstream operation (column mapping, type-compatibility checks, merge execution, and serialization) works identically regardless of the original file format.

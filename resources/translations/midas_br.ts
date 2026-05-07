@@ -187,7 +187,7 @@
     </message>
     <message>
         <source>✅ Merge completed!</source>
-        <translation>✅ Mesclagem concluída!</translation>
+        <translation>✅ Junção concluída!</translation>
     </message>
     <message>
         <source>Export</source>
@@ -215,7 +215,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Cancel merge?</source>
-        <translation>Cancelar mesclagem?</translation>
+        <translation>Cancelar junção?</translation>
     </message>
     <message>
         <source>Return to the main menu? Loaded databases will be kept.</source>
@@ -235,7 +235,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>CONFIGURE MERGE</source>
-        <translation>CONFIGURAR MESCLAGEM</translation>
+        <translation>CONFIGURAR JUNÇÃO</translation>
     </message>
     <message>
         <source>Map</source>
@@ -317,7 +317,7 @@ Sem mapeamentos, apenas &apos;Todos os dados de ambas as bases&apos; ficará dis
     </message>
     <message>
         <source>Merge configuration</source>
-        <translation>Configuração da mesclagem</translation>
+        <translation>Configuração da junção</translation>
     </message>
     <message>
         <source>How to combine:</source>
@@ -636,11 +636,11 @@ Deseja exportar a base para um arquivo no disco também?</translation>
     </message>
     <message>
         <source>Databases not loaded for merge</source>
-        <translation>Bases de dados não carregadas para mesclagem</translation>
+        <translation>Bases de dados não carregadas para junção</translation>
     </message>
     <message>
         <source>Merge completed! {rows} rows, {columns} columns</source>
-        <translation>Mesclagem concluída! {rows} linhas, {columns} colunas</translation>
+        <translation>Junção concluída! {rows} linhas, {columns} colunas</translation>
     </message>
     <message>
         <source>Error while merging: {error}</source>
