@@ -1,0 +1,65 @@
+flowchart LR
+    %% Style definitions
+    classDef app fill:#eceff1,stroke:#455a64,stroke-width:2px,color:#000
+    classDef view fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000
+    classDef ctrl fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#000
+    classDef serv fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    classDef model fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000
+
+    APP["main.py"]:::app
+
+    subgraph View ["View (QML)"]
+        direction TB
+        V_MAIN["qml/main.qml"]:::view
+        V_PAGES["qml/pages/*"]:::view
+        V_COMPONENTS["qml/components/*"]:::view
+        
+        V_MAIN --> V_PAGES
+        V_MAIN --> V_COMPONENTS
+    end
+
+    subgraph Controller ["Controller (Python)"]
+        direction TB
+        C_NAV["navigation_controller.py"]:::ctrl
+        C_BASE["base_controller.py"]:::ctrl
+        C_STATE["state_manager.py"]:::ctrl
+        C_CSV["csv_controller.py"]:::ctrl
+        C_ARFF["arff_controller.py"]:::ctrl
+        
+        C_NAV --> C_BASE
+        C_BASE --> C_STATE
+        C_BASE --> C_CSV
+        C_BASE --> C_ARFF
+    end
+
+    subgraph Services ["Services (Python)"]
+        direction TB
+        S_MERGE["merge_service.py"]:::serv
+        S_SERIAL["serialization_service.py"]:::serv
+    end
+
+    subgraph Model ["Model (Python)"]
+        direction TB
+        M_DATASET["dataset_state.py"]:::model
+        M_TABLE["table_model.py"]:::model
+    end
+
+    %% Initial connections
+    APP --> V_MAIN
+    APP --> C_NAV
+
+    %% Conections View -> Controller
+    V_PAGES --> C_NAV
+    V_COMPONENTS --> C_NAV
+
+    %% Conections Controller -> Model
+    C_STATE --> M_DATASET
+    C_STATE --> M_TABLE
+    
+    C_CSV --> S_SERIAL
+    C_ARFF --> S_SERIAL
+    C_BASE --> S_MERGE
+
+    %% Conections Services -> Model
+    S_MERGE --> M_DATASET
+    S_SERIAL --> M_DATASET
