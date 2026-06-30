@@ -6,7 +6,7 @@ import QtQuick.Window 2.15
 import App 1.0
 
 /**
- * MIDAS - Main application window.
+ * DataNexus - Main application window.
  * Flow: page_hub -> (page_view | page_merge -> page_preprocess)
  */
 ApplicationWindow {
@@ -15,7 +15,7 @@ ApplicationWindow {
     height: 700
     visible: true
     visibility: Window.Maximized
-    title: "MIDAS"
+    title: "DataNexus"
     
     Material.theme: Material.Dark
     Material.primary: Material.BlueGrey

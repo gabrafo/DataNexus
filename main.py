@@ -1,4 +1,4 @@
-"""MIDAS — Desktop app for CSV/ARFF dataset manipulation and merging."""
+"""DataNexus — Desktop app for CSV/ARFF dataset manipulation and merging."""
 
 import sys
 import os
@@ -60,7 +60,7 @@ class LanguageManager(QObject):
         # English is the source language — no translator needed
         if code != "en":
             self._translator = QTranslator(self)
-            qm = os.path.join(self._ts_dir, f"midas_{code}.qm")
+            qm = os.path.join(self._ts_dir, f"datanexus_{code}.qm")
             if self._translator.load(qm):
                 app.installTranslator(self._translator)
 

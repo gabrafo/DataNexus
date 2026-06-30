@@ -1,4 +1,4 @@
-"""Centralized navigation controller for MIDAS."""
+"""Centralized navigation controller for DataNexus."""
 
 from enum import Enum, auto
 from typing import Optional, Dict, Any

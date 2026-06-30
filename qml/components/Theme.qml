@@ -2,7 +2,7 @@ pragma Singleton
 import QtQuick 2.15
 
 /**
- * Centralized design tokens for the MIDAS application.
+ * Centralized design tokens for the DataNexus application.
  * Import as: import "../components" then use Theme.fontSize.body, etc.
  */
 QtObject {

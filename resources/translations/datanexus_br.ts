@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.1" language="pt_BR">
 <context>
     <name>page_hub</name>
     <message>
         <source>Select a database</source>
-        <translation>Seleccione una base de datos</translation>
+        <translation>Selecione uma base de dados</translation>
     </message>
     <message>
         <source>CSV Separator</source>
-        <translation>Separador del CSV</translation>
+        <translation>Separador do CSV</translation>
     </message>
     <message>
         <source>Auto-detect</source>
-        <translation>Detectar automáticamente</translation>
+        <translation>Detectar automaticamente</translation>
     </message>
     <message>
         <source>Semicolon (;)</source>
-        <translation>Punto y coma (;)</translation>
+        <translation>Ponto e vírgula (;)</translation>
     </message>
     <message>
         <source>Comma (,)</source>
-        <translation>Coma (,)</translation>
+        <translation>Vírgula (,)</translation>
     </message>
     <message>
         <source>Tab</source>
-        <translation>Tabulación</translation>
+        <translation>Tab</translation>
     </message>
     <message>
         <source>Export database</source>
-        <translation>Exportar base de datos</translation>
+        <translation>Exportar base de dados</translation>
     </message>
     <message>
         <source>Choose the format to export the selected database.</source>
-        <translation>Elija el formato para exportar la base seleccionada.</translation>
+        <translation>Escolha o formato para exportar a base selecionada.</translation>
     </message>
     <message>
         <source>ARFF</source>
@@ -45,79 +45,79 @@
     </message>
     <message>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation>Erro</translation>
     </message>
     <message>
         <source>Select databases to see available actions</source>
-        <translation>Seleccione bases para ver acciones disponibles</translation>
+        <translation>Selecione bases para ver ações disponíveis</translation>
     </message>
     <message>
         <source>✓ Dataset 1</source>
-        <translation>✓ Base de Datos 1</translation>
+        <translation>✓ Base de Dados 1</translation>
     </message>
     <message>
         <source>📁 Dataset 1</source>
-        <translation>📁 Base de Datos 1</translation>
+        <translation>📁 Base de Dados 1</translation>
     </message>
     <message>
         <source>%1 rows • %2 columns</source>
-        <translation>%1 filas • %2 columnas</translation>
+        <translation>%1 linhas • %2 colunas</translation>
     </message>
     <message>
         <source>Click to select</source>
-        <translation>Haga clic para seleccionar</translation>
+        <translation>Clique para selecionar</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Reemplazar</translation>
+        <translation>Substituir</translation>
     </message>
     <message>
         <source>No database loaded</source>
-        <translation>Ninguna base cargada</translation>
+        <translation>Nenhuma base carregada</translation>
     </message>
     <message>
         <source>Load database</source>
-        <translation>Cargar base</translation>
+        <translation>Carregar base</translation>
     </message>
     <message>
         <source>✓ Dataset 2</source>
-        <translation>✓ Base de Datos 2</translation>
+        <translation>✓ Base de Dados 2</translation>
     </message>
     <message>
         <source>📂 Dataset 2</source>
-        <translation>📂 Base de Datos 2</translation>
+        <translation>📂 Base de Dados 2</translation>
     </message>
     <message>
         <source>✕ Remove</source>
-        <translation>✕ Eliminar</translation>
+        <translation>✕ Remover</translation>
     </message>
     <message>
         <source>Empty slot</source>
-        <translation>Ranura vacía</translation>
+        <translation>Slot vazio</translation>
     </message>
     <message>
         <source>+ Load second database</source>
-        <translation>+ Cargar segunda base</translation>
+        <translation>+ Carregar segunda base</translation>
     </message>
     <message>
         <source>Load Dataset 1 first</source>
-        <translation>Cargue la Base de Datos 1 primero</translation>
+        <translation>Carregue a Base de Dados 1 primeiro</translation>
     </message>
     <message>
         <source>Select one or two databases above</source>
-        <translation>Seleccione una o dos bases arriba</translation>
+        <translation>Selecione uma ou duas bases acima</translation>
     </message>
     <message>
         <source>1 base = View/Typify/Export  •  2 bases = Merge</source>
-        <translation>1 base = Ver/Tipificar/Exportar  •  2 bases = Fusionar</translation>
+        <translation>1 base = Visualizar/Tipificar/Exportar  •  2 bases = Junção</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Visualizar</translation>
     </message>
     <message>
         <source>View and edit the selected database</source>
-        <translation>Ver y editar la base seleccionada</translation>
+        <translation>Ver e editar a base selecionada</translation>
     </message>
     <message>
         <source>Typify</source>
@@ -125,7 +125,7 @@
     </message>
     <message>
         <source>Define attribute types</source>
-        <translation>Definir tipos de atributos</translation>
+        <translation>Definir tipos dos atributos</translation>
     </message>
     <message>
         <source>Export</source>
@@ -133,23 +133,23 @@
     </message>
     <message>
         <source>Save database to disk</source>
-        <translation>Guardar base en disco</translation>
+        <translation>Salvar base em disco</translation>
     </message>
     <message>
         <source>Merge Databases</source>
-        <translation>Fusionar Bases</translation>
+        <translation>Junção de Bases</translation>
     </message>
     <message>
         <source>Combine the two selected databases</source>
-        <translation>Combinar las dos bases seleccionadas</translation>
+        <translation>Combinar as duas bases selecionadas</translation>
     </message>
     <message>
         <source>Both databases must be typified</source>
-        <translation>Ambas bases deben estar tipificadas</translation>
+        <translation>Ambas as bases precisam estar tipificadas</translation>
     </message>
     <message>
         <source>Clear selection</source>
-        <translation>Limpiar selección</translation>
+        <translation>Limpar seleção</translation>
     </message>
     <message>
         <source>Language</source>
@@ -159,27 +159,27 @@
 <context>
     <name>page_load</name>
     <message>
-        <source>MIDAS</source>
-        <translation>MIDAS</translation>
+        <source>DataNexus</source>
+        <translation>DataNexus</translation>
     </message>
     <message>
         <source>Give a golden touch to your data</source>
-        <translation>Dale un toque dorado a tus datos</translation>
+        <translation>Dê um toque de ouro nos seus dados</translation>
     </message>
     <message>
         <source>LOAD FILE</source>
-        <translation>CARGAR ARCHIVO</translation>
+        <translation>CARREGAR ARQUIVO</translation>
     </message>
     <message>
         <source>Supported formats</source>
-        <translation>Formatos soportados</translation>
+        <translation>Formatos suportados</translation>
     </message>
 </context>
 <context>
     <name>page_merge</name>
     <message>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation>Erro</translation>
     </message>
     <message>
         <source>OK</source>
@@ -187,7 +187,7 @@
     </message>
     <message>
         <source>✅ Merge completed!</source>
-        <translation>✅ ¡Fusión completada!</translation>
+        <translation>✅ Junção concluída!</translation>
     </message>
     <message>
         <source>Export</source>
@@ -195,7 +195,7 @@
     </message>
     <message>
         <source>Return without saving</source>
-        <translation>Volver sin guardar</translation>
+        <translation>Voltar sem salvar</translation>
     </message>
     <message>
         <source>The databases were merged successfully!
@@ -203,39 +203,39 @@
 %1 rows • %2 columns
 
 Do you want to export the result?</source>
-    <translation>¡Las bases de datos se fusionaron correctamente!
+    <translation>As bases de dados foram mescladas com sucesso!
 
-%1 filas • %2 columnas
+%1 linhas • %2 colunas
 
-¿Desea exportar el resultado?</translation>
+Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Export merged database</source>
-        <translation>Exportar base fusionada</translation>
+        <translation>Exportar base mesclada</translation>
     </message>
     <message>
         <source>Cancel merge?</source>
-        <translation>¿Cancelar fusión?</translation>
+        <translation>Cancelar junção?</translation>
     </message>
     <message>
         <source>Return to the main menu? Loaded databases will be kept.</source>
-        <translation>¿Volver al menú principal? Las bases cargadas se mantendrán.</translation>
+        <translation>Deseja voltar ao menu principal? As bases carregadas serão mantidas.</translation>
     </message>
     <message>
         <source>Yes, go back</source>
-        <translation>Sí, volver</translation>
+        <translation>Sim, voltar</translation>
     </message>
     <message>
         <source>No, continue</source>
-        <translation>No, continuar</translation>
+        <translation>Não, continuar</translation>
     </message>
     <message>
         <source>◀ Back</source>
-        <translation>◀ Volver</translation>
+        <translation>◀ Voltar</translation>
     </message>
     <message>
         <source>CONFIGURE MERGE</source>
-        <translation>CONFIGURAR FUSIÓN</translation>
+        <translation>CONFIGURAR JUNÇÃO</translation>
     </message>
     <message>
         <source>Map</source>
@@ -243,7 +243,7 @@ Do you want to export the result?</source>
     </message>
     <message>
         <source>Merge</source>
-        <translation>Fusionar</translation>
+        <translation>Mesclar</translation>
     </message>
     <message>
         <source>Dataset 1:</source>
@@ -255,31 +255,31 @@ Do you want to export the result?</source>
     </message>
     <message>
         <source>How to join the bases</source>
-        <translation>Cómo unir las bases</translation>
+        <translation>Como unir as bases</translation>
     </message>
     <message>
         <source>All row combinations (no shared column)</source>
-        <translation>Todas las combinaciones de filas (sin columna común)</translation>
+        <translation>Todas as combinações de linhas (sem coluna comum)</translation>
     </message>
     <message>
         <source>Same key in both bases (one column pair)</source>
-        <translation>Misma clave en ambas bases (un par de columnas)</translation>
+        <translation>Mesma chave nas duas bases (um par de colunas)</translation>
     </message>
     <message>
         <source>Pick one column in each base. Types must be compatible.</source>
-        <translation>Elija una columna en cada base. Los tipos deben ser compatibles.</translation>
+        <translation>Escolha uma coluna em cada base. Os tipos precisam ser compatíveis.</translation>
     </message>
     <message>
         <source>Match columns</source>
-        <translation>Asociar columnas</translation>
+        <translation>Associar colunas</translation>
     </message>
     <message>
         <source>Choose columns that represent the same information in both datasets.</source>
-        <translation>Elija columnas que representen la misma información en ambas bases.</translation>
+        <translation>Escolha colunas que representam a mesma informação nas duas bases.</translation>
     </message>
     <message>
         <source>Dataset 1 column</source>
-        <translation>Columna de la Base 1</translation>
+        <translation>Coluna da Base 1</translation>
     </message>
     <message>
         <source>↔ Map</source>
@@ -291,156 +291,156 @@ Do you want to export the result?</source>
     </message>
     <message>
         <source>Join key: %1 ↔ %2</source>
-        <translation>Clave de unión: %1 ↔ %2</translation>
+        <translation>Chave de junção: %1 ↔ %2</translation>
     </message>
     <message>
         <source>Remove pair</source>
-        <translation>Quitar par</translation>
+        <translation>Limpar par</translation>
     </message>
     <message>
         <source>Dataset 2 column</source>
-        <translation>Columna de la Base 2</translation>
+        <translation>Coluna da Base 2</translation>
     </message>
     <message>
         <source>Defined mappings</source>
-        <translation>Mapeos definidos</translation>
+        <translation>Mapeamentos definidos</translation>
     </message>
     <message>
         <source>No mappings defined.
 Without mappings, only &apos;All data from both&apos; will be available.</source>
-        <translation>No hay mapeos definidos.
-Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.</translation>
+        <translation>Nenhum mapeamento definido.
+Sem mapeamentos, apenas &apos;Todos os dados de ambas as bases&apos; ficará disponível.</translation>
     </message>
     <message>
         <source>Next ▶</source>
-        <translation>Siguiente ▶</translation>
+        <translation>Avançar ▶</translation>
     </message>
     <message>
         <source>Merge configuration</source>
-        <translation>Configuración de la fusión</translation>
+        <translation>Configuração da junção</translation>
     </message>
     <message>
         <source>How to combine:</source>
-        <translation>Cómo combinar:</translation>
+        <translation>Como combinar:</translation>
     </message>
     <message>
         <source>Only matching rows (both must match)</source>
-        <translation>Solo filas coincidentes (ambas deben coincidir)</translation>
+        <translation>Apenas linhas correspondentes (ambas devem coincidir)</translation>
     </message>
     <message>
         <source>Inner — matching rows only</source>
-        <translation>Interna — solo filas que coinciden</translation>
+        <translation>Interna — só linhas que batem</translation>
     </message>
     <message>
         <source>Left — keep all from dataset 1</source>
-        <translation>Izquierda — conservar todo de la base 1</translation>
+        <translation>Esquerda — mantém tudo da base 1</translation>
     </message>
     <message>
         <source>Right — keep all from dataset 2</source>
-        <translation>Derecha — conservar todo de la base 2</translation>
+        <translation>Direita — mantém tudo da base 2</translation>
     </message>
     <message>
         <source>Cross — all combinations</source>
-        <translation>Cruzada — todas las combinaciones</translation>
+        <translation>Cruzada — todas as combinações</translation>
     </message>
     <message>
         <source>All rows from Dataset 1 + matches from Dataset 2</source>
-        <translation>Todas las filas de la Base 1 + coincidencias de la Base 2</translation>
+        <translation>Todas as linhas da Base 1 + correspondências da Base 2</translation>
     </message>
     <message>
         <source>All rows from Dataset 2 + matches from Dataset 1</source>
-        <translation>Todas las filas de la Base 2 + coincidencias de la Base 1</translation>
+        <translation>Todas as linhas da Base 2 + correspondências da Base 1</translation>
     </message>
     <message>
         <source>All data from both</source>
-        <translation>Todos los datos de ambas bases</translation>
+        <translation>Todos os dados de ambas as bases</translation>
     </message>
     <message>
         <source>Join column:</source>
-        <translation>Columna de unión:</translation>
+        <translation>Coluna de junção:</translation>
     </message>
     <message>
         <source>💡 Keeps only rows where the join column value exists in BOTH databases.</source>
-        <translation>💡 Mantiene solo las filas donde el valor de la columna de unión existe en AMBAS bases.</translation>
+        <translation>💡 Mantém apenas as linhas em que o valor da coluna de junção existe em AMBAS as bases.</translation>
     </message>
     <message>
         <source>💡 Keeps all rows from Dataset 1. If a row has no match in Dataset 2, those fields are left empty.</source>
-        <translation>💡 Mantiene todas las filas de la Base 1. Si una fila no tiene coincidencia en la Base 2, esos campos quedan vacíos.</translation>
+        <translation>💡 Mantém todas as linhas da Base 1. Se uma linha não tiver correspondência na Base 2, esses campos ficam vazios.</translation>
     </message>
     <message>
         <source>💡 Keeps all rows from Dataset 2. If a row has no match in Dataset 1, those fields are left empty.</source>
-        <translation>💡 Mantiene todas las filas de la Base 2. Si una fila no tiene coincidencia en la Base 1, esos campos quedan vacíos.</translation>
+        <translation>💡 Mantém todas as linhas da Base 2. Se uma linha não tiver correspondência na Base 1, esses campos ficam vazios.</translation>
     </message>
     <message>
         <source>💡 Combines ALL rows from both (no join column needed).</source>
-        <translation>💡 Combina TODAS las filas de ambas bases (sin necesidad de columna de unión).</translation>
+        <translation>💡 Combina TODAS as linhas de ambas as bases (sem necessidade de coluna de junção).</translation>
     </message>
     <message>
         <source>Result preview</source>
-        <translation>Vista previa del resultado</translation>
+        <translation>Prévia do resultado</translation>
     </message>
     <message>
         <source>🔄 Refresh</source>
-        <translation>🔄 Actualizar</translation>
+        <translation>🔄 Atualizar</translation>
     </message>
     <message>
         <source>Click &apos;Refresh&apos; to see a preview</source>
-        <translation>Haga clic en &apos;Actualizar&apos; para ver una vista previa</translation>
+        <translation>Clique em &apos;Atualizar&apos; para ver uma prévia</translation>
     </message>
     <message>
         <source>Showing %1 of ~%2 rows (estimated)</source>
-        <translation>Mostrando %1 de ~%2 filas (estimación)</translation>
+        <translation>Exibindo %1 de ~%2 linhas (estimativa)</translation>
     </message>
     <message>
         <source>Execute</source>
-        <translation>Ejecutar</translation>
+        <translation>Executar</translation>
     </message>
     <message>
         <source>Join key (column pair)</source>
-        <translation>Clave de unión (par de columnas)</translation>
+        <translation>Chave de junção (par de colunas)</translation>
     </message>
     <message>
         <source>Required for inner, left, or right join. Not needed for a Cartesian product.</source>
-        <translation>Necesaria para unión interna, izquierda o derecha. No hace falta para producto cartesiano.</translation>
+        <translation>Obrigatória para junção interna, à esquerda ou à direita. Não é necessária para produto cartesiano.</translation>
     </message>
     <message>
         <source>Join type</source>
-        <translation>Tipo de unión</translation>
+        <translation>Tipo de junção</translation>
     </message>
     <message>
         <source>Define a column pair above to enable inner, left, or right join.</source>
-        <translation>Defina un par de columnas arriba para habilitar la unión interna, izquierda o derecha.</translation>
+        <translation>Defina um par de colunas acima para habilitar junção interna, à esquerda ou à direita.</translation>
     </message>
     <message>
         <source>Inner join</source>
-        <translation>Unión interna</translation>
+        <translation>Junção interna</translation>
     </message>
     <message>
         <source>Left join</source>
-        <translation>Unión izquierda</translation>
+        <translation>Junção à esquerda</translation>
     </message>
     <message>
         <source>Right join</source>
-        <translation>Unión derecha</translation>
+        <translation>Junção à direita</translation>
     </message>
     <message>
         <source>Cartesian product</source>
-        <translation>Producto cartesiano</translation>
+        <translation>Produto cartesiano</translation>
     </message>
 </context>
 <context>
     <name>page_preprocess</name>
     <message>
         <source>Selecting types</source>
-        <translation>Seleccionando tipos</translation>
+        <translation>Selecionando tipos</translation>
     </message>
     <message>
         <source>We suggest a type for each attribute. You can change them.</source>
-        <translation>Sugerimos un tipo para cada atributo. Puede cambiarlos.</translation>
+        <translation>Sugerimos tipificação para cada atributo. Você pode alterá-los.</translation>
     </message>
     <message>
         <source>Available types:</source>
-        <translation>Tipos disponibles:</translation>
+        <translation>Tipos disponíveis:</translation>
     </message>
     <message>
         <source>• Nominal: predefined categorical values
@@ -448,13 +448,13 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
 • String: free text without a specific format
 • Date: date/time values</source>
         <translation>• Nominal: valores categóricos predefinidos
-• Numeric: valores numéricos continuos o discretos
-• String: texto libre sin formato específico
-• Date: valores de fecha/hora</translation>
+• Numeric: valores numéricos contínuos ou discretos
+• String: texto livre sem formato específico
+• Date: valores de data/hora</translation>
     </message>
     <message>
         <source>Column </source>
-        <translation>Columna </translation>
+        <translation>Coluna </translation>
     </message>
     <message>
         <source>Type:</source>
@@ -462,7 +462,7 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
     </message>
     <message>
         <source>Back</source>
-        <translation>Volver</translation>
+        <translation>Voltar</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -470,19 +470,19 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
     </message>
     <message>
         <source>Visualization</source>
-        <translation>Visualización</translation>
+        <translation>Visualização</translation>
     </message>
     <message>
         <source>Select a column</source>
-        <translation>Seleccione una columna</translation>
+        <translation>Selecione uma coluna</translation>
     </message>
     <message>
         <source>Statistics</source>
-        <translation>Estadísticas</translation>
+        <translation>Estatísticas</translation>
     </message>
     <message>
         <source>Count by Class</source>
-        <translation>Conteo por Clase</translation>
+        <translation>Contagem por Classe</translation>
     </message>
     <message>
         <source>Chart</source>
@@ -490,74 +490,74 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
     </message>
     <message>
         <source>Stack by (nominal attribute)</source>
-        <translation>Apilar por (atributo nominal)</translation>
+        <translation>Empilhar por (atributo nominal)</translation>
     </message>
     <message>
         <source>Number of bars:</source>
-        <translation>Cantidad de barras:</translation>
+        <translation>Quantidade de barras:</translation>
     </message>
     <message>
         <source>Save ARFF</source>
-        <translation>Guardar ARFF</translation>
+        <translation>Salvar ARFF</translation>
     </message>
     <message>
         <source>Types saved in memory!</source>
-        <translation>¡Tipos guardados en memoria!</translation>
+        <translation>Tipos salvos em memória!</translation>
     </message>
     <message>
         <source>Attribute types have been confirmed and saved in memory.
 
 Do you also want to export the database to a file on disk?</source>
-        <translation>Los tipos de los atributos han sido confirmados y guardados en memoria.
+        <translation>Os tipos dos atributos foram confirmados e salvos em memória.
 
-¿Desea exportar la base a un archivo en disco también?</translation>
+Deseja exportar a base para um arquivo no disco também?</translation>
     </message>
     <message>
         <source>Yes, export file</source>
-        <translation>Sí, exportar archivo</translation>
+        <translation>Sim, exportar arquivo</translation>
     </message>
     <message>
         <source>No, continue</source>
-        <translation>No, continuar</translation>
+        <translation>Não, continuar</translation>
     </message>
     <message>
         <source>Cannot convert column &apos;%1&apos; to type &apos;%2&apos;.
 
 %3</source>
-        <translation>No es posible convertir la columna &apos;%1&apos; al tipo &apos;%2&apos;.
+        <translation>Não é possível converter a coluna &apos;%1&apos; para o tipo &apos;%2&apos;.
 
 %3</translation>
     </message>
     <message>
         <source>None</source>
-        <translation>Ninguno</translation>
+        <translation>Nenhum</translation>
     </message>
 </context>
 <context>
     <name>page_view</name>
     <message>
         <source>Confirm deletion</source>
-        <translation>Confirmar eliminación</translation>
+        <translation>Confirmar exclusão</translation>
     </message>
     <message>
         <source>Delete column &apos;%1&apos; (column %2)?</source>
-        <translation>¿Eliminar la columna &apos;%1&apos; (columna %2)?</translation>
+        <translation>Deseja excluir a coluna &apos;%1&apos; (coluna %2)?</translation>
     </message>
     <message>
         <source>Row</source>
-        <translation>Fila</translation>
+        <translation>Linha</translation>
     </message>
     <message>
         <source>Delete row %1?</source>
-        <translation>¿Eliminar la fila %1?</translation>
+        <translation>Deseja excluir a linha %1?</translation>
     </message>
     <message>
         <source>Database info</source>
-        <translation>Datos de la base</translation>
+        <translation>Dados da base</translation>
     </message>
     <message>
         <source>Total instances:</source>
-        <translation>Total de instancias:</translation>
+        <translation>Total de instâncias:</translation>
     </message>
     <message>
         <source>Total attributes:</source>
@@ -565,7 +565,7 @@ Do you also want to export the database to a file on disk?</source>
     </message>
     <message>
         <source>Pagination</source>
-        <translation>Paginación</translation>
+        <translation>Paginação</translation>
     </message>
     <message>
         <source>Page %1 of %2</source>
@@ -573,89 +573,89 @@ Do you also want to export the database to a file on disk?</source>
     </message>
     <message>
         <source>(%1 rows per page)</source>
-        <translation>(%1 filas por página)</translation>
+        <translation>(%1 linhas por página)</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation>Volver</translation>
+        <translation>Voltar</translation>
     </message>
     <message>
         <source>Finish</source>
-        <translation>Finalizar</translation>
+        <translation>Concluir</translation>
     </message>
     <message>
         <source>Save changes?</source>
-        <translation>¿Guardar cambios?</translation>
+        <translation>Salvar alterações?</translation>
     </message>
     <message>
         <source>Export the current database to a file on disk?</source>
-        <translation>¿Exportar la base actual a un archivo en disco?</translation>
+        <translation>Deseja exportar a base atual para um arquivo em disco?</translation>
     </message>
     <message>
         <source>Yes, export</source>
-        <translation>Sí, exportar</translation>
+        <translation>Sim, exportar</translation>
     </message>
     <message>
         <source>No, just go back</source>
-        <translation>No, solo volver</translation>
+        <translation>Não, apenas voltar</translation>
     </message>
     <message>
         <source>Save database</source>
-        <translation>Guardar base de datos</translation>
+        <translation>Salvar base de dados</translation>
     </message>
 </context>
 <context>
     <name>MergeService</name>
     <message>
         <source>Incompatible types: &apos;{primary}&apos; is {primary_type}, but &apos;{secondary}&apos; is {secondary_type}. Mapping not allowed.</source>
-        <translation>Tipos incompatibles: &apos;{primary}&apos; es {primary_type}, pero &apos;{secondary}&apos; es {secondary_type}. El mapeo no está permitido.</translation>
+        <translation>Tipos incompatíveis: &apos;{primary}&apos; é {primary_type}, mas &apos;{secondary}&apos; é {secondary_type}. O mapeamento não é permitido.</translation>
     </message>
     <message>
         <source>Empty column name</source>
-        <translation>Nombre de columna vacío</translation>
+        <translation>Nome de coluna vazio</translation>
     </message>
     <message>
         <source>Databases not loaded</source>
-        <translation>Bases de datos no cargadas</translation>
+        <translation>Bases de dados não carregadas</translation>
     </message>
     <message>
         <source>Column &apos;{column}&apos; does not exist in Dataset 2</source>
-        <translation>La columna &apos;{column}&apos; no existe en la Base 2</translation>
+        <translation>A coluna &apos;{column}&apos; não existe na Base 2</translation>
     </message>
     <message>
         <source>Column &apos;{column}&apos; does not exist in Dataset 1</source>
-        <translation>La columna &apos;{column}&apos; no existe en la Base 1</translation>
+        <translation>A coluna &apos;{column}&apos; não existe na Base 1</translation>
     </message>
     <message>
         <source>Column &quot;{column}&quot; does not exist in Dataset 1</source>
-        <translation>La columna &quot;{column}&quot; no existe en la Base 1</translation>
+        <translation>A coluna &quot;{column}&quot; não existe na Base 1</translation>
     </message>
     <message>
         <source>Column &quot;{column}&quot; does not exist in Dataset 2</source>
-        <translation>La columna &quot;{column}&quot; no existe en la Base 2</translation>
+        <translation>A coluna &quot;{column}&quot; não existe na Base 2</translation>
     </message>
     <message>
         <source>Databases not loaded for merge</source>
-        <translation>Bases de datos no cargadas para la fusión</translation>
+        <translation>Bases de dados não carregadas para junção</translation>
     </message>
     <message>
         <source>Merge completed! {rows} rows, {columns} columns</source>
-        <translation>¡Fusión completada! {rows} filas, {columns} columnas</translation>
+        <translation>Junção concluída! {rows} linhas, {columns} colunas</translation>
     </message>
     <message>
         <source>Error while merging: {error}</source>
-        <translation>Error al fusionar: {error}</translation>
+        <translation>Erro ao mesclar: {error}</translation>
     </message>
 </context>
 <context>
     <name>StateManager</name>
     <message>
         <source>No data to save</source>
-        <translation>No hay datos para guardar</translation>
+        <translation>Não há dados para salvar</translation>
     </message>
     <message>
         <source>Sync error: {error}</source>
-        <translation>Error de sincronización: {error}</translation>
+        <translation>Erro de sincronização: {error}</translation>
     </message>
 </context>
 </TS>

@@ -134,7 +134,7 @@ Rectangle {
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: qsTr("MIDAS")
+            text: qsTr("DataNexus")
             color: Material.accent
             font.pointSize: Theme.fontSize.display
             font.weight: Font.Bold

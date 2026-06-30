@@ -1,4 +1,4 @@
-# MIDAS
+# DataNexus
 
 Desktop application for loading, visualizing, preprocessing, and merging datasets in CSV and ARFF formats. Built with Python, PySide6, and QML.
 
@@ -51,8 +51,8 @@ IC/
 └── resources/
     ├── data/                             # Sample datasets for testing
     └── translations/                     # i18n (Qt Linguist)
-        ├── midas_br.ts / .qm                # Portuguese (pt-BR)
-        └── midas_es.ts / .qm                # Spanish
+        ├── datanexus_br.ts / .qm                # Portuguese (pt-BR)
+        └── datanexus_es.ts / .qm                # Spanish
 ```
 
 ## Getting Started
@@ -84,13 +84,13 @@ python main.py
 | liac-arff | 2.x | ARFF file I/O (Weka format) |
 | matplotlib | 3.x | Chart generation (histograms, stacked bars) |
 
-## The Role of ARFF in MIDAS
+## The Role of ARFF in DataNexus
 
-The **ARFF** (Attribute-Relation File Format) standard is a cornerstone of this project. Created by the [Weka](https://www.cs.waikato.ac.nz/ml/weka/) machine-learning workbench at the University of Waikato, ARFF enriches tabular data with explicit **type metadata** for every column — each `@ATTRIBUTE` declaration states whether a column is `NUMERIC`, `STRING`, `DATE`, or a list of nominal values. This metadata is what makes type-safe merging possible: MIDAS can validate that two columns are compatible *before* joining them.
+The **ARFF** (Attribute-Relation File Format) standard is a cornerstone of this project. Created by the [Weka](https://www.cs.waikato.ac.nz/ml/weka/) machine-learning workbench at the University of Waikato, ARFF enriches tabular data with explicit **type metadata** for every column — each `@ATTRIBUTE` declaration states whether a column is `NUMERIC`, `STRING`, `DATE`, or a list of nominal values. This metadata is what makes type-safe merging possible: DataNexus can validate that two columns are compatible *before* joining them.
 
 ### How CSV uses ARFF under the hood
 
-CSV files carry no type information — every value is plain text. When a CSV is loaded, MIDAS transparently applies the same type categories used by ARFF through the `infer_types_from_df()` function in `dataset_state.py`:
+CSV files carry no type information — every value is plain text. When a CSV is loaded, DataNexus transparently applies the same type categories used by ARFF through the `infer_types_from_df()` function in `dataset_state.py`:
 
 1. **Numeric** — columns whose pandas dtype is numeric.
 2. **Nominal** — low-cardinality string columns (≤ 10 unique values, < 10 % of total rows).

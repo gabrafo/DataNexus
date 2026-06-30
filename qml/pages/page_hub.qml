@@ -229,7 +229,7 @@ Page {
             Layout.fillWidth: true
             
             Text {
-                text: "MIDAS"
+                text: "DataNexus"
                 color: Material.accent
                 font.pointSize: Theme.fontSize.h1
                 font.weight: Font.Bold
