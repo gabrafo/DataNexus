@@ -7,7 +7,7 @@ from typing import Dict, List, Any
 import pandas as pd
 from PySide6.QtCore import QCoreApplication
 
-from models.dataset_state import DatasetState, build_arff_attributes
+from models.dataset import Dataset, build_arff_attributes
 
 logger = logging.getLogger(__name__)
 
@@ -19,13 +19,13 @@ _JOIN_MAP = {
 
 
 class MergeService:
-    """Handles merge logic between two DatasetState objects.
+    """Handles merge logic between two Dataset objects.
 
     Holds references to the primary/secondary states and column
-    mapping dict managed by StateManager.
+    mapping dict managed by StateController.
     """
 
-    def __init__(self, primary: DatasetState, secondary: DatasetState,
+    def __init__(self, primary: Dataset, secondary: Dataset,
                  column_mapping: Dict[str, str]):
         self._primary = primary
         self._secondary = secondary
@@ -38,7 +38,7 @@ class MergeService:
     # --- Type helpers ---
 
     @staticmethod
-    def get_column_type(state: DatasetState, column: str) -> str:
+    def get_column_type(state: Dataset, column: str) -> str:
         """Return normalized type: NUMERIC, STRING, NOMINAL, DATE, or UNKNOWN."""
         if column in state.selected_types:
             ut = state.selected_types[column].upper()

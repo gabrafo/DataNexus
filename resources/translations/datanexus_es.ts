@@ -648,7 +648,7 @@ Do you also want to export the database to a file on disk?</source>
     </message>
 </context>
 <context>
-    <name>StateManager</name>
+    <name>StateController</name>
     <message>
         <source>No data to save</source>
         <translation>No hay datos para guardar</translation>

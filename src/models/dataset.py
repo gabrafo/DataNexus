@@ -1,4 +1,4 @@
-"""Dataset state container and type inference utilities."""
+"""Dataset model and type inference utilities."""
 
 import gc
 import logging
@@ -9,7 +9,7 @@ import pandas as pd
 logger = logging.getLogger(__name__)
 
 
-class DatasetState:
+class Dataset:
     """In-memory representation of a loaded dataset with metadata."""
 
     def __init__(self):
@@ -38,9 +38,9 @@ class DatasetState:
         """Return True if data is present and non-empty."""
         return self.df is not None and not self.df.empty
 
-    def clone(self) -> 'DatasetState':
+    def clone(self) -> 'Dataset':
         """Create a deep copy of this state."""
-        new = DatasetState()
+        new = Dataset()
         if self.df is not None:
             new.df = self.df.copy()
         new.arff_attributes = self.arff_attributes.copy()
@@ -81,8 +81,8 @@ def infer_types_from_df(df: pd.DataFrame) -> tuple[Dict[str, str], List[tuple]]:
     return inferred, attrs
 
 
-def build_arff_attributes(state: DatasetState) -> List[tuple]:
-    """Build ARFF attribute definitions from a DatasetState.
+def build_arff_attributes(state: Dataset) -> List[tuple]:
+    """Build ARFF attribute definitions from a Dataset.
 
     Uses selected_types when available, falls back to dtype inference.
     If no DataFrame is present, returns stored arff_attributes.

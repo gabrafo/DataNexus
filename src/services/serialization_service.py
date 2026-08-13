@@ -6,16 +6,16 @@ from typing import List
 import pandas as pd
 import arff
 
-from models.dataset_state import DatasetState, build_arff_attributes
+from models.dataset import Dataset, build_arff_attributes
 
 logger = logging.getLogger(__name__)
 
 
 class SerializationService:
-    """Save DatasetState objects to disk in CSV or ARFF format."""
+    """Save Dataset objects to disk in CSV or ARFF format."""
 
     @staticmethod
-    def save(target: DatasetState, file_path: str) -> tuple[bool, str]:
+    def save(target: Dataset, file_path: str) -> tuple[bool, str]:
         """Save a dataset to file. Format is detected from extension.
 
         Returns:
@@ -34,7 +34,7 @@ class SerializationService:
             return False, f"Erro ao salvar: {e}"
 
     @staticmethod
-    def _save_arff(target: DatasetState, file_path: str) -> tuple[bool, str]:
+    def _save_arff(target: Dataset, file_path: str) -> tuple[bool, str]:
         """Save dataset as ARFF file."""
         attributes = build_arff_attributes(target)
         data = target.df.where(target.df.notnull(), None).values.tolist()
@@ -48,7 +48,7 @@ class SerializationService:
         return True, ""
 
     @staticmethod
-    def _save_csv(target: DatasetState, file_path: str) -> tuple[bool, str]:
+    def _save_csv(target: Dataset, file_path: str) -> tuple[bool, str]:
         """Save dataset as CSV file."""
         target.df.to_csv(file_path, index=False)
         return True, ""

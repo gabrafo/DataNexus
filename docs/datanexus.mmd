@@ -1,65 +1,37 @@
+%% Static layer map. The publication-ready SVG is docs/arquitetura.svg.
+%% There are intentionally no edges: the figure only separates files by layer.
 flowchart LR
     %% Style definitions
-    classDef app fill:#eceff1,stroke:#455a64,stroke-width:2px,color:#000
-    classDef view fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000
-    classDef ctrl fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#000
-    classDef serv fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
-    classDef model fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000
+    classDef app fill:#eef3f6,stroke:#526a78,stroke-width:3px,color:#101820,font-size:30px
+    classDef view fill:#e4f5ff,stroke:#0785c4,stroke-width:3px,color:#101820,font-size:30px
+    classDef ctrl fill:#f7e8fa,stroke:#8e24aa,stroke-width:3px,color:#101820,font-size:36px
+    classDef serv fill:#fff2df,stroke:#eb7d00,stroke-width:3px,color:#101820,font-size:30px
+    classDef model fill:#e7f5e6,stroke:#368b3b,stroke-width:3px,color:#101820,font-size:30px
 
-    APP["main.py"]:::app
-
-    subgraph View ["View (QML)"]
+    subgraph View ["Visão (QML)"]
         direction TB
         V_MAIN["qml/main.qml"]:::view
         V_PAGES["qml/pages/*"]:::view
         V_COMPONENTS["qml/components/*"]:::view
-        
-        V_MAIN --> V_PAGES
-        V_MAIN --> V_COMPONENTS
     end
 
-    subgraph Controller ["Controller (Python)"]
+    subgraph Controller ["Controle (Python)"]
         direction TB
-        C_NAV["navigation_controller.py"]:::ctrl
+        C_STATE["state_controller.py"]:::ctrl
         C_BASE["base_controller.py"]:::ctrl
-        C_STATE["state_manager.py"]:::ctrl
         C_CSV["csv_controller.py"]:::ctrl
         C_ARFF["arff_controller.py"]:::ctrl
-        
-        C_NAV --> C_BASE
-        C_BASE --> C_STATE
-        C_BASE --> C_CSV
-        C_BASE --> C_ARFF
+        C_NAV["navigation_controller.py"]:::ctrl
     end
 
-    subgraph Services ["Services (Python)"]
+    subgraph Services ["Serviços (Python)"]
         direction TB
         S_MERGE["merge_service.py"]:::serv
         S_SERIAL["serialization_service.py"]:::serv
     end
 
-    subgraph Model ["Model (Python)"]
+    subgraph Model ["Modelo (Python)"]
         direction TB
-        M_DATASET["dataset_state.py"]:::model
+        M_DATASET["dataset.py"]:::model
         M_TABLE["table_model.py"]:::model
     end
-
-    %% Initial connections
-    APP --> V_MAIN
-    APP --> C_NAV
-
-    %% Conections View -> Controller
-    V_PAGES --> C_NAV
-    V_COMPONENTS --> C_NAV
-
-    %% Conections Controller -> Model
-    C_STATE --> M_DATASET
-    C_STATE --> M_TABLE
-    
-    C_CSV --> S_SERIAL
-    C_ARFF --> S_SERIAL
-    C_BASE --> S_MERGE
-
-    %% Conections Services -> Model
-    S_MERGE --> M_DATASET
-    S_SERIAL --> M_DATASET

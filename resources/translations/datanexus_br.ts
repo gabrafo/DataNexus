@@ -203,7 +203,7 @@
 %1 rows • %2 columns
 
 Do you want to export the result?</source>
-    <translation>As bases de dados foram mescladas com sucesso!
+    <translation>As bases de dados foram integradas com sucesso!
 
 %1 linhas • %2 colunas
 
@@ -211,7 +211,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Export merged database</source>
-        <translation>Exportar base mesclada</translation>
+        <translation>Exportar base integrada</translation>
     </message>
     <message>
         <source>Cancel merge?</source>
@@ -243,7 +243,7 @@ Deseja exportar o resultado?</translation>
     </message>
     <message>
         <source>Merge</source>
-        <translation>Mesclar</translation>
+        <translation>Juntar</translation>
     </message>
     <message>
         <source>Dataset 1:</source>
@@ -644,11 +644,11 @@ Deseja exportar a base para um arquivo no disco também?</translation>
     </message>
     <message>
         <source>Error while merging: {error}</source>
-        <translation>Erro ao mesclar: {error}</translation>
+        <translation>Erro ao integrar: {error}</translation>
     </message>
 </context>
 <context>
-    <name>StateManager</name>
+    <name>StateController</name>
     <message>
         <source>No data to save</source>
         <translation>Não há dados para salvar</translation>

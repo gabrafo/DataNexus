@@ -15,13 +15,13 @@ Page {
     
     property var csvController: null
     property var arffController: null
-    property var stateManager: null
+    property var stateController: null
     property var navController: null
     property var stack: null
     
-    property bool hasPrimary: stateManager ? stateManager.hasPrimaryBase : false
-    property bool hasSecondary: stateManager ? stateManager.hasSecondaryBase : false
-    property bool canMerge: stateManager ? stateManager.canMerge : false
+    property bool hasPrimary: stateController ? stateController.hasPrimaryBase : false
+    property bool hasSecondary: stateController ? stateController.hasSecondaryBase : false
+    property bool canMerge: stateController ? stateController.canMerge : false
     
     property string loadingTarget: "primary"
     
@@ -130,8 +130,8 @@ Page {
         defaultSuffix: "arff"
         
         onAccepted: {
-            if (hubPage.stateManager && hubPage.selectedBase) {
-                hubPage.stateManager.saveBaseToFile(hubPage.selectedBase, selectedFile.toString())
+            if (hubPage.stateController && hubPage.selectedBase) {
+                hubPage.stateController.saveBaseToFile(hubPage.selectedBase, selectedFile.toString())
             }
         }
     }
@@ -155,9 +155,9 @@ Page {
     }
     
     function startLoadPrimary() {
-        // Set target on StateManager (single source of truth)
-        if (hubPage.stateManager) {
-            hubPage.stateManager.setLoadingPrimary()
+        // Set target on StateController (single source of truth)
+        if (hubPage.stateController) {
+            hubPage.stateController.setLoadingPrimary()
         }
         hubPage.loadingTarget = "primary"
         if (hubPage.navController) {
@@ -167,9 +167,9 @@ Page {
     }
     
     function startLoadSecondary() {
-        // Set target on StateManager (single source of truth)
-        if (hubPage.stateManager) {
-            hubPage.stateManager.setLoadingSecondary()
+        // Set target on StateController (single source of truth)
+        if (hubPage.stateController) {
+            hubPage.stateController.setLoadingSecondary()
         }
         hubPage.loadingTarget = "secondary"
         if (hubPage.navController) {
@@ -179,27 +179,27 @@ Page {
     }
     
     function navigateToView(which) {
-        if (hubPage.stack && hubPage.stateManager) {
-            // Sync controller with StateManager data before viewing
-            var format = (which === "secondary") ? hubPage.stateManager.secondaryFormat : hubPage.stateManager.primaryFormat
+        if (hubPage.stack && hubPage.stateController) {
+            // Sync controller with StateController data before viewing
+            var format = (which === "secondary") ? hubPage.stateController.secondaryFormat : hubPage.stateController.primaryFormat
             if (which === "primary") {
                 if (format === "arff") {
-                    hubPage.stateManager.pushPrimaryToController(hubPage.arffController)
+                    hubPage.stateController.pushPrimaryToController(hubPage.arffController)
                 } else {
-                    hubPage.stateManager.pushPrimaryToController(hubPage.csvController)
+                    hubPage.stateController.pushPrimaryToController(hubPage.csvController)
                 }
             } else {
                 if (format === "arff") {
-                    hubPage.stateManager.pushSecondaryToController(hubPage.arffController)
+                    hubPage.stateController.pushSecondaryToController(hubPage.arffController)
                 } else {
-                    hubPage.stateManager.pushSecondaryToController(hubPage.csvController)
+                    hubPage.stateController.pushSecondaryToController(hubPage.csvController)
                 }
             }
             
             hubPage.stack.push("page_view.qml", {
                 "csvController": hubPage.csvController,
                 "arffController": hubPage.arffController,
-                "stateManager": hubPage.stateManager,
+                "stateController": hubPage.stateController,
                 "navController": hubPage.navController,
                 "stack": hubPage.stack,
                 "targetBase": which,
@@ -213,7 +213,7 @@ Page {
             hubPage.stack.push("page_merge.qml", {
                 "csvController": hubPage.csvController,
                 "arffController": hubPage.arffController,
-                "stateManager": hubPage.stateManager,
+                "stateController": hubPage.stateController,
                 "navController": hubPage.navController,
                 "stack": hubPage.stack
             })
@@ -324,7 +324,7 @@ Page {
                         spacing: 8
                         
                         Text {
-                            text: hubPage.stateManager ? hubPage.stateManager.primaryFileName : ""
+                            text: hubPage.stateController ? hubPage.stateController.primaryFileName : ""
                             font.pointSize: 14
                             font.weight: Font.Medium
                             color: Material.foreground
@@ -336,8 +336,8 @@ Page {
                         
                         Text {
                             text: qsTr("%1 rows • %2 columns")
-                                .arg(hubPage.stateManager ? hubPage.stateManager.primaryInstanceCount : 0)
-                                .arg(hubPage.stateManager ? hubPage.stateManager.primaryAttributeCount : 0)
+                                .arg(hubPage.stateController ? hubPage.stateController.primaryInstanceCount : 0)
+                                .arg(hubPage.stateController ? hubPage.stateController.primaryAttributeCount : 0)
                             font.pointSize: 11
                             color: Material.foreground
                             opacity: 0.7
@@ -445,7 +445,7 @@ Page {
                         spacing: 8
                         
                         Text {
-                            text: hubPage.stateManager ? hubPage.stateManager.secondaryFileName : ""
+                            text: hubPage.stateController ? hubPage.stateController.secondaryFileName : ""
                             font.pointSize: 14
                             font.weight: Font.Medium
                             color: Material.foreground
@@ -457,8 +457,8 @@ Page {
                         
                         Text {
                             text: qsTr("%1 rows • %2 columns")
-                                .arg(hubPage.stateManager ? hubPage.stateManager.secondaryInstanceCount : 0)
-                                .arg(hubPage.stateManager ? hubPage.stateManager.secondaryAttributeCount : 0)
+                                .arg(hubPage.stateController ? hubPage.stateController.secondaryInstanceCount : 0)
+                                .arg(hubPage.stateController ? hubPage.stateController.secondaryAttributeCount : 0)
                             font.pointSize: 11
                             color: Material.foreground
                             opacity: 0.7
@@ -490,8 +490,8 @@ Page {
                                 font.pointSize: 10
                                 Material.foreground: Material.color(Material.DeepOrange)
                                 onClicked: {
-                                    if (hubPage.stateManager) {
-                                        hubPage.stateManager.clearSecondaryBase()
+                                    if (hubPage.stateController) {
+                                        hubPage.stateController.clearSecondaryBase()
                                         hubPage.secondarySelected = false
                                     }
                                 }
@@ -678,9 +678,9 @@ Page {
         enabled: hubPage.visible
         
         function onDataframeChanged() {
-            // syncFromCSV checks loadingTarget automatically; auto-typification is handled by StateManager
-            if (hubPage.stateManager && hubPage.csvController) {
-                hubPage.stateManager.syncFromCSV(
+            // syncFromCSV checks loadingTarget automatically; auto-typification is handled by StateController
+            if (hubPage.stateController && hubPage.csvController) {
+                hubPage.stateController.syncFromCSV(
                     hubPage.csvController,
                     hubPage.csvController.fileName
                 )
@@ -694,8 +694,8 @@ Page {
         
         function onDataLoaded() {
             // syncFromARFF checks loadingTarget automatically; ARFF already has type definitions
-            if (hubPage.stateManager && hubPage.arffController) {
-                hubPage.stateManager.syncFromARFF(
+            if (hubPage.stateController && hubPage.arffController) {
+                hubPage.stateController.syncFromARFF(
                     hubPage.arffController,
                     hubPage.arffController.fileName
                 )
@@ -704,13 +704,13 @@ Page {
     }
     
     function navigateToPreprocess(fileType) {
-        var isSecondary = hubPage.stateManager ? hubPage.stateManager.loadingTarget === "secondary" : false
+        var isSecondary = hubPage.stateController ? hubPage.stateController.loadingTarget === "secondary" : false
         
         if (hubPage.stack) {
             hubPage.stack.push("page_preprocess.qml", {
                 "csvController": hubPage.csvController,
                 "arffController": hubPage.arffController,
-                "stateManager": hubPage.stateManager,
+                "stateController": hubPage.stateController,
                 "navController": hubPage.navController,
                 "stack": hubPage.stack,
                 "fileType": fileType,
@@ -727,30 +727,30 @@ Page {
         
         var isSecondary = hubPage.selectedBase === "secondary"
         var format = isSecondary 
-            ? (hubPage.stateManager ? hubPage.stateManager.secondaryFormat : "csv")
-            : (hubPage.stateManager ? hubPage.stateManager.primaryFormat : "csv")
+            ? (hubPage.stateController ? hubPage.stateController.secondaryFormat : "csv")
+            : (hubPage.stateController ? hubPage.stateController.primaryFormat : "csv")
         
         // Update loadingTarget so preprocess knows which base to edit
-        if (hubPage.stateManager) {
+        if (hubPage.stateController) {
             if (isSecondary) {
-                hubPage.stateManager.setLoadingSecondary()
+                hubPage.stateController.setLoadingSecondary()
             } else {
-                hubPage.stateManager.setLoadingPrimary()
+                hubPage.stateController.setLoadingPrimary()
             }
         }
         
-        if (hubPage.stateManager) {
+        if (hubPage.stateController) {
             if (isSecondary) {
                 if (format === "arff") {
-                    hubPage.stateManager.pushSecondaryToController(hubPage.arffController)
+                    hubPage.stateController.pushSecondaryToController(hubPage.arffController)
                 } else {
-                    hubPage.stateManager.pushSecondaryToController(hubPage.csvController)
+                    hubPage.stateController.pushSecondaryToController(hubPage.csvController)
                 }
             } else {
                 if (format === "arff") {
-                    hubPage.stateManager.pushPrimaryToController(hubPage.arffController)
+                    hubPage.stateController.pushPrimaryToController(hubPage.arffController)
                 } else {
-                    hubPage.stateManager.pushPrimaryToController(hubPage.csvController)
+                    hubPage.stateController.pushPrimaryToController(hubPage.csvController)
                 }
             }
         }
@@ -758,7 +758,7 @@ Page {
         hubPage.stack.push("page_preprocess.qml", {
             "csvController": hubPage.csvController,
             "arffController": hubPage.arffController,
-            "stateManager": hubPage.stateManager,
+            "stateController": hubPage.stateController,
             "navController": hubPage.navController,
             "stack": hubPage.stack,
             "fileType": format === "arff" ? "arff" : "csv",
@@ -769,7 +769,7 @@ Page {
     }
     
     Connections {
-        target: hubPage.stateManager
+        target: hubPage.stateController
         
         function onErrorOccurred(message) {
             errorDialog.text = message

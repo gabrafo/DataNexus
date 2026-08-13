@@ -13,7 +13,7 @@ from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 
 from controllers.csv_controller import CSVController
 from controllers.arff_controller import ARFFController
-from controllers.state_manager import StateManager
+from controllers.state_controller import StateController
 from controllers.navigation_controller import NavigationController
 
 logging.basicConfig(level=logging.WARNING, format="%(name)s: %(message)s")
@@ -75,7 +75,7 @@ def main() -> int:
 
     qmlRegisterType(CSVController, "App", 1, 0, "CSVController")
     qmlRegisterType(ARFFController, "App", 1, 0, "ARFFController")
-    qmlRegisterType(StateManager, "App", 1, 0, "StateManager")
+    qmlRegisterType(StateController, "App", 1, 0, "StateController")
     qmlRegisterType(NavigationController, "App", 1, 0, "NavigationController")
 
     engine = QQmlApplicationEngine()

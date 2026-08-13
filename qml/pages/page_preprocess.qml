@@ -18,7 +18,7 @@ Page {
     
     property var csvController: null
     property var arffController: null
-    property var stateManager: null
+    property var stateController: null
     property var navController: null
     property var stack: null
     property string fileType: "csv"
@@ -411,19 +411,19 @@ Page {
                         Layout.preferredHeight: 40
                         onClicked: {
                             // Persist manual type edits from controller to global state.
-                            if (typePage.stateManager && typePage.activeController) {
-                                typePage.stateManager.syncTypesFromController(
+                            if (typePage.stateController && typePage.activeController) {
+                                typePage.stateController.syncTypesFromController(
                                     typePage.activeController,
                                     typePage.isSecondaryBase ? "secondary" : "primary"
                                 )
                             }
 
                             // Mark as preprocessed in memory
-                            if (typePage.stateManager) {
+                            if (typePage.stateController) {
                                 if (typePage.isSecondaryBase) {
-                                    typePage.stateManager.markSecondaryAsPreprocessed()
+                                    typePage.stateController.markSecondaryAsPreprocessed()
                                 } else {
-                                    typePage.stateManager.markPrimaryAsPreprocessed()
+                                    typePage.stateController.markPrimaryAsPreprocessed()
                                 }
                             }
                             
@@ -1007,8 +1007,8 @@ Page {
         if (!typePage.stack) return
         
         // Reset loadingTarget to primary
-        if (typePage.stateManager) {
-            typePage.stateManager.setLoadingPrimary()
+        if (typePage.stateController) {
+            typePage.stateController.setLoadingPrimary()
         }
         
         if (typePage.isInitialLoad) {
@@ -1016,19 +1016,19 @@ Page {
             typePage.stack.replace("page_hub.qml", {
                 "csvController": typePage.csvController,
                 "arffController": typePage.arffController,
-                "stateManager": typePage.stateManager,
+                "stateController": typePage.stateController,
                 "navController": typePage.navController,
                 "stack": typePage.stack
             })
         } else if (typePage.isMergeResult) {
             // Merge result: clear secondary and return to hub
-            if (typePage.stateManager) {
-                typePage.stateManager.clearSecondaryBase()
+            if (typePage.stateController) {
+                typePage.stateController.clearSecondaryBase()
             }
             typePage.stack.replace("page_hub.qml", {
                 "csvController": typePage.csvController,
                 "arffController": typePage.arffController,
-                "stateManager": typePage.stateManager,
+                "stateController": typePage.stateController,
                 "navController": typePage.navController,
                 "stack": typePage.stack
             })

@@ -33,8 +33,8 @@ ApplicationWindow {
         onSuccessOccurred: msg => showMessage("Sucesso", msg)
     }
     
-    StateManager {
-        id: stateManager
+    StateController {
+        id: stateController
         onErrorOccurred: msg => showMessage("Erro", msg)
         onMergeCompleted: msg => showMessage("Sucesso", msg)
     }
@@ -62,7 +62,7 @@ ApplicationWindow {
             push("pages/page_hub.qml", {
                 "csvController": csvController,
                 "arffController": arffController,
-                "stateManager": stateManager,
+                "stateController": stateController,
                 "navController": navController,
                 "stack": navigationStack
             })

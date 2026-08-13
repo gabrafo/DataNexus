@@ -51,7 +51,7 @@ class NavigationController(QObject):
         self._context = NavigationContext.INITIAL_LOAD
         self._navigation_params: Dict[str, Any] = {}
         
-        self._state_manager = None
+        self._state_controller = None
         
         self._is_navigating = False
         self._pending_navigation = None
@@ -80,9 +80,9 @@ class NavigationController(QObject):
         ]
     
     @Slot('QVariant')
-    def setStateManager(self, state_manager) -> None:
-        """Injects a reference to the StateManager."""
-        self._state_manager = state_manager
+    def setStateController(self, state_controller) -> None:
+        """Injects a reference to the StateController."""
+        self._state_controller = state_controller
     
     @Slot(str)
     def onDataLoaded(self, file_type: str) -> None:

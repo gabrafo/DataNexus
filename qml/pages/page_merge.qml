@@ -14,22 +14,22 @@ Page {
 
     property var csvController: null
     property var arffController: null
-    property var stateManager: null
+    property var stateController: null
     property var navController: null
     property var stack: null
 
     property var previewData: null
     property bool hasJoinMapping: false
 
-    // Keep `hasJoinMapping` in sync when a stateManager is assigned or changes
-    onStateManagerChanged: {
-        if (mergePage.stateManager && typeof mergePage.stateManager.getColumnMappings === "function") {
-            mergePage.hasJoinMapping = mergePage.stateManager.getColumnMappings().length > 0
+    // Keep `hasJoinMapping` in sync when a stateController is assigned or changes
+    onStateControllerChanged: {
+        if (mergePage.stateController && typeof mergePage.stateController.getColumnMappings === "function") {
+            mergePage.hasJoinMapping = mergePage.stateController.getColumnMappings().length > 0
             // Also refresh models if combos exist
             if (typeof primaryColumnCombo !== "undefined" && primaryColumnCombo)
-                primaryColumnCombo.model = mergePage.stateManager.getMappablePrimaryColumns()
+                primaryColumnCombo.model = mergePage.stateController.getMappablePrimaryColumns()
             if (typeof secondaryColumnCombo !== "undefined" && secondaryColumnCombo)
-                secondaryColumnCombo.model = mergePage.stateManager.getSecondaryColumns()
+                secondaryColumnCombo.model = mergePage.stateController.getSecondaryColumns()
         } else {
             mergePage.hasJoinMapping = false
         }
@@ -41,14 +41,14 @@ Page {
     property bool canExecuteMerge: mergePage.resolvedJoinType === 3 || mergePage.mergeKeyPrimary() !== ""
 
     function mergeKeyPrimary() {
-        if (!mergePage.stateManager || !mergePage.hasJoinMapping)
+        if (!mergePage.stateController || !mergePage.hasJoinMapping)
             return ""
-        var m = mergePage.stateManager.getColumnMappings()
+        var m = mergePage.stateController.getColumnMappings()
         return m.length > 0 ? m[0].primary : ""
     }
 
     property string mappingWarning: {
-        if (!mergePage.stateManager)
+        if (!mergePage.stateController)
             return ""
         if (typeof primaryColumnCombo === "undefined" || typeof secondaryColumnCombo === "undefined")
             return ""
@@ -56,7 +56,7 @@ Page {
             return ""
         if (primaryColumnCombo.currentText === "" || secondaryColumnCombo.currentText === "")
             return ""
-        return mergePage.stateManager.checkMappingCompatibility(
+        return mergePage.stateController.checkMappingCompatibility(
             secondaryColumnCombo.currentText,
             primaryColumnCombo.currentText
         )
@@ -92,13 +92,13 @@ Page {
         }
 
         onSecondaryClicked: {
-            if (mergePage.stateManager)
-                mergePage.stateManager.clearAllBases()
+            if (mergePage.stateController)
+                mergePage.stateController.clearAllBases()
             if (mergePage.stack) {
                 mergePage.stack.replace("page_hub.qml", {
                     "csvController": mergePage.csvController,
                     "arffController": mergePage.arffController,
-                    "stateManager": mergePage.stateManager,
+                    "stateController": mergePage.stateController,
                     "navController": mergePage.navController,
                     "stack": mergePage.stack
                 })
@@ -114,15 +114,15 @@ Page {
         defaultSuffix: "arff"
 
         onAccepted: {
-            if (mergePage.stateManager) {
-                mergePage.stateManager.saveToFile(selectedFile.toString())
-                mergePage.stateManager.clearAllBases()
+            if (mergePage.stateController) {
+                mergePage.stateController.saveToFile(selectedFile.toString())
+                mergePage.stateController.clearAllBases()
             }
             if (mergePage.stack) {
                 mergePage.stack.replace("page_hub.qml", {
                     "csvController": mergePage.csvController,
                     "arffController": mergePage.arffController,
-                    "stateManager": mergePage.stateManager,
+                    "stateController": mergePage.stateController,
                     "navController": mergePage.navController,
                     "stack": mergePage.stack
                 })
@@ -194,7 +194,7 @@ Page {
                         opacity: 0.6
                     }
                     Text {
-                        text: mergePage.stateManager ? mergePage.stateManager.primaryFileName : ""
+                        text: mergePage.stateController ? mergePage.stateController.primaryFileName : ""
                         font.pointSize: 12
                         font.weight: Font.Medium
                         color: Material.accent
@@ -221,7 +221,7 @@ Page {
                         opacity: 0.6
                     }
                     Text {
-                        text: mergePage.stateManager ? mergePage.stateManager.secondaryFileName : ""
+                        text: mergePage.stateController ? mergePage.stateController.secondaryFileName : ""
                         font.pointSize: 12
                         font.weight: Font.Medium
                         color: Material.accent
@@ -316,7 +316,7 @@ Page {
                                             leftPadding: 12
                                             rightPadding: 36
                                             font.pointSize: Theme.fontSize.label
-                                            model: mergePage.stateManager ? mergePage.stateManager.getMappablePrimaryColumns() : []
+                                            model: mergePage.stateController ? mergePage.stateController.getMappablePrimaryColumns() : []
                                             contentItem: Text {
                                                 anchors.fill: parent
                                                 anchors.leftMargin: 12
@@ -364,18 +364,18 @@ Page {
                                         Material.background: enabled ? Material.accent : Material.Grey
                                         Material.foreground: "#000000"
                                         onClicked: {
-                                            if (!mergePage.stateManager)
+                                            if (!mergePage.stateController)
                                                 return
 
-                                            // Replace any existing mapping via stateManager (it already replaces internally)
-                                            var ok = mergePage.stateManager.addColumnMapping(
+                                            // Replace any existing mapping via stateController (it already replaces internally)
+                                            var ok = mergePage.stateController.addColumnMapping(
                                                 secondaryColumnCombo.currentText,
                                                 primaryColumnCombo.currentText
                                             )
 
                                             console.log("QML: addColumnMapping returned", ok)
-                                            if (typeof mergePage.stateManager.getColumnMappings === "function")
-                                                console.log("QML: mappings now", JSON.stringify(mergePage.stateManager.getColumnMappings()))
+                                            if (typeof mergePage.stateController.getColumnMappings === "function")
+                                                console.log("QML: mappings now", JSON.stringify(mergePage.stateController.getColumnMappings()))
 
                                             if (!ok) {
                                                 // errorOccurred will show the message from backend
@@ -398,11 +398,11 @@ Page {
                                             setComboSelection(secondaryColumnCombo, secondaryColumnCombo.currentText)
 
                                             // Ensure models are refreshed
-                                            primaryColumnCombo.model = mergePage.stateManager.getMappablePrimaryColumns()
-                                            secondaryColumnCombo.model = mergePage.stateManager.getSecondaryColumns()
+                                            primaryColumnCombo.model = mergePage.stateController.getMappablePrimaryColumns()
+                                            secondaryColumnCombo.model = mergePage.stateController.getSecondaryColumns()
 
-                                            mergePage.hasJoinMapping = (typeof mergePage.stateManager.getColumnMappings === "function")
-                                                                        && mergePage.stateManager.getColumnMappings().length > 0
+                                            mergePage.hasJoinMapping = (typeof mergePage.stateController.getColumnMappings === "function")
+                                                                        && mergePage.stateController.getColumnMappings().length > 0
                                             joinTypeCombo.currentIndex = 0
                                             mergePage.joinTypeIndex = 0
                                         }
@@ -437,7 +437,7 @@ Page {
                                             leftPadding: 12
                                             rightPadding: 36
                                             font.pointSize: Theme.fontSize.label
-                                            model: mergePage.stateManager ? mergePage.stateManager.getSecondaryColumns() : []
+                                            model: mergePage.stateController ? mergePage.stateController.getSecondaryColumns() : []
                                                 contentItem: Text {
                                                     anchors.fill: parent
                                                     anchors.leftMargin: 12
@@ -498,11 +498,11 @@ Page {
                                         anchors.leftMargin: 4
                                         text: {
                                             // reference hasMappings so binding updates when backend emits columnMappingChanged
-                                            if (!mergePage.stateManager || !mergePage.stateManager.hasMappings)
+                                            if (!mergePage.stateController || !mergePage.stateController.hasMappings)
                                                 return ""
                                             var list = []
-                                            if (typeof mergePage.stateManager.getMappingsForDropdown === "function")
-                                                list = mergePage.stateManager.getMappingsForDropdown()
+                                            if (typeof mergePage.stateController.getMappingsForDropdown === "function")
+                                                list = mergePage.stateController.getMappingsForDropdown()
                                             if (!list || list.length === 0)
                                                 return ""
                                             return list[0].replace(" / ", "/")
@@ -519,12 +519,12 @@ Page {
                                     flat: true
                                     font.pointSize: Theme.fontSize.caption
                                     onClicked: {
-                                        if (mergePage.stateManager && typeof mergePage.stateManager.clearColumnMappings === "function")
-                                            mergePage.stateManager.clearColumnMappings()
+                                        if (mergePage.stateController && typeof mergePage.stateController.clearColumnMappings === "function")
+                                            mergePage.stateController.clearColumnMappings()
 
                                         // Update UI immediately
-                                        primaryColumnCombo.model = mergePage.stateManager ? mergePage.stateManager.getMappablePrimaryColumns() : []
-                                        secondaryColumnCombo.model = mergePage.stateManager ? mergePage.stateManager.getSecondaryColumns() : []
+                                        primaryColumnCombo.model = mergePage.stateController ? mergePage.stateController.getMappablePrimaryColumns() : []
+                                        secondaryColumnCombo.model = mergePage.stateController ? mergePage.stateController.getSecondaryColumns() : []
                                         mergePage.hasJoinMapping = false
                                         joinTypeCombo.currentIndex = 0
                                         mergePage.joinTypeIndex = 0
@@ -696,11 +696,11 @@ Page {
                                 flat: true
                                 enabled: mergePage.canExecuteMerge
                                 onClicked: {
-                                    if (mergePage.stateManager) {
+                                    if (mergePage.stateController) {
                                         var joinTypes = ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "CROSS JOIN"]
                                         var jt = mergePage.resolvedJoinType
                                         var keyColumn = jt === 3 ? "" : mergePage.mergeKeyPrimary()
-                                        mergePage.previewData = mergePage.stateManager.previewMerge(
+                                        mergePage.previewData = mergePage.stateController.previewMerge(
                                             keyColumn,
                                             joinTypes[jt]
                                         )
@@ -853,32 +853,32 @@ Page {
                         }
 
                         onClicked: {
-                            if (mergePage.stateManager) {
+                            if (mergePage.stateController) {
                                 // Ensure any manual type edits in the controllers are persisted
-                                // into the DatasetState before executing the merge.
-                                var priFmt = mergePage.stateManager.primaryFormat
+                                // into the Dataset before executing the merge.
+                                var priFmt = mergePage.stateController.primaryFormat
                                 if (priFmt === "csv" && mergePage.csvController) {
-                                    mergePage.stateManager.syncTypesFromController(mergePage.csvController, "primary")
+                                    mergePage.stateController.syncTypesFromController(mergePage.csvController, "primary")
                                 } else if (priFmt === "arff" && mergePage.arffController) {
-                                    mergePage.stateManager.syncTypesFromController(mergePage.arffController, "primary")
+                                    mergePage.stateController.syncTypesFromController(mergePage.arffController, "primary")
                                 }
-                                var secFmt = mergePage.stateManager.secondaryFormat
+                                var secFmt = mergePage.stateController.secondaryFormat
                                 if (secFmt === "csv" && mergePage.csvController) {
-                                    mergePage.stateManager.syncTypesFromController(mergePage.csvController, "secondary")
+                                    mergePage.stateController.syncTypesFromController(mergePage.csvController, "secondary")
                                 } else if (secFmt === "arff" && mergePage.arffController) {
-                                    mergePage.stateManager.syncTypesFromController(mergePage.arffController, "secondary")
+                                    mergePage.stateController.syncTypesFromController(mergePage.arffController, "secondary")
                                 }
 
                                 var joinTypes = ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "CROSS JOIN"]
                                 var jt = mergePage.resolvedJoinType
                                 var keyColumn = jt === 3 ? "" : mergePage.mergeKeyPrimary()
-                                var success = mergePage.stateManager.executeMerge(
+                                var success = mergePage.stateController.executeMerge(
                                     keyColumn,
                                     joinTypes[jt]
                                 )
                                 if (success) {
-                                    successPopup.resultRows = mergePage.stateManager.primaryInstanceCount
-                                    successPopup.resultCols = mergePage.stateManager.primaryAttributeCount
+                                    successPopup.resultRows = mergePage.stateController.primaryInstanceCount
+                                    successPopup.resultCols = mergePage.stateController.primaryAttributeCount
                                     successPopup.open()
                                 }
                             }
@@ -890,12 +890,12 @@ Page {
     }
 
     Connections {
-        target: mergePage.stateManager
+        target: mergePage.stateController
 
         function onColumnMappingChanged() {
-            primaryColumnCombo.model = mergePage.stateManager.getMappablePrimaryColumns()
-            secondaryColumnCombo.model = mergePage.stateManager.getSecondaryColumns()
-            var mappings = mergePage.stateManager.getColumnMappings()
+            primaryColumnCombo.model = mergePage.stateController.getMappablePrimaryColumns()
+            secondaryColumnCombo.model = mergePage.stateController.getSecondaryColumns()
+            var mappings = mergePage.stateController.getColumnMappings()
             var has = mappings && mappings.length > 0
             mergePage.hasJoinMapping = has
             joinTypeCombo.currentIndex = 0

@@ -16,20 +16,20 @@ Page {
     
     property var csvController: null
     property var arffController: null
-    property var stateManager: null
+    property var stateController: null
     property var navController: null
     property var stack: null
     
     property string targetBase: "primary"
     property bool viewOnly: true
     
-    // Resolve file type from StateManager
+    // Resolve file type from StateController
     property string fileType: {
-        if (stateManager) {
+        if (stateController) {
             if (targetBase === "secondary") {
-                return stateManager.secondaryFormat || "csv"
+                return stateController.secondaryFormat || "csv"
             } else {
-                return stateManager.primaryFormat || "csv"
+                return stateController.primaryFormat || "csv"
             }
         }
         return "csv"
@@ -38,33 +38,33 @@ Page {
     property var activeController: fileType === "csv" ? csvController : arffController
     
     property string baseName: {
-        if (stateManager) {
+        if (stateController) {
             if (targetBase === "secondary") {
-                return stateManager.secondaryFileName || "Dataset 2"
+                return stateController.secondaryFileName || "Dataset 2"
             } else {
-                return stateManager.primaryFileName || "Dataset 1"
+                return stateController.primaryFileName || "Dataset 1"
             }
         }
         return "Sem nome"
     }
     
     property int totalInstances: {
-        if (stateManager) {
+        if (stateController) {
             if (targetBase === "secondary") {
-                return stateManager.secondaryInstanceCount
+                return stateController.secondaryInstanceCount
             } else {
-                return stateManager.primaryInstanceCount
+                return stateController.primaryInstanceCount
             }
         }
         return 0
     }
     
     property int totalAttributes: {
-        if (stateManager) {
+        if (stateController) {
             if (targetBase === "secondary") {
-                return stateManager.secondaryAttributeCount
+                return stateController.secondaryAttributeCount
             } else {
-                return stateManager.primaryAttributeCount
+                return stateController.primaryAttributeCount
             }
         }
         return 0
@@ -640,8 +640,8 @@ Page {
         defaultSuffix: "arff"
         
         onAccepted: {
-            if (dataPage.stateManager) {
-                dataPage.stateManager.saveToFile(selectedFile.toString())
+            if (dataPage.stateController) {
+                dataPage.stateController.saveToFile(selectedFile.toString())
             }
             // Save and return to hub
             if (dataPage.stack) {

@@ -21,7 +21,7 @@ IC/
 │
 ├── src/                              # Python source code
 │   ├── models/                       # Data layer
-│   │   ├── dataset_state.py              # DatasetState + type inference utilities
+│   │   ├── dataset.py              # Dataset + type inference utilities
 │   │   └── table_model.py               # QAbstractTableModel for QML TableView
 │   ├── services/                     # Business logic (Qt-free)
 │   │   ├── merge_service.py              # Merge operations & column mapping
@@ -30,7 +30,7 @@ IC/
 │       ├── base_controller.py            # Shared chart / stats logic
 │       ├── csv_controller.py             # CSV operations
 │       ├── arff_controller.py            # ARFF operations
-│       ├── state_manager.py              # Central state facade (QML ↔ services)
+│       ├── state_controller.py              # Central state facade (QML ↔ services)
 │       └── navigation_controller.py      # Page navigation state machine
 │
 ├── qml/                              # User interface (QML / Qt Quick)
@@ -90,14 +90,14 @@ The **ARFF** (Attribute-Relation File Format) standard is a cornerstone of this 
 
 ### How CSV uses ARFF under the hood
 
-CSV files carry no type information — every value is plain text. When a CSV is loaded, DataNexus transparently applies the same type categories used by ARFF through the `infer_types_from_df()` function in `dataset_state.py`:
+CSV files carry no type information — every value is plain text. When a CSV is loaded, DataNexus transparently applies the same type categories used by ARFF through the `infer_types_from_df()` function in `dataset.py`:
 
 1. **Numeric** — columns whose pandas dtype is numeric.
 2. **Nominal** — low-cardinality string columns (≤ 10 unique values, < 10 % of total rows).
 3. **Date** — columns already represented in memory with a `datetime64` dtype; in the current CSV loading flow, date-like text values usually remain textual until manually typified.
 4. **Textual** — everything else (free-form strings).
 
-The result is a `selected_types` dictionary and an `arff_attributes` list stored in `DatasetState` — the exact same structures used when loading a native ARFF file. From that point on, every downstream operation (column mapping, type-compatibility checks, merge execution, and serialization) works identically regardless of the original file format.
+The result is a `selected_types` dictionary and an `arff_attributes` list stored in `Dataset` — the exact same structures used when loading a native ARFF file. From that point on, every downstream operation (column mapping, type-compatibility checks, merge execution, and serialization) works identically regardless of the original file format.
 
 In short, **ARFF provides the type system** and **CSV data is promoted into it automatically**, giving users a seamless experience while preserving the type safety required for reliable dataset merging.
 
@@ -105,11 +105,11 @@ In short, **ARFF provides the type system** and **CSV data is promoted into it a
 
 The application follows an **MVC + Services** pattern:
 
-- **Models** (`DatasetState`, `DataFrameModel`) — hold data and metadata; no Qt UI dependency.
+- **Models** (`Dataset`, `DataFrameModel`) — hold data and metadata; no Qt UI dependency.
 - **Services** (`MergeService`, `SerializationService`) — pure business logic; no Qt dependency.
-- **Controllers** (`StateManager`, `CSVController`, `ARFFController`, `NavigationController`) — QML-facing layer exposing `@Slot` / `Property` for the UI.
+- **Controllers** (`StateController`, `CSVController`, `ARFFController`, `NavigationController`) — QML-facing layer exposing `@Slot` / `Property` for the UI.
 
-`StateManager` acts as a thin facade: it owns two `DatasetState` instances and delegates merge/save logic to the services.
+`StateController` acts as a thin facade: it owns two `Dataset` instances and delegates merge/save logic to the services.
 
 ### Column Mapping for Merge
 

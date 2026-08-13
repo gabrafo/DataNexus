@@ -1,4 +1,4 @@
-"""Global application state manager.
+"""Global application state controller.
 
 Acts as a facade over MergeService and SerializationService,
 exposing Qt Properties and Slots for QML consumption.
@@ -11,17 +11,17 @@ from typing import Optional, List, Dict, Any
 import pandas as pd
 from PySide6.QtCore import QObject, Signal, Slot, Property, QCoreApplication
 
-from models.dataset_state import DatasetState, infer_types_from_df, build_arff_attributes
+from models.dataset import Dataset, infer_types_from_df, build_arff_attributes
 from services.merge_service import MergeService
 from services.serialization_service import SerializationService
 
 logger = logging.getLogger(__name__)
 
 
-class StateManager(QObject):
-    """Central state holder and QML facade.
+class StateController(QObject):
+    """Central state controller and QML facade.
 
-    Owns two DatasetState instances (primary and secondary) and
+    Owns two Dataset instances (primary and secondary) and
     delegates merge, serialization, and type-inference logic to
     dedicated service classes.
     """
@@ -36,8 +36,8 @@ class StateManager(QObject):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self._primary = DatasetState()
-        self._secondary = DatasetState()
+        self._primary = Dataset()
+        self._secondary = Dataset()
         self._column_mapping: Dict[str, str] = {}
         self._loading_target: str = "primary"
         self._merge = MergeService(
@@ -46,7 +46,7 @@ class StateManager(QObject):
 
     @staticmethod
     def _tr(text: str) -> str:
-        return QCoreApplication.translate("StateManager", text)
+        return QCoreApplication.translate("StateController", text)
 
     def _rebuild_merge_service(self) -> None:
         """Recreate MergeService after primary/secondary reassignment."""
@@ -301,7 +301,7 @@ class StateManager(QObject):
         """
         if which == "secondary" and self._secondary.is_loaded():
             self._primary = self._secondary
-            self._secondary = DatasetState()
+            self._secondary = Dataset()
             self._column_mapping.clear()
             self._rebuild_merge_service()
             self.primaryBaseChanged.emit()
@@ -392,9 +392,9 @@ class StateManager(QObject):
     #  Controller synchronization                                         #
     # ------------------------------------------------------------------ #
 
-    def _sync_state(self, target: DatasetState, controller,
+    def _sync_state(self, target: Dataset, controller,
                     source_file: str, fmt: str, clear_mapping: bool) -> None:
-        """Populate a DatasetState from a loaded controller."""
+        """Populate a Dataset from a loaded controller."""
         try:
             df = controller.df
             if df is None:
@@ -481,7 +481,7 @@ class StateManager(QObject):
     #  Push state to controllers                                          #
     # ------------------------------------------------------------------ #
 
-    def _push_state_to_controller(self, state: DatasetState, controller) -> None:
+    def _push_state_to_controller(self, state: Dataset, controller) -> None:
         """Push dataset state to a controller for QML synchronization."""
         if controller is None:
             return
