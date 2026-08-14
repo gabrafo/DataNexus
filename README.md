@@ -11,6 +11,8 @@ Desktop application for loading, visualizing, preprocessing, and merging dataset
 - **Export** — Save results to CSV or ARFF
 - **Internationalization** — UI available in Portuguese (default), English, and Spanish; switchable at runtime
 
+A demonstration video is available at repo root.
+
 ## Project Structure
 
 ```
