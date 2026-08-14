@@ -1,6 +1,6 @@
 """Models package — data models and state containers."""
 
-from .table_model import DataFrameModel
+from .dataframe_adapter import DataFrameAdapter
 from .dataset import Dataset
 
-__all__ = ['DataFrameModel', 'Dataset']
+__all__ = ['DataFrameAdapter', 'Dataset']

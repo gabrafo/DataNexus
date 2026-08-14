@@ -5,18 +5,15 @@ exposing Qt Properties and Slots for QML consumption.
 """
 
 import gc
-import logging
 from typing import Optional, List, Dict, Any
 
 import pandas as pd
 from PySide6.QtCore import QObject, Signal, Slot, Property, QCoreApplication
 
-from models.dataset import Dataset, infer_types_from_df, build_arff_attributes
+from models.dataset import Dataset, build_arff_attributes
 from services.merge_service import MergeService
 from services.serialization_service import SerializationService
-
-logger = logging.getLogger(__name__)
-
+from services.dataset_sync_service import DatasetSyncService
 
 class StateController(QObject):
     """Central state controller and QML facade.
@@ -40,18 +37,25 @@ class StateController(QObject):
         self._secondary = Dataset()
         self._column_mapping: Dict[str, str] = {}
         self._loading_target: str = "primary"
+        self._sync = DatasetSyncService()
         self._merge = MergeService(
             self._primary, self._secondary, self._column_mapping,
+            translator=self._merge_tr,
         )
 
     @staticmethod
     def _tr(text: str) -> str:
         return QCoreApplication.translate("StateController", text)
 
+    @staticmethod
+    def _merge_tr(text: str) -> str:
+        return QCoreApplication.translate("MergeService", text)
+
     def _rebuild_merge_service(self) -> None:
         """Recreate MergeService after primary/secondary reassignment."""
         self._merge = MergeService(
             self._primary, self._secondary, self._column_mapping,
+            translator=self._merge_tr,
         )
 
     # ------------------------------------------------------------------ #
@@ -392,43 +396,32 @@ class StateController(QObject):
     #  Controller synchronization                                         #
     # ------------------------------------------------------------------ #
 
-    def _sync_state(self, target: Dataset, controller,
-                    source_file: str, fmt: str, clear_mapping: bool) -> None:
-        """Populate a Dataset from a loaded controller."""
-        try:
-            df = controller.df
-            if df is None:
-                return
-            if target.df is not None:
-                del target.df
-            target.df = df.copy()
-            target.source_file = source_file
-            target.original_format = fmt
-
-            if fmt == "csv":
-                types, attrs = infer_types_from_df(df)
-                target.arff_attributes = attrs
-                target.selected_types = types
-                target.relation_name = source_file.replace(".csv", "")
-            else:
-                target.arff_attributes = getattr(controller, '_attributes', []) or []
-                target.selected_types = getattr(controller, '_suggested_types', {}) or {}
-                target.relation_name = getattr(controller, '_relation_name', "") or ""
-
-            target.is_preprocessed = True
-            if clear_mapping:
-                self._column_mapping.clear()
-            gc.collect()
-        except Exception as e:
-            logger.warning("Sync from controller failed: %s", e)
-            self.errorOccurred.emit(self._tr("Sync error: {error}").format(error=e))
+    def _sync_controller(
+        self,
+        target: Dataset,
+        controller,
+        source_file: str,
+        file_format: str,
+        clear_mapping: bool,
+    ) -> None:
+        """Delegate controller-to-state synchronization and report errors."""
+        error = self._sync.sync_from_controller(
+            target,
+            controller,
+            source_file,
+            file_format,
+            clear_mapping,
+            self._column_mapping,
+        )
+        if error:
+            self.errorOccurred.emit(self._tr("Sync error: {error}").format(error=error))
 
     @Slot('QVariant', str, str)
     def syncPrimaryFromCSV(self, controller, source_file: str, file_type: str) -> None:
         """Sync primary state from a CSVController."""
         if controller is None:
             return
-        self._sync_state(self._primary, controller, source_file, "csv", False)
+        self._sync_controller(self._primary, controller, source_file, "csv", False)
         self.primaryBaseChanged.emit()
         self.canMergeChanged.emit()
 
@@ -437,7 +430,7 @@ class StateController(QObject):
         """Sync primary state from an ARFFController."""
         if controller is None:
             return
-        self._sync_state(self._primary, controller, source_file, "arff", False)
+        self._sync_controller(self._primary, controller, source_file, "arff", False)
         self.primaryBaseChanged.emit()
         self.canMergeChanged.emit()
 
@@ -446,7 +439,7 @@ class StateController(QObject):
         """Sync secondary state from a CSVController."""
         if controller is None:
             return
-        self._sync_state(self._secondary, controller, source_file, "csv", True)
+        self._sync_controller(self._secondary, controller, source_file, "csv", True)
         self.secondaryBaseChanged.emit()
         self.columnMappingChanged.emit()
         self.canMergeChanged.emit()
@@ -456,7 +449,7 @@ class StateController(QObject):
         """Sync secondary state from an ARFFController."""
         if controller is None:
             return
-        self._sync_state(self._secondary, controller, source_file, "arff", True)
+        self._sync_controller(self._secondary, controller, source_file, "arff", True)
         self.secondaryBaseChanged.emit()
         self.columnMappingChanged.emit()
         self.canMergeChanged.emit()
@@ -482,34 +475,10 @@ class StateController(QObject):
     # ------------------------------------------------------------------ #
 
     def _push_state_to_controller(self, state: Dataset, controller) -> None:
-        """Push dataset state to a controller for QML synchronization."""
-        if controller is None:
-            return
-        try:
-            controller._attributes = build_arff_attributes(state)
-            controller._suggested_types = state.selected_types.copy()
-            controller._relation_name = state.relation_name
-            controller._file_name = state.source_file
-
-            if state.df is not None:
-                controller.df = state.df.copy()
-                controller._data = (
-                    state.df.where(state.df.notnull(), None).values.tolist()
-                )
-
-            if hasattr(controller, '_createDataFrame'):
-                controller._createDataFrame()
-            if hasattr(controller, '_updatePagedModel'):
-                controller._current_page = 0
-                controller._updatePagedModel()
-
-            for sig_name in ('dataLoaded', 'pageChanged', 'metadataChanged'):
-                sig = getattr(controller, sig_name, None)
-                if sig is not None:
-                    sig.emit()
-        except Exception as e:
-            logger.warning("Push to controller failed: %s", e)
-            self.errorOccurred.emit(f"Controller sync error: {e}")
+        """Delegate state-to-controller synchronization and report errors."""
+        error = self._sync.push_to_controller(state, controller)
+        if error:
+            self.errorOccurred.emit(f"Controller sync error: {error}")
 
     @Slot('QVariant')
     def pushPrimaryToController(self, controller) -> None:
@@ -544,18 +513,6 @@ class StateController(QObject):
         if controller is None:
             return
 
-        # Prefer explicit manual overrides (`_selected_types`) when present;
-        # fall back to `_suggested_types` (used by ARFFController).
-        raw_types = None
-        if hasattr(controller, '_selected_types') and isinstance(getattr(controller, '_selected_types'), dict) and getattr(controller, '_selected_types'):
-            raw_types = getattr(controller, '_selected_types')
-        elif hasattr(controller, '_suggested_types') and isinstance(getattr(controller, '_suggested_types'), dict) and getattr(controller, '_suggested_types'):
-            raw_types = getattr(controller, '_suggested_types')
-
-        if not raw_types:
-            return
-
-        target = None
         if which == 'primary':
             target = self._primary
         elif which == 'secondary':
@@ -563,43 +520,8 @@ class StateController(QObject):
         else:
             target = self._secondary if self._loading_target == 'secondary' else self._primary
 
-        if target.df is None:
+        if not self._sync.sync_types_from_controller(target, controller):
             return
-
-        valid_columns = {str(c) for c in target.df.columns}
-        selected: Dict[str, str] = {}
-        for col, typ in raw_types.items():
-            col_name = str(col)
-            if col_name in valid_columns and isinstance(typ, str) and typ:
-                selected[col_name] = typ
-
-        if not selected:
-            return
-
-        logger.warning("SyncTypesFromController: which=%s selected=%s", which, list(selected.keys()))
-
-        # Normalize incoming type labels to canonical ones used across the app.
-        def normalize_label(t: str) -> str:
-            if not t:
-                return None
-            s = str(t).strip().lower()
-            if 'num' in s:
-                return 'Numeric'
-            if 'nom' in s:
-                return 'Nominal'
-            if 'date' in s:
-                return 'Date'
-            return 'String'
-
-        normalized: Dict[str, str] = {}
-        for col, typ in selected.items():
-            lab = normalize_label(typ) if isinstance(typ, str) else None
-            if lab:
-                normalized[str(col)] = lab
-
-        # Merge manual selections into the target's selected_types.
-        target.selected_types.update(normalized)
-        target.arff_attributes = build_arff_attributes(target)
 
         if target is self._secondary:
             self.secondaryBaseChanged.emit()

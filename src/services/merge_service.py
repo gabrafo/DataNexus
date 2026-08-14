@@ -2,12 +2,12 @@
 
 import gc
 import logging
-from typing import Dict, List, Any
+from typing import Callable, Dict, List, Any
 
 import pandas as pd
-from PySide6.QtCore import QCoreApplication
 
 from models.dataset import Dataset, build_arff_attributes
+from .merge_mapping_service import MergeMappingService
 
 logger = logging.getLogger(__name__)
 
@@ -26,180 +26,73 @@ class MergeService:
     """
 
     def __init__(self, primary: Dataset, secondary: Dataset,
-                 column_mapping: Dict[str, str]):
+                 column_mapping: Dict[str, str],
+                 translator: Callable[[str], str] | None = None):
         self._primary = primary
         self._secondary = secondary
         self._mapping = column_mapping
+        self._translate = translator or (lambda text: text)
+        self._mapping_service = MergeMappingService(
+            primary,
+            secondary,
+            column_mapping,
+            translator=self._tr,
+        )
 
-    @staticmethod
-    def _tr(text: str) -> str:
-        return QCoreApplication.translate("MergeService", text)
+    def _tr(self, text: str) -> str:
+        return self._translate(text)
 
-    # --- Type helpers ---
+    # --- Mapping facade -------------------------------------------------
 
     @staticmethod
     def get_column_type(state: Dataset, column: str) -> str:
-        """Return normalized type: NUMERIC, STRING, NOMINAL, DATE, or UNKNOWN."""
-        if column in state.selected_types:
-            ut = state.selected_types[column].upper()
-            if 'NUMERIC' in ut:
-                return 'NUMERIC'
-            if 'STRING' in ut:
-                return 'STRING'
-            if 'NOMINAL' in ut:
-                return 'NOMINAL'
-            if 'DATE' in ut:
-                return 'DATE'
-
-        for name, atype in state.arff_attributes:
-            if name == column:
-                if isinstance(atype, str):
-                    u = atype.upper()
-                    if any(k in u for k in ('NUMERIC', 'REAL', 'INTEGER')):
-                        return 'NUMERIC'
-                    if 'STRING' in u:
-                        return 'STRING'
-                    if 'DATE' in u:
-                        return 'DATE'
-                elif isinstance(atype, (list, tuple)):
-                    return 'NOMINAL'
-                return 'NOMINAL'
-
-        if state.df is not None and column in state.df.columns:
-            if pd.api.types.is_numeric_dtype(state.df[column].dtype):
-                return 'NUMERIC'
-            if pd.api.types.is_datetime64_any_dtype(state.df[column].dtype):
-                return 'DATE'
-            return 'STRING'
-
-        return 'UNKNOWN'
+        return MergeMappingService.get_column_type(state, column)
 
     @staticmethod
-    def _normalize_label(t: str) -> str:
-        """Normalize various type label variants to canonical app labels."""
-        if not t:
-            return None
-        s = str(t).strip().lower()
-        if 'num' in s:
-            return 'Numeric'
-        if 'nom' in s:
-            return 'Nominal'
-        if 'date' in s:
-            return 'Date'
-        return 'String'
+    def _normalize_label(type_label: str) -> str | None:
+        return MergeMappingService.normalize_label(type_label)
 
     @staticmethod
-    def are_types_compatible(t1: str, t2: str) -> bool:
-        """Return True if two type codes are compatible for mapping."""
-        if 'UNKNOWN' in (t1, t2) or t1 == t2:
-            return True
-        return {t1, t2} <= {'STRING', 'NOMINAL'}
+    def are_types_compatible(type_a: str, type_b: str) -> bool:
+        return MergeMappingService.are_types_compatible(type_a, type_b)
 
     @staticmethod
     def type_display_name(code: str) -> str:
-        """Return human-readable label for a type code."""
-        return {
-            'NUMERIC': 'Numeric', 'STRING': 'String',
-            'NOMINAL': 'Nominal', 'DATE': 'Date',
-            'UNKNOWN': 'Unknown',
-        }.get(code, code)
+        return MergeMappingService.type_display_name(code)
 
     def check_mapping_compatibility(self, secondary_col: str, primary_col: str) -> str:
-        """Return error message if types are incompatible, empty string otherwise."""
-        if self._primary.df is None or self._secondary.df is None:
-            return ""
-        pt = self.get_column_type(self._primary, primary_col)
-        st = self.get_column_type(self._secondary, secondary_col)
-        if not self.are_types_compatible(pt, st):
-            return self._tr(
-                "Incompatible types: '{primary}' is {primary_type}, "
-                "but '{secondary}' is {secondary_type}. Mapping not allowed."
-            ).format(
-                primary=primary_col,
-                primary_type=self.type_display_name(pt),
-                secondary=secondary_col,
-                secondary_type=self.type_display_name(st),
-            )
-        return ""
-
-    # --- Mapping management ---
+        return self._mapping_service.check_compatibility(secondary_col, primary_col)
 
     def add_mapping(self, secondary_col: str, primary_col: str) -> tuple[bool, str]:
-        """Set the only column mapping (clears any previous). Returns (success, error_message)."""
-        if not secondary_col or not primary_col:
-            return False, self._tr("Empty column name")
-        if self._primary.df is None or self._secondary.df is None:
-            return False, self._tr("Databases not loaded")
-        if secondary_col not in self._secondary.df.columns:
-            return False, self._tr("Column '{column}' does not exist in Dataset 2").format(
-                column=secondary_col
-            )
-        if primary_col not in self._primary.df.columns:
-            return False, self._tr("Column '{column}' does not exist in Dataset 1").format(
-                column=primary_col
-            )
-        err = self.check_mapping_compatibility(secondary_col, primary_col)
-        if err:
-            return False, err
-        # At most one active mapping: replace any previous pair.
-        self._mapping.clear()
-        self._mapping[secondary_col] = primary_col
-        return True, ""
+        return self._mapping_service.add_mapping(secondary_col, primary_col)
 
     def remove_mapping(self, secondary_col: str) -> None:
-        """Remove a column mapping by secondary column name."""
-        self._mapping.pop(secondary_col, None)
+        self._mapping_service.remove_mapping(secondary_col)
 
     def clear_mappings(self) -> None:
-        """Remove all column mappings."""
-        self._mapping.clear()
+        self._mapping_service.clear_mappings()
 
     def get_mappings(self) -> List[Dict[str, str]]:
-        """Return current mappings as a list of dicts."""
-        return [{"secondary": s, "primary": p} for s, p in self._mapping.items()]
+        return self._mapping_service.get_mappings()
 
     def has_mappings(self) -> bool:
-        """Return True if any column mappings exist."""
-        return bool(self._mapping)
+        return self._mapping_service.has_mappings()
 
     def get_mappings_for_dropdown(self) -> List[str]:
-        """Return mappings formatted as 'Primary / Secondary' strings."""
-        return [f"{p} / {s}" for s, p in self._mapping.items()]
+        return self._mapping_service.get_mappings_for_dropdown()
 
     @staticmethod
     def extract_primary_column(formatted: str) -> str:
-        """Extract primary column name from 'ColPri / ColSec' format."""
-        return formatted.split(" / ")[0] if " / " in formatted else formatted
-
-    # --- Column queries ---
+        return MergeMappingService.extract_primary_column(formatted)
 
     def get_common_columns(self) -> List[str]:
-        """Return columns usable as merge key, including mapped ones."""
-        if self._primary.df is None or self._secondary.df is None:
-            return []
-        pri = set(self._primary.df.columns)
-        sec = set(self._secondary.df.columns)
-        common = pri & sec
-        for sc, pc in self._mapping.items():
-            if pc in pri and sc in sec:
-                common.add(pc)
-        return sorted(common)
+        return self._mapping_service.get_common_columns()
 
     def get_mappable_secondary_columns(self) -> List[str]:
-        """Return secondary columns not yet mapped."""
-        if self._secondary.df is None:
-            return []
-        mapped = set(self._mapping.keys())
-        return [c for c in self._secondary.df.columns if c not in mapped]
-
-    # --- Internal ---
+        return self._mapping_service.get_mappable_secondary_columns()
 
     def _resolve_secondary_key(self, key_column: str) -> str:
-        """Find the secondary column corresponding to a primary key column."""
-        for sc, pc in self._mapping.items():
-            if pc == key_column:
-                return sc
-        return key_column
+        return self._mapping_service.resolve_secondary_key(key_column)
 
     # --- Merge operations ---
 

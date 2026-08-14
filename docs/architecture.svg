@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="3700" height="3200" viewBox="0 0 3700 3200" role="img" aria-labelledby="title desc">
+  <title id="title">Camadas da arquitetura do DataNexus</title>
+  <desc id="desc">Diagrama sem setas que organiza as camadas Visão, Controle, Serviços e Modelo em faixas verticais.</desc>
+
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="7" dy="7" stdDeviation="5" flood-color="#1d2939" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .group { fill: #fbfbfd; stroke: #24324a; stroke-width: 5; }
+      .group-title { font-family: DejaVu Sans, Arial, sans-serif; font-size: 82px; font-weight: 700; fill: #101820; text-anchor: middle; }
+      .node { stroke-width: 5; rx: 7; filter: url(#shadow); }
+      .label { font-family: DejaVu Sans Mono, monospace; font-size: 82px; font-weight: 500; fill: #101820; text-anchor: middle; }
+      .label-small { font-family: DejaVu Sans Mono, monospace; font-size: 72px; font-weight: 500; fill: #101820; text-anchor: middle; }
+      .label-control { font-family: DejaVu Sans Mono, monospace; font-size: 74px; font-weight: 500; fill: #101820; text-anchor: middle; }
+      .label-service { font-family: DejaVu Sans Mono, monospace; font-size: 76px; font-weight: 600; fill: #101820; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect width="3700" height="3200" fill="#ffffff"/>
+
+  <!-- The four architectural layers are intentionally presented as stacked bands. -->
+  <rect class="group" x="50" y="50" width="3600" height="480" filter="url(#shadow)"/>
+  <rect class="group" x="50" y="600" width="3600" height="600" filter="url(#shadow)"/>
+  <rect class="group" x="50" y="1370" width="3600" height="1250" filter="url(#shadow)"/>
+  <rect class="group" x="50" y="2690" width="3600" height="400" filter="url(#shadow)"/>
+
+  <!-- View -->
+  <text class="group-title" x="1850" y="140">Visão (QML)</text>
+
+  <rect class="node" x="100" y="250" width="1100" height="230" fill="#e4f5ff" stroke="#0785c4"/>
+  <text class="label" x="650" y="395">qml/main.qml</text>
+
+  <rect class="node" x="1300" y="250" width="1100" height="230" fill="#e4f5ff" stroke="#0785c4"/>
+  <text class="label" x="1850" y="395">qml/pages/*</text>
+
+  <rect class="node" x="2500" y="250" width="1100" height="230" fill="#e4f5ff" stroke="#0785c4"/>
+  <text class="label-small" x="3050" y="330">
+    <tspan x="3050" dy="0">qml/</tspan>
+    <tspan x="3050" dy="68">components/*</tspan>
+  </text>
+
+  <!-- Control -->
+  <text class="group-title" x="1850" y="745">Controle (Python)</text>
+
+  <rect class="node" x="100" y="870" width="620" height="300" fill="#f7e8fa" stroke="#8e24aa"/>
+  <text class="label-control" x="410" y="980">
+    <tspan x="410" dy="0">state_</tspan>
+    <tspan x="410" dy="80">controller.py</tspan>
+  </text>
+
+  <rect class="node" x="820" y="870" width="620" height="300" fill="#f7e8fa" stroke="#8e24aa"/>
+  <text class="label-control" x="1130" y="980">
+    <tspan x="1130" dy="0">base_</tspan>
+    <tspan x="1130" dy="80">controller.py</tspan>
+  </text>
+
+  <rect class="node" x="1540" y="870" width="620" height="300" fill="#f7e8fa" stroke="#8e24aa"/>
+  <text class="label-control" x="1850" y="980">
+    <tspan x="1850" dy="0">csv_</tspan>
+    <tspan x="1850" dy="80">controller.py</tspan>
+  </text>
+
+  <rect class="node" x="2260" y="870" width="620" height="300" fill="#f7e8fa" stroke="#8e24aa"/>
+  <text class="label-control" x="2570" y="980">
+    <tspan x="2570" dy="0">arff_</tspan>
+    <tspan x="2570" dy="80">controller.py</tspan>
+  </text>
+
+  <rect class="node" x="2980" y="870" width="620" height="300" fill="#f7e8fa" stroke="#8e24aa"/>
+  <text class="label-control" x="3290" y="980">
+    <tspan x="3290" dy="0">navigation_</tspan>
+    <tspan x="3290" dy="80">controller.py</tspan>
+  </text>
+
+  <!-- Services -->
+  <text class="group-title" x="1850" y="1515">Serviços (Python)</text>
+
+  <rect class="node" x="100" y="1580" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="500" y="1660">
+    <tspan x="500" dy="0">arff_file_</tspan>
+    <tspan x="500" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="1000" y="1580" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="1400" y="1660">
+    <tspan x="1400" dy="0">arff_writer_</tspan>
+    <tspan x="1400" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="1900" y="1580" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="2300" y="1660">
+    <tspan x="2300" dy="0">analysis_</tspan>
+    <tspan x="2300" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="2800" y="1580" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="3200" y="1725">chart_service.py</text>
+
+  <rect class="node" x="100" y="1900" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="500" y="1980">
+    <tspan x="500" dy="0">column_type_</tspan>
+    <tspan x="500" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="1000" y="1900" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="1400" y="1980">
+    <tspan x="1400" dy="0">csv_file_</tspan>
+    <tspan x="1400" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="1900" y="1900" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="2300" y="1980">
+    <tspan x="2300" dy="0">dataset_sync_</tspan>
+    <tspan x="2300" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="2800" y="1900" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="3200" y="1980">
+    <tspan x="3200" dy="0">merge_mapping_</tspan>
+    <tspan x="3200" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="100" y="2220" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="500" y="2365">merge_service.py</text>
+
+  <rect class="node" x="1000" y="2220" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="1400" y="2300">
+    <tspan x="1400" dy="0">serialization_</tspan>
+    <tspan x="1400" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="1900" y="2220" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="2300" y="2300">
+    <tspan x="2300" dy="0">statistics_</tspan>
+    <tspan x="2300" dy="80">service.py</tspan>
+  </text>
+
+  <rect class="node" x="2800" y="2220" width="800" height="240" fill="#fff2df" stroke="#eb7d00"/>
+  <text class="label-service" x="3200" y="2300">
+    <tspan x="3200" dy="0">type_validation_</tspan>
+    <tspan x="3200" dy="80">service.py</tspan>
+  </text>
+
+  <!-- Model -->
+  <text class="group-title" x="1850" y="2810">Modelo (Python)</text>
+
+  <rect class="node" x="100" y="2860" width="1700" height="200" fill="#e7f5e6" stroke="#368b3b"/>
+  <text class="label" x="950" y="2985">dataset.py</text>
+
+  <rect class="node" x="1900" y="2860" width="1700" height="200" fill="#e7f5e6" stroke="#368b3b"/>
+  <text class="label" x="2750" y="2985">dataframe_adapter.py</text>
+</svg>

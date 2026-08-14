@@ -1,22 +1,22 @@
 %% Static layer map. The publication-ready SVG is docs/arquitetura.svg.
 %% There are intentionally no edges: the figure only separates files by layer.
-flowchart LR
+flowchart TB
     %% Style definitions
-    classDef app fill:#eef3f6,stroke:#526a78,stroke-width:3px,color:#101820,font-size:30px
-    classDef view fill:#e4f5ff,stroke:#0785c4,stroke-width:3px,color:#101820,font-size:30px
-    classDef ctrl fill:#f7e8fa,stroke:#8e24aa,stroke-width:3px,color:#101820,font-size:36px
-    classDef serv fill:#fff2df,stroke:#eb7d00,stroke-width:3px,color:#101820,font-size:30px
-    classDef model fill:#e7f5e6,stroke:#368b3b,stroke-width:3px,color:#101820,font-size:30px
+    classDef app fill:#eef3f6,stroke:#526a78,stroke-width:3px,color:#101820,font-size:34px
+    classDef view fill:#e4f5ff,stroke:#0785c4,stroke-width:3px,color:#101820,font-size:46px
+    classDef ctrl fill:#f7e8fa,stroke:#8e24aa,stroke-width:3px,color:#101820,font-size:62px
+    classDef serv fill:#fff2df,stroke:#eb7d00,stroke-width:3px,color:#101820,font-size:68px
+    classDef model fill:#e7f5e6,stroke:#368b3b,stroke-width:3px,color:#101820,font-size:50px
 
     subgraph View ["Visão (QML)"]
-        direction TB
+        direction LR
         V_MAIN["qml/main.qml"]:::view
         V_PAGES["qml/pages/*"]:::view
         V_COMPONENTS["qml/components/*"]:::view
     end
 
     subgraph Controller ["Controle (Python)"]
-        direction TB
+        direction LR
         C_STATE["state_controller.py"]:::ctrl
         C_BASE["base_controller.py"]:::ctrl
         C_CSV["csv_controller.py"]:::ctrl
@@ -26,12 +26,31 @@ flowchart LR
 
     subgraph Services ["Serviços (Python)"]
         direction TB
-        S_MERGE["merge_service.py"]:::serv
-        S_SERIAL["serialization_service.py"]:::serv
+        subgraph ServiceRow1[" "]
+            direction LR
+            S_ARFF_FILE["arff_file_service.py"]:::serv
+            S_ARFF_WRITER["arff_writer_service.py"]:::serv
+            S_ANALYSIS["analysis_service.py"]:::serv
+            S_CHART["chart_service.py"]:::serv
+        end
+        subgraph ServiceRow2[" "]
+            direction LR
+            S_TYPES["column_type_service.py"]:::serv
+            S_CSV_FILE["csv_file_service.py"]:::serv
+            S_SYNC["dataset_sync_service.py"]:::serv
+            S_MAPPING["merge_mapping_service.py"]:::serv
+        end
+        subgraph ServiceRow3[" "]
+            direction LR
+            S_MERGE["merge_service.py"]:::serv
+            S_SERIAL["serialization_service.py"]:::serv
+            S_STATS["statistics_service.py"]:::serv
+            S_VALIDATION["type_validation_service.py"]:::serv
+        end
     end
 
     subgraph Model ["Modelo (Python)"]
-        direction TB
+        direction LR
         M_DATASET["dataset.py"]:::model
-        M_TABLE["table_model.py"]:::model
+        M_TABLE["dataframe_adapter.py"]:::model
     end

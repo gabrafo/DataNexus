@@ -22,12 +22,22 @@ IC/
 ├── src/                              # Python source code
 │   ├── models/                       # Data layer
 │   │   ├── dataset.py              # Dataset + type inference utilities
-│   │   └── table_model.py               # QAbstractTableModel for QML TableView
+│   │   └── dataframe_adapter.py               # QAbstractTableModel for QML TableView
 │   ├── services/                     # Business logic (Qt-free)
-│   │   ├── merge_service.py              # Merge operations & column mapping
-│   │   └── serialization_service.py      # Save to CSV / ARFF
+│   │   ├── arff_file_service.py      # ARFF parsing
+│   │   ├── arff_writer_service.py    # ARFF serialization for file controllers
+│   │   ├── analysis_service.py       # Facade for analysis services
+│   │   ├── chart_service.py          # Chart rendering and chart data
+│   │   ├── column_type_service.py    # Type suggestions and validation helpers
+│   │   ├── csv_file_service.py       # CSV parsing and delimiter detection
+│   │   ├── dataset_sync_service.py   # Controller ↔ Dataset synchronization
+│   │   ├── merge_mapping_service.py  # Merge-key mapping and compatibility
+│   │   ├── merge_service.py          # Merge verification, preview, execution
+│   │   ├── serialization_service.py  # Save to CSV / ARFF
+│   │   ├── statistics_service.py     # Descriptive statistics
+│   │   └── type_validation_service.py # Safe type-conversion checks
 │   └── controllers/                  # QML-facing controllers
-│       ├── base_controller.py            # Shared chart / stats logic
+│       ├── base_controller.py            # QML facade for shared analysis
 │       ├── csv_controller.py             # CSV operations
 │       ├── arff_controller.py            # ARFF operations
 │       ├── state_controller.py              # Central state facade (QML ↔ services)
@@ -105,11 +115,11 @@ In short, **ARFF provides the type system** and **CSV data is promoted into it a
 
 The application follows an **MVC + Services** pattern:
 
-- **Models** (`Dataset`, `DataFrameModel`) — hold data and metadata; no Qt UI dependency.
-- **Services** (`MergeService`, `SerializationService`) — pure business logic; no Qt dependency.
+- **Models** (`Dataset`, `DataFrameAdapter`) — `Dataset` stores data and metadata, while `DataFrameAdapter` adapts a pandas `DataFrame` for display in QML.
+- **Services** (`MergeService`, `DatasetSyncService`, `DataAnalysisService`, `SerializationService`) — cohesive business logic with no Qt dependency.
 - **Controllers** (`StateController`, `CSVController`, `ARFFController`, `NavigationController`) — QML-facing layer exposing `@Slot` / `Property` for the UI.
 
-`StateController` acts as a thin facade: it owns two `Dataset` instances and delegates merge/save logic to the services.
+The controllers act as facades: they expose Qt properties and signals, while analysis, type handling, synchronization, mapping, merging, and serialization remain in focused services. `StateController` owns two `Dataset` instances and coordinates those services.
 
 ### Column Mapping for Merge
 

@@ -6,7 +6,7 @@ import pandas as pd
 from PySide6.QtCore import QAbstractTableModel, Qt, QModelIndex
 
 
-class DataFrameModel(QAbstractTableModel):
+class DataFrameAdapter(QAbstractTableModel):
     """Adapter between a pandas DataFrame and Qt's QAbstractTableModel for QML."""
 
     def __init__(self, dataframe: pd.DataFrame | None = None, show_headers: bool = False) -> None:
