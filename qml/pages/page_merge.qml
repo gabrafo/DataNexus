@@ -35,7 +35,7 @@ Page {
         }
     }
 
-    /** 0–3 = INNER..CROSS when a mapping exists; without mapping, merge always behaves as cross (3). */
+    /** 0–2 = INNER..RIGHT when a mapping exists; without mapping, merge behaves as cross (3). */
     property int joinTypeIndex: 0
     property int resolvedJoinType: mergePage.hasJoinMapping ? mergePage.joinTypeIndex : 3
     property bool canExecuteMerge: mergePage.resolvedJoinType === 3 || mergePage.mergeKeyPrimary() !== ""
@@ -591,8 +591,7 @@ Page {
                                     model: mergePage.hasJoinMapping ? [
                                         qsTr("Inner join"),
                                         qsTr("Left join"),
-                                        qsTr("Right join"),
-                                        qsTr("Cartesian product")
+                                        qsTr("Right join")
                                     ] : [
                                         qsTr("Cartesian product")
                                     ]
