@@ -141,7 +141,3 @@ The controllers act as facades: they expose Qt properties and signals, while ana
 | Date | Date | ✅ |
 | Numeric | Textual | ❌ |
 | Date | Numeric | ❌ |
-
-## License
-
-This project is developed for academic purposes under the PIVIC program at UFLA.
