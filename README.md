@@ -128,7 +128,7 @@ The controllers act as facades: they expose Qt properties and signals, while ana
 | Scenario | Available JOIN options |
 |----------|----------------------|
 | No mappings | Only "All data from both" (cross join) |
-| With mappings | All 4 options (inner, left, right, cross) |
+| With mappings | 3 options (inner, left, right) |
 
 ### Type Compatibility
 
