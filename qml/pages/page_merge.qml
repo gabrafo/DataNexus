@@ -35,10 +35,10 @@ Page {
         }
     }
 
-    /** 0–2 = INNER..RIGHT when a mapping exists; without mapping, merge behaves as cross (3). */
+    /** 0–3 = INNER, LEFT, RIGHT, FULL OUTER when a mapping exists; without mapping, merge behaves as cross (4). */
     property int joinTypeIndex: 0
-    property int resolvedJoinType: mergePage.hasJoinMapping ? mergePage.joinTypeIndex : 3
-    property bool canExecuteMerge: mergePage.resolvedJoinType === 3 || mergePage.mergeKeyPrimary() !== ""
+    property int resolvedJoinType: mergePage.hasJoinMapping ? mergePage.joinTypeIndex : 4
+    property bool canExecuteMerge: mergePage.resolvedJoinType === 4 || mergePage.mergeKeyPrimary() !== ""
 
     function mergeKeyPrimary() {
         if (!mergePage.stateController || !mergePage.hasJoinMapping)
@@ -268,7 +268,7 @@ Page {
 
                         Text {
                             Layout.fillWidth: true
-                            text: qsTr("Required for inner, left, or right join. Not needed for a Cartesian product.")
+                            text: qsTr("Required for inner, left, right, or full outer join. Not needed for a Cartesian product.")
                             font.pointSize: Theme.fontSize.caption
                             color: Material.foreground
                             opacity: 0.7
@@ -591,7 +591,8 @@ Page {
                                     model: mergePage.hasJoinMapping ? [
                                         qsTr("Inner join"),
                                         qsTr("Left join"),
-                                        qsTr("Right join")
+                                        qsTr("Right join"),
+                                        qsTr("Full outer join")
                                     ] : [
                                         qsTr("Cartesian product")
                                     ]
@@ -653,6 +654,8 @@ Page {
                             case 2:
                                 return qsTr("💡 Keeps all rows from Dataset 2. If a row has no match in Dataset 1, those fields are left empty.")
                             case 3:
+                                return qsTr("💡 Keeps all rows from both databases. Rows without a match in the other database are kept, with the missing fields left empty.")
+                            case 4:
                                 return qsTr("💡 Combines ALL rows from both (no join column needed).")
                             default:
                                 return ""
@@ -696,9 +699,9 @@ Page {
                                 enabled: mergePage.canExecuteMerge
                                 onClicked: {
                                     if (mergePage.stateController) {
-                                        var joinTypes = ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "CROSS JOIN"]
+                                        var joinTypes = ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL OUTER JOIN", "CROSS JOIN"]
                                         var jt = mergePage.resolvedJoinType
-                                        var keyColumn = jt === 3 ? "" : mergePage.mergeKeyPrimary()
+                                        var keyColumn = jt === 4 ? "" : mergePage.mergeKeyPrimary()
                                         mergePage.previewData = mergePage.stateController.previewMerge(
                                             keyColumn,
                                             joinTypes[jt]
@@ -868,9 +871,9 @@ Page {
                                     mergePage.stateController.syncTypesFromController(mergePage.arffController, "secondary")
                                 }
 
-                                var joinTypes = ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "CROSS JOIN"]
+                                var joinTypes = ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL OUTER JOIN", "CROSS JOIN"]
                                 var jt = mergePage.resolvedJoinType
-                                var keyColumn = jt === 3 ? "" : mergePage.mergeKeyPrimary()
+                                var keyColumn = jt === 4 ? "" : mergePage.mergeKeyPrimary()
                                 var success = mergePage.stateController.executeMerge(
                                     keyColumn,
                                     joinTypes[jt]

@@ -7,7 +7,7 @@ Desktop application for loading, visualizing, preprocessing, and merging dataset
 - **Data loading** — CSV and ARFF files with automatic delimiter / type detection
 - **Auto-typification** — Types inferred automatically for CSV; manual typification also available via "Typify" action
 - **Visualization** — Paginated tables with horizontal/vertical scroll, column/row deletion, statistics, and charts (histograms, stacked bars)
-- **Merge** — Combine two datasets using different JOIN strategies (inner, left, right, cross); explicit column mapping with type-compatibility validation
+- **Merge** — Combine two datasets using different JOIN strategies (inner, left, right, full outer, cross); explicit column mapping with type-compatibility validation
 - **Export** — Save results to CSV or ARFF
 - **Internationalization** — UI available in Portuguese (default), English, and Spanish; switchable at runtime
 
@@ -127,8 +127,8 @@ The controllers act as facades: they expose Qt properties and signals, while ana
 
 | Scenario | Available JOIN options |
 |----------|----------------------|
-| No mappings | Only "All data from both" (cross join) |
-| With mappings | 3 options (inner, left, right) |
+| No mappings | Only the Cartesian product (cross join) |
+| With mappings | Inner, left, right, and full outer join |
 
 ### Type Compatibility
 
