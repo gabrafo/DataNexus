@@ -2,6 +2,8 @@
 
 import pandas as pd
 
+from models.dataset import parse_dates
+
 
 class TypeValidationService:
     """Validate conversions without changing the source DataFrame."""
@@ -36,11 +38,9 @@ class TypeValidationService:
 
     @staticmethod
     def _can_convert_to_date(column: pd.Series) -> tuple[bool, str]:
-        try:
-            pd.to_datetime(column.dropna(), errors='raise')
+        if parse_dates(column.dropna()) is not None:
             return True, ''
-        except Exception:
-            return False, 'Formato de data não reconhecido. Use: YYYY-MM-DD, DD/MM/YYYY, etc.'
+        return False, 'Formato de data não reconhecido. Use: YYYY-MM-DD, DD/MM/YYYY, etc.'
 
     def validate(self, attribute_name: str, new_type: str) -> dict:
         """Return ``valid`` and ``message`` for a requested conversion."""

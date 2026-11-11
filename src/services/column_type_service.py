@@ -4,6 +4,8 @@ import random
 
 import pandas as pd
 
+from models.dataset import looks_like_date
+
 
 class ColumnTypeService:
     """Manage type overrides and column-level UI metadata for a controller."""
@@ -44,6 +46,8 @@ class ColumnTypeService:
         if pd.api.types.is_numeric_dtype(column.dtype):
             return 'Numeric'
         if pd.api.types.is_datetime64_any_dtype(column.dtype):
+            return 'Date'
+        if looks_like_date(column):
             return 'Date'
 
         unique_count = column.nunique()

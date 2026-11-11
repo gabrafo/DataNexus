@@ -5,6 +5,13 @@ from typing import Any, Iterable
 import arff
 import pandas as pd
 
+from models.dataset import parse_dates
+
+# liac-arff has no DATE type, so date attributes are dumped as STRING and
+# their declarations are rewritten afterwards using this format.
+ARFF_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss'
+_PANDAS_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+
 
 class ArffWriterService:
     """Build and write ARFF documents from DataFrames or row data."""
@@ -16,12 +23,61 @@ class ArffWriterService:
         attributes: list[tuple],
         data: list[list[Any]],
     ) -> None:
+        date_indexes = [
+            index for index, (_, attribute_type) in enumerate(attributes)
+            if isinstance(attribute_type, str) and attribute_type.upper().startswith('DATE')
+        ]
+        if date_indexes:
+            attributes = [
+                (name, 'STRING') if index in date_indexes else (name, attribute_type)
+                for index, (name, attribute_type) in enumerate(attributes)
+            ]
+            data = [list(row) for row in data]
+            for index in date_indexes:
+                ArffWriterService._format_date_column(data, index)
+
+        text = arff.dumps({
+            'relation': relation,
+            'attributes': attributes,
+            'data': data,
+        })
+        if date_indexes:
+            text = ArffWriterService._declare_date_attributes(text, date_indexes)
         with open(output_path, 'w', encoding='utf-8') as file:
-            arff.dump({
-                'relation': relation,
-                'attributes': attributes,
-                'data': data,
-            }, file)
+            file.write(text)
+
+    @staticmethod
+    def _format_date_column(data: list[list[Any]], index: int) -> None:
+        """Rewrite one column of ``data`` in the ARFF date format."""
+        positions = [
+            position for position, row in enumerate(data)
+            if index < len(row) and not pd.isna(row[index])
+        ]
+        if not positions:
+            return
+        parsed = parse_dates(pd.Series([data[position][index] for position in positions]))
+        if parsed is None:
+            formatted = [str(data[position][index]) for position in positions]
+        else:
+            formatted = parsed.dt.strftime(_PANDAS_DATE_FORMAT).tolist()
+        for position, value in zip(positions, formatted):
+            data[position][index] = value
+
+    @staticmethod
+    def _declare_date_attributes(text: str, date_indexes: list[int]) -> str:
+        """Replace the STRING declaration of date attributes with DATE."""
+        lines = text.split('\n')
+        attribute_index = -1
+        for line_number, line in enumerate(lines):
+            upper = line.upper()
+            if upper.startswith('@DATA'):
+                break
+            if not upper.startswith('@ATTRIBUTE'):
+                continue
+            attribute_index += 1
+            if attribute_index in date_indexes and upper.endswith(' STRING'):
+                lines[line_number] = f'{line[:-len("STRING")]}DATE "{ARFF_DATE_FORMAT}"'
+        return '\n'.join(lines)
 
     def write_dataframe(
         self,
