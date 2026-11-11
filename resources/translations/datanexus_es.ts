@@ -372,6 +372,10 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
         <translation>💡 Mantiene todas las filas de la Base 2. Si una fila no tiene coincidencia en la Base 1, esos campos quedan vacíos.</translation>
     </message>
     <message>
+        <source>💡 Keeps all rows from both databases. Rows without a match in the other database are kept, with the missing fields left empty.</source>
+        <translation>💡 Mantiene todas las filas de ambas bases. Las filas sin coincidencia en la otra base se mantienen, con los campos ausentes vacíos.</translation>
+    </message>
+    <message>
         <source>💡 Combines ALL rows from both (no join column needed).</source>
         <translation>💡 Combina TODAS las filas de ambas bases (sin necesidad de columna de unión).</translation>
     </message>
@@ -400,8 +404,8 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
         <translation>Clave de unión (par de columnas)</translation>
     </message>
     <message>
-        <source>Required for inner, left, or right join. Not needed for a Cartesian product.</source>
-        <translation>Necesaria para unión interna, izquierda o derecha. No hace falta para producto cartesiano.</translation>
+        <source>Required for inner, left, right, or full outer join. Not needed for a Cartesian product.</source>
+        <translation>Necesaria para unión interna, izquierda, derecha o externa completa. No hace falta para producto cartesiano.</translation>
     </message>
     <message>
         <source>Join type</source>
@@ -422,6 +426,10 @@ Sin mapeos, solo estará disponible &apos;Todos los datos de ambas bases&apos;.<
     <message>
         <source>Right join</source>
         <translation>Unión derecha</translation>
+    </message>
+    <message>
+        <source>Full outer join</source>
+        <translation>Unión externa completa</translation>
     </message>
     <message>
         <source>Cartesian product</source>
