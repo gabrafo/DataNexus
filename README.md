@@ -106,7 +106,7 @@ CSV files carry no type information — every value is plain text. When a CSV is
 
 1. **Numeric** — columns whose pandas dtype is numeric.
 2. **Nominal** — low-cardinality string columns (≤ 10 unique values, < 10 % of total rows).
-3. **Date** — columns already represented in memory with a `datetime64` dtype; in the current CSV loading flow, date-like text values usually remain textual until manually typified.
+3. **Date** — columns with a `datetime64` dtype, and text columns whose values are all date-formatted (`YYYY-MM-DD` or `DD/MM/YYYY`, optionally with a time). Checked before the Nominal rule.
 4. **Textual** — everything else (free-form strings).
 
 The result is a `selected_types` dictionary and an `arff_attributes` list stored in `Dataset` — the exact same structures used when loading a native ARFF file. From that point on, every downstream operation (column mapping, type-compatibility checks, merge execution, and serialization) works identically regardless of the original file format.

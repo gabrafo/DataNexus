@@ -2,11 +2,54 @@
 
 import gc
 import logging
+import re
+import warnings
 from typing import Optional, List, Dict
 
 import pandas as pd
 
 logger = logging.getLogger(__name__)
+
+# Text accepted as a date: YYYY-MM-DD or DD/MM/YYYY (separators - / .),
+# optionally followed by a time and a UTC offset.
+_DATE_TEXT = re.compile(
+    r'^\s*(\d{4}[-/.]\d{1,2}[-/.]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{4})'
+    r'([ T]\d{1,2}:\d{2}(:\d{2}(\.\d+)?)?)?'
+    r'\s*(Z|[+-]\d{2}:?\d{2})?\s*$'
+)
+_DATE_SAMPLE_SIZE = 1000
+
+
+def parse_dates(values: pd.Series) -> Optional[pd.Series]:
+    """Convert values to datetimes; return None if any value is not a date.
+
+    Month-first parsing is tried before day-first, so DD/MM/YYYY columns
+    are accepted when the default interpretation fails.
+    """
+    for dayfirst in (False, True):
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore')
+                parsed = pd.to_datetime(values, errors='coerce', dayfirst=dayfirst)
+        except Exception:
+            continue
+        if parsed.notna().all():
+            return parsed
+    return None
+
+
+def looks_like_date(column: pd.Series) -> bool:
+    """Return True when a text column holds only date-formatted values.
+
+    Only the first non-null values are checked, to keep loading fast.
+    """
+    sample = column.dropna().head(_DATE_SAMPLE_SIZE)
+    if sample.empty:
+        return False
+    is_date_text = sample.map(
+        lambda value: isinstance(value, str) and bool(_DATE_TEXT.match(value))
+    )
+    return bool(is_date_text.all()) and parse_dates(sample) is not None
 
 
 class Dataset:
@@ -66,6 +109,9 @@ def infer_types_from_df(df: pd.DataFrame) -> tuple[Dict[str, str], List[tuple]]:
             inferred[col] = 'Numeric'
             attrs.append((col, 'NUMERIC'))
         elif pd.api.types.is_datetime64_any_dtype(dtype):
+            inferred[col] = 'Date'
+            attrs.append((col, 'DATE'))
+        elif looks_like_date(df[col]):
             inferred[col] = 'Date'
             attrs.append((col, 'DATE'))
         else:

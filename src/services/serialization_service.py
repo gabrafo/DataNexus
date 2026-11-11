@@ -4,9 +4,9 @@ import logging
 from typing import List
 
 import pandas as pd
-import arff
 
 from models.dataset import Dataset, build_arff_attributes
+from services.arff_writer_service import ArffWriterService
 
 logger = logging.getLogger(__name__)
 
@@ -38,13 +38,9 @@ class SerializationService:
         """Save dataset as ARFF file."""
         attributes = build_arff_attributes(target)
         data = target.df.where(target.df.notnull(), None).values.tolist()
-        dataset = {
-            'relation': target.relation_name or 'dataset',
-            'attributes': attributes,
-            'data': data,
-        }
-        with open(file_path, 'w', encoding='utf-8') as f:
-            arff.dump(dataset, f)
+        ArffWriterService.write(
+            file_path, target.relation_name or 'dataset', attributes, data,
+        )
         return True, ""
 
     @staticmethod

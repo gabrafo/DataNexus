@@ -1,11 +1,18 @@
 """ARFF parsing independent from Qt controllers."""
 
 import logging
+import re
 from typing import Any
 
 import arff
 
 logger = logging.getLogger(__name__)
+
+# ``@attribute <name> date [format]``; the name may be quoted.
+_DATE_ATTRIBUTE = re.compile(
+    r"""^(\s*@attribute\s+(?:'[^']*'|"[^"]*"|\S+)\s+)date\b.*$""",
+    re.IGNORECASE,
+)
 
 
 class ArffFileService:
@@ -13,13 +20,19 @@ class ArffFileService:
 
     def load(self, file_path: str) -> dict[str, Any]:
         self._diagnose(file_path)
+        with open(file_path, 'r', encoding='utf-8') as file:
+            text, date_indexes = self._hide_date_attributes(file.read())
         try:
-            with open(file_path, 'r', encoding='utf-8') as file:
-                dataset = arff.load(file, encode_nominal=False, return_type=arff.DENSE)
+            dataset = arff.loads(text, encode_nominal=False, return_type=arff.DENSE)
         except Exception as error:
             logger.warning("[ARFF] Default parser error: %s", error)
-            with open(file_path, 'r', encoding='utf-8') as file:
-                dataset = arff.load(file, encode_nominal=False)
+            dataset = arff.loads(text, encode_nominal=False)
+
+        attributes = list(dataset.get('attributes', []))
+        for index in date_indexes:
+            if index < len(attributes):
+                attributes[index] = (attributes[index][0], 'DATE')
+        dataset['attributes'] = attributes
 
         data = []
         for line_number, row in enumerate(dataset.get('data', []), start=1):
@@ -34,6 +47,28 @@ class ArffFileService:
             'attributes': dataset.get('attributes', []),
             'data': data,
         }
+
+    @staticmethod
+    def _hide_date_attributes(text: str) -> tuple[str, list[int]]:
+        """Declare DATE attributes as STRING, which liac-arff can parse.
+
+        Returns the adjusted text and the positions of the date attributes.
+        """
+        lines = text.split('\n')
+        date_indexes: list[int] = []
+        attribute_index = -1
+        for line_number, line in enumerate(lines):
+            stripped = line.strip().lower()
+            if stripped.startswith('@data'):
+                break
+            if not stripped.startswith('@attribute'):
+                continue
+            attribute_index += 1
+            match = _DATE_ATTRIBUTE.match(line)
+            if match:
+                lines[line_number] = f'{match.group(1)}STRING'
+                date_indexes.append(attribute_index)
+        return '\n'.join(lines), date_indexes
 
     @staticmethod
     def _diagnose(file_path: str) -> None:
